@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flasgger import Swagger
 
 # Validators
-from handlers.register.register_handlers import NameHandler, PreferredChannelHandler, AvailableChannelsHandler
+from handlers.register.register_handlers import NameHandler, PreferredChannelHandler, AvailableChannelsHandler, PreferredInAvailableChannelsHandler
 
 # Database
 from database.database import database_users
@@ -14,7 +14,7 @@ app = Flask(__name__)
 swagger = Swagger(app)
 
 # Validate user data definition
-validator_user_data = NameHandler(PreferredChannelHandler(AvailableChannelsHandler()))
+validator_user_data = NameHandler(PreferredChannelHandler(AvailableChannelsHandler(PreferredInAvailableChannelsHandler())))
 
 # Enpoints definition
 
