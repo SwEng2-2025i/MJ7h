@@ -73,6 +73,11 @@ def register_user():
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     
+    # Check if user already exists
+    for user in database_users:
+        if user.name == data.get("name"):
+            return jsonify({"error": "User already exists"}), 400
+
     # Create user
     user = User.from_dict(data)
     database_users.append(user)
