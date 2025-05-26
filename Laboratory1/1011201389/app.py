@@ -78,7 +78,7 @@ def get_users():
     return jsonify([user.to_dict() for user in database_users]), 200
 
 # Send a notification
-@app.route('/notifications/send')
+@app.route('/notifications/send', methods=["POST"])
 def send_notification():
     pass
 
