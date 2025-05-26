@@ -108,6 +108,49 @@ def get_users():
 # Send a notification
 @app.route('/notifications/send', methods=["POST"])
 def send_notification():
+    """
+    Send a notification message to a specific user
+    --- 
+    tags:
+        - Notification
+    parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            id: Notification
+            required:
+                - user_name
+                - message
+                - priority
+            properties:
+                user_name:
+                    type: string
+                    description: Name of the user to send the notification to
+                    example: Samuel
+                message:
+                    type: string
+                    description: Message to send to the user
+                    example: "Hello, Samuel! This is a test notification."
+                priority:
+                    type: string
+                    description: Priority of the notification
+                    example: "high"
+                    enum:
+                        - low
+                        - medium
+                        - high
+    responses:
+        200:
+            description: Notification sent successfully
+            examples:
+                application/json: {"status": "Notification sent successfully through sms channel"}
+        400:
+            description: Invalid input
+            examples:
+                application/json: {"error": "User not found"}
+            
+    """
     pass
 
 if __name__ == '__main__':
