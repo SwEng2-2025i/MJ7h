@@ -3,18 +3,23 @@ from flasgger import Swagger
 
 # Validators
 from handlers.register.register_handlers import NameHandler, PreferredChannelHandler, AvailableChannelsHandler, PreferredInAvailableChannelsHandler
+from handlers.notification.notification_handlers import UserNameHandler, MessageHandler, PriorityHandler
 
 # Database
 from database.database import database_users
 
 # Models
 from user import User
+from notification import Notification
 
 app = Flask(__name__)
 swagger = Swagger(app)
 
 # Validate user data definition
 validator_user_data = NameHandler(PreferredChannelHandler(AvailableChannelsHandler(PreferredInAvailableChannelsHandler())))
+
+# Validate notification data definition
+validator_notification_data = UserNameHandler(MessageHandler(PriorityHandler()))
 
 # Enpoints definition
 
@@ -152,7 +157,26 @@ def send_notification():
                 application/json: {"error": "User not found"}
             
     """
-    pass
+
+    data = request.get_json()
+
+    try:
+        validator_notification_data.handle(data)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+    
+    # Check if user exists
+    user = next((user for user in database_users if user.name == data.get("user_name")), None)
+    if not user:
+        return jsonify({"error": "User not found"}), 400
+    
+    # Create notification
+    notification = Notification.from_dict(data)
+
+    # TODO: Implement the logic to send the notification through the user's preferred channel using chain of responsibility pattern
+    # For now, we will just return a success message
+    return jsonify({"status": f"Notification sent successfully through {user.preferred_channel} channel"}), 200
+    
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
