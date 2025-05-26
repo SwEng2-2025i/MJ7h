@@ -25,4 +25,9 @@ class PriorityHandler(BaseHandler):
         # Test if it's a non-empty string
         if not isinstance(priority, str) or not priority.strip():
             raise ValueError("'priority' must be a non-empty string")
+        
+        # Test if it's one of the allowed values
+        allowed_priorities = ["low", "medium", "high"]
+        if priority not in allowed_priorities:
+            raise ValueError(f"'priority' must be one of {allowed_priorities}")
         return super().handle(data)
