@@ -32,10 +32,6 @@ def register_user():
           required: true
           schema:
             id: User
-            required:
-                - name
-                - preferred_channel
-                - available_channels
             properties:
                 name:
                     type: string
