@@ -82,6 +82,27 @@ def register_user():
 # Get users
 @app.get('/users')
 def get_users():
+    """
+    Obtain all users
+    --- 
+    tags:
+        - User
+    responses:
+        200:
+            description: All the users
+            examples:
+                application/json:
+                    [
+                        {"name": "Samuel",
+                            "preferred_channel": "sms",
+                            "available_channels": ["sms", "console"]
+                        },
+                        {"name": "Josué",
+                            "preferred_channel": "console",
+                            "available_channels": ["email", "console"]
+                        } 
+                    ]
+    """
     return jsonify([user.to_dict() for user in database_users]), 200
 
 # Send a notification
