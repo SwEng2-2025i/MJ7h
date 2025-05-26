@@ -24,6 +24,41 @@ def register_user():
     """
     Create a user
     ---
+    tags:
+        - User
+    parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            id: User
+            required:
+                - name
+                - preferred_channel
+                - available_channels
+            properties:
+                name:
+                    type: string
+                    description: Name of the user
+                    example: Samuel
+                preferred_channel:
+                    type: string
+                    description: Preferred channel of the user
+                    example: sms
+                available_channels:
+                    type: array
+                    description: List of every available channel of the user
+                    example: ["sms", "console"]
+            required:
+                - name
+                - preferred_channel
+                - available_channels
+    responses:
+        201:
+            description: User created
+        400:
+            description: Invalid input
+
     """
     data = request.get_json()
     try:
