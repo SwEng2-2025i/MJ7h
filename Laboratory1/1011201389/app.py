@@ -2,8 +2,8 @@ from flask import Flask, jsonify, request
 from flasgger import Swagger
 
 # Validators
-from handlers.register.register_handlers import NameHandler, PreferredChannelHandler, AvailableChannelsHandler, PreferredInAvailableChannelsHandler
-from handlers.notification.notification_handlers import UserNameHandler, MessageHandler, PriorityHandler
+from validation.register.register_handlers import NameHandler, PreferredChannelHandler, AvailableChannelsHandler, PreferredInAvailableChannelsHandler
+from validation.notification.notification_handlers import UserNameHandler, MessageHandler, PriorityHandler
 
 # Database
 from database.database import database_users
