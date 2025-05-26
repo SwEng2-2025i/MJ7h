@@ -56,8 +56,15 @@ def register_user():
     responses:
         201:
             description: User created
+            examples:
+                application/json: {"name": "Samuel",
+                                    "preferred_channel": "sms",
+                                    "available_channels": ["sms", "console"]
+                                } 
         400:
             description: Invalid input
+            examples:
+                application/json: {"error": "'name' must be a non-empty string"}
 
     """
     data = request.get_json()
