@@ -50,3 +50,27 @@ curl -X PUT http://localhost:5000/tasks/<task_id>/done
     python main.py
     ```
     The application will run on `http://localhost:5000` | `http://127.0.0.1:5000`.
+
+## 📊 Diagrama de Secuencia para Marcar una Tarea como Completada
+
+```mermaid
+sequenceDiagram
+    participant Cliente
+    participant HTTPHandler as HTTP Handler (Flask)
+    participant UseCase as TaskUseCase
+    participant Repo as Repository
+
+    Cliente->>HTTPHandler: PUT /tasks/{task_id}/done
+    HTTPHandler->>UseCase: mark_task_done(task_id)
+    UseCase->>Repo: mark_task_done(task_id)
+
+    alt Task encontrada
+        Repo-->>UseCase: Devuelve Task actualizada
+        UseCase-->>HTTPHandler: Devuelve Task actualizada
+        HTTPHandler-->>Cliente: 200 OK con JSON de la tarea
+    else Task no encontrada
+        Repo-->>UseCase: Lanza ValueError
+        UseCase-->>HTTPHandler: Lanza ValueError con mensaje
+        HTTPHandler-->>Cliente: 404 Not Found con mensaje de error
+    end
+```
