@@ -13,5 +13,10 @@ def create_http_handler(use_case):
     def list_tasks():
         tasks = use_case.get_all_tasks()
         return jsonify([{"id": t.id, "title": t.title, "done": t.done} for t in tasks])
+    
+    @app.route("/tasks/<task_id>/done", methods=["PUT"])
+    def mark_task_done(task_id):
+        task = use_case.mark_task_done(task_id)
+        return jsonify({"id": task.id, "title": task.title, "done": task.done})
 
     return app
