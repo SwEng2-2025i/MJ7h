@@ -9,6 +9,9 @@ class TaskInputPort(ABC):
     @abstractmethod
     def get_all_tasks(self) -> list[Task]: pass
 
+    @abstractmethod
+    def mark_task_done(self, task_id: str) -> Task: pass
+
 # Puerto de salida
 class TaskOutputPort(ABC):
     @abstractmethod
@@ -16,3 +19,6 @@ class TaskOutputPort(ABC):
 
     @abstractmethod
     def list_all(self) -> list[Task]: pass
+
+    @abstractmethod
+    def mark_task_done(self, task_id: str) -> Task: pass
