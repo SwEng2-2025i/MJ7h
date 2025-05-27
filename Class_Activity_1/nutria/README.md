@@ -49,4 +49,4 @@ curl -X PUT http://localhost:5000/tasks/<task_id>/done
     ```bash
     python main.py
     ```
-    The application will run on `http://localhost:5000`.
+    The application will run on `http://localhost:5000` | `http://127.0.0.1:5000`.
