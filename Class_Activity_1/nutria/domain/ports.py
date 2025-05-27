@@ -21,4 +21,7 @@ class TaskOutputPort(ABC):
     def list_all(self) -> list[Task]: pass
 
     @abstractmethod
-    def mark_task_done(self, task_id: str) -> Task: pass
+    def get_task_by_id(self, task_id: str) -> Task: pass
+
+    @abstractmethod
+    def update_task(self, task: Task) -> None: pass
