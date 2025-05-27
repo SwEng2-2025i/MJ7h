@@ -13,3 +13,6 @@ class TaskUseCase(TaskInputPort):
 
     def get_all_tasks(self) -> list[Task]:
         return self.repo.list_all()
+    
+    def mark_task_done(self, task_id: str) -> Task:
+        return self.repo.mark_task_done(task_id)
