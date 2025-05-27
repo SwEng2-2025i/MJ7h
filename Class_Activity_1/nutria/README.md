@@ -21,3 +21,25 @@ Returns a list of all created tasks.
 ```bash
 curl http://localhost:5000/tasks
 ```
+
+### ✅ Mark a task as done
+
+Marks an existing task as completed.
+
+```bash
+curl -X PUT http://localhost:5000/tasks/<task_id>/done
+```
+
+## 🚀 How to Run
+
+1.  **Install dependencies:**
+    You may need to install Flask manually:
+    ```bash
+    pip install Flask
+    ```
+
+2.  **Run the application:**
+    ```bash
+    python main.py
+    ```
+    The application will run on `http://localhost:5000`.
