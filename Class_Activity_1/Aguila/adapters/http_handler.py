@@ -14,6 +14,8 @@ def create_http_handler(use_case):
         tasks = use_case.get_all_tasks()
         return jsonify([{"id": t.id, "title": t.title, "done": t.done} for t in tasks])
 
+    # Añade el endpoint que se usara para hacer update de la tarea 
+    # Y marcarla como completada
     @app.route("/tasks/<task_id>/done", methods=["PUT"])
     def mark_task_done(task_id):
         try:

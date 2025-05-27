@@ -13,7 +13,9 @@ class TaskUseCase(TaskInputPort):
 
     def get_all_tasks(self) -> list[Task]:
         return self.repo.list_all()
-
+    # Añadimos la funsion mark_task_done, la cual busca una tarea por su id
+    # Si la tarea no existe, se lanza un ValueError
+    # Si la tarea existe, se marca como completada y se guarda en el repositorio
     def mark_task_done(self, task_id: str) -> Task:
         task = self.repo.get_by_id(task_id)
         if task is None:
