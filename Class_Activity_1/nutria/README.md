@@ -2,7 +2,13 @@
 
 This service allows you to create and list tasks using a hexagonal architecture (ports and adapters). Business logic is decoupled from infrastructure details, such as the web framework or storage.
 
-## 📋 Endpoints disponibles
+## 📋 Available Endpoints
+
+| Method | Path                    | Description                          |
+| ------ | ----------------------- | ------------------------------------ |
+| POST   | `/tasks`                | Create a new task with a title.      |
+| GET    | `/tasks`                | Returns a list of all created tasks. |
+| PUT    | `/tasks/<task_id>/done` | Marks an existing task as completed. |
 
 ### ➕ Create a task
 
@@ -34,6 +40,7 @@ curl -X PUT http://localhost:5000/tasks/<task_id>/done
 
 1.  **Install dependencies:**
     You may need to install Flask manually:
+
     ```bash
     pip install Flask
     ```
