@@ -20,7 +20,7 @@ class TaskUseCase(TaskInputPort):
         try :
             task = self.repo.get_task_by_id(task_id)
             task.mark_done()
-            self.repo.update(task)  # Update the task in the repository
+            self.repo.update_task(task)  # Update the task in the repository
             return task
         except ValueError as e:
             raise ValueError(f"Task with id {task_id} not found") from e
