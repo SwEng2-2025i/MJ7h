@@ -2,9 +2,9 @@
 
 This service allows you to create and list tasks using a hexagonal architecture (ports and adapters). Business logic is decoupled from infrastructure details, such as the web framework or storage.
 
-## 📋 Endpoints disponibles
+## Available Endpoints 
 
-### ➕ Create a task
+### Create a task
 
 Create a new task with a title.
 
@@ -14,7 +14,7 @@ curl -X POST http://localhost:5000/tasks \
   -d '{"title": "Aprender arquitectura hexagonal"}'
 ```
 
-### 📄 List all tasks
+### List all tasks
 
 Returns a list of all created tasks.
 
@@ -22,7 +22,7 @@ Returns a list of all created tasks.
 curl http://localhost:5000/tasks
 ```
 
-### ✅ Mark task as done
+### Mark task as done
 
 Marks a specific task as completed.
 
@@ -30,7 +30,7 @@ Marks a specific task as completed.
 curl -X PUT http://localhost:5000/tasks/<task_id>/done
 ```
 
-## 🔄 Flow Diagram
+## Flow Diagram
 
 ```mermaid
 sequenceDiagram
@@ -50,7 +50,7 @@ sequenceDiagram
     HTTP Adapter-->>Client: 200 OK
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 The system follows the hexagonal architecture pattern:
 
