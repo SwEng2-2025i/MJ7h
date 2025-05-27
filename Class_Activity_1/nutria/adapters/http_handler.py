@@ -16,7 +16,10 @@ def create_http_handler(use_case):
     
     @app.route("/tasks/<task_id>/done", methods=["PUT"])
     def mark_task_done(task_id):
-        task = use_case.mark_task_done(task_id)
-        return jsonify({"id": task.id, "title": task.title, "done": task.done})
+        try:
+            task = use_case.mark_task_done(task_id)
+            return jsonify({"id": task.id, "title": task.title, "done": task.done})
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 404
 
     return app

@@ -15,4 +15,7 @@ class TaskUseCase(TaskInputPort):
         return self.repo.list_all()
     
     def mark_task_done(self, task_id: str) -> Task:
-        return self.repo.mark_task_done(task_id)
+        try :
+            return self.repo.mark_task_done(task_id)
+        except ValueError as e:
+            raise ValueError(f"Task with id {task_id} not found") from e
