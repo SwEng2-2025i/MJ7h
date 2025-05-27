@@ -39,10 +39,10 @@ curl -X PUT http://localhost:5000/tasks/<task_id>/done
 ## 🚀 How to Run
 
 1.  **Install dependencies:**
-    You may need to install Flask manually:
+    Use pip to install the required packages:
 
     ```bash
-    pip install Flask
+    pip install -r requirements.txt
     ```
 
 2.  **Run the application:**
