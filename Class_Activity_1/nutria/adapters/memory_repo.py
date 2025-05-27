@@ -10,3 +10,10 @@ class InMemoryTaskRepository(TaskOutputPort):
 
     def list_all(self) -> list[Task]:
         return self.tasks
+        
+    def mark_task_done(self, task: Task) -> Task:
+        for task in self.tasks:
+            if task.id == task.id:
+                task.mark_done()
+                return task
+        raise ValueError(f"Task with id {task.id} not found")
