@@ -61,7 +61,52 @@ El logger que registra los intentos de notificación está implementado como Sin
 ---
 ## 📊 Diagrama de clases (UML)
 
-```mermaid 
+```mermaid
+classDiagram
+
+  class User {
+    +String name
+    +String preferred_channel
+    +List~String~ available_channels
+  }
+
+  class NotificationRouter {
+    +route_notification(user: User)
+  }
+
+  class NotificationChannel {
+    +set_next(channel: NotificationChannel)
+    +send(message: String)
+  }
+
+  class EmailChannel {
+    +send(message: String)
+  }
+
+  class SMSChannel {
+    +send(message: String)
+  }
+
+  class ConsoleChannel {
+    +send(message: String)
+  }
+
+  class LoggerSingleton {
+    +log(channel: String, message: String, status: String)
+  }
+
+  User --> NotificationRouter
+  NotificationRouter <-- NotificationChannel
+  NotificationChannel <|-- EmailChannel
+  NotificationChannel <|-- SMSChannel
+  NotificationChannel <|-- ConsoleChannel
+  NotificationRouter --> LoggerSingleton
+  
+
+
+    
+
+
 ```
 
 ---
