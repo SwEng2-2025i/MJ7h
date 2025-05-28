@@ -51,7 +51,7 @@ curl -X PUT http://localhost:5000/tasks/<task_id>/done
     ```
     The application will run on `http://localhost:5000` | `http://127.0.0.1:5000`.
 
-## 📊 Diagrama de Secuencia para Marcar una Tarea como Completada
+## 📊 Diagramas de Secuencia para Marcar una Tarea como Completada
 
 ```mermaid
 sequenceDiagram
@@ -74,3 +74,5 @@ sequenceDiagram
         HTTPHandler-->>Cliente: 404 Not Found con mensaje de error
     end
 ```
+![Diagrama Mark Done](https://github.com/user-attachments/assets/b3eff142-d2c3-445e-8112-ad21ebad703a)
+
