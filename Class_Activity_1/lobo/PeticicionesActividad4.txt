@@ -1,0 +1,5 @@
+curl -X POST http://localhost:5000/tasks -H "Content-Type: application/json" -d "{\"title\": \"Aprender arquitectura hexagonal\"}"
+
+curl http://localhost:5000/tasks
+
+curl -X PUT http://localhost:5000/tasks/0/done -H "Content-Type: application/json" -d "{\"title\": \"Aprender arquitectura hexagonal\"}"
