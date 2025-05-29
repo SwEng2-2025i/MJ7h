@@ -1,5 +1,13 @@
 class User():
     def __init__(self, name, preferred_channel, available_channels):
+
+        """
+        User model representing a user with their notification preferences.
+
+        :param name: Name of the user
+        :param preferred_channel: Preferred channel for notifications (e.g., 'sms', 'email', 'console')
+        :param available_channels: List of channels available for notifications
+        """
         self.name = name
         self.preferred_channel = preferred_channel
         self.available_channels = available_channels
