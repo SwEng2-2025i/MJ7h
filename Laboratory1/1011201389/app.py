@@ -9,8 +9,8 @@ from validation.notification.notification_handlers import UserNameHandler, Messa
 from database.database import database_users
 
 # Models
-from user import User
-from notification import Notification
+from models.user import User
+from models.notification import Notification
 
 app = Flask(__name__)
 swagger = Swagger(app)
