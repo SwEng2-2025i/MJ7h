@@ -7,4 +7,4 @@ class SMSHandler(NotificationHandler):
             self.log_success(user, notification)
             return "SMS", notification
         self.log_failure(user, notification)
-        super().handle(user, notification)
+        return super().handle(user, notification)

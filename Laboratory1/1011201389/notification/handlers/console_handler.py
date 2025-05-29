@@ -7,4 +7,4 @@ class ConsoleHandler(NotificationHandler):
             self.log_success(user, notification)
             return "Console", notification
         self.log_failure(user, notification)
-        super().handle(user, notification)
+        return super().handle(user, notification)

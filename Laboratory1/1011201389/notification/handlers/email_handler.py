@@ -7,4 +7,4 @@ class EmailHandler(NotificationHandler):
             self.log_success(user, notification)
             return "Email", notification
         self.log_failure(user, notification)
-        super().handle(user, notification)
+        return super().handle(user, notification)
