@@ -12,6 +12,9 @@ from database.database import database_users
 from models.user import User
 from models.notification import Notification
 
+# Services
+from notification.notification_service import NotificationService
+
 app = Flask(__name__)
 swagger = Swagger(app)
 
@@ -173,10 +176,16 @@ def send_notification():
     # Create notification
     notification = Notification.from_dict(data)
 
-    # TODO: Implement the logic to send the notification through the user's preferred channel using chain of responsibility pattern
-    # For now, we will just return a success message
-    return jsonify({"status": f"Notification sent successfully through {user.preferred_channel} channel"}), 200
-    
+    notification_service = NotificationService()
+
+    try:
+        # Send the notification using the notification service
+        result = notification_service.send_notification(user, notification)
+        return jsonify({"status": f"Notification sent successfully through {result[0]} channel"}), 200
+    except ConnectionError as e:
+        return jsonify({"error": str(e)}), 400
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400  
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
