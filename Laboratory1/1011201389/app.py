@@ -72,6 +72,8 @@ def register_user():
 
     """
     data = request.get_json()
+
+    # Validate user data
     try:
         validator_user_data.handle(data)
     except ValueError as e:
@@ -112,6 +114,7 @@ def get_users():
                         } 
                     ]
     """
+    # Return all users in the database
     return jsonify([user.to_dict() for user in database_users]), 200
 
 # Send a notification
@@ -161,8 +164,10 @@ def send_notification():
             
     """
 
+    # Get the request data
     data = request.get_json()
 
+    # Validate notification data
     try:
         validator_notification_data.handle(data)
     except ValueError as e:
