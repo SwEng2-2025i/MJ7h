@@ -1,4 +1,6 @@
 class LoggerSingleton:
+    # Singleton class for logging messages
+
     _instance = None
 
     def __new__(cls):
@@ -14,4 +16,5 @@ class LoggerSingleton:
 
     def log(self, message):
         with open(self.log_file, "a") as f:
+            # Write the message to the log file
             f.write(message + "\n")
