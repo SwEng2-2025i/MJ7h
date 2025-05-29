@@ -3,13 +3,17 @@ from .handlers.email_handler import EmailHandler
 from .handlers.console_handler import ConsoleHandler
 
 class NotificationService:
+
+    # Handlers available for sending notifications
     handlers = {
         'sms': SMSHandler,
         'email': EmailHandler,
         'console': ConsoleHandler
     }
 
+    # Send a notification to a user
     def send_notification(self, user, notification):
+
         chain = self._build_chain(user)
         try:
             result = chain.handle(user, notification)
@@ -17,6 +21,7 @@ class NotificationService:
         except ConnectionError as e:
             raise ConnectionError(f"Failed to send notification: {e}") 
 
+    # Build the chain of handlers based on the user's preferences
     def _build_chain(self, user):
         try:
             preferred_handler = self.handlers[user.preferred_channel]
