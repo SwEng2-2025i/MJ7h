@@ -1,70 +1,59 @@
-# 📬 Multichannel Notification System
+# 📬 Multichannel Notification System (API REST)- Laboratorio 1
 
-**Autor:** Sergio Alejandro Nova Perez  
-**ID:** 1006739326  
-**Fecha de entrega:** 30 de mayo de 2025  
+**Nombre completo:** Sergio Alejandro Nova Pérez  
+**Número de documento:** 1006739326  
 
 ---
 
 ## 📝 Descripción general
 
-Este sistema RESTful simula el envío de notificaciones multicanal (email, SMS, consola) utilizando patrones de diseño avanzados para garantizar modularidad, mantenibilidad y extensibilidad.
-
-El objetivo principal es intentar el envío de una notificación usando el canal preferido del usuario. Si este falla (de forma simulada), se recurre a los canales alternativos mediante el patrón **Chain of Responsibility**.
-
-El sistema utiliza almacenamiento en memoria (sin base de datos) y registra los intentos de notificación con un logger implementado como **Singleton**.
+Este proyecto implementa una API REST modular en Flask para simular el envío de notificaciones multicanal (correo, SMS, consola). El sistema permite registrar usuarios con múltiples canales disponibles y seleccionar uno como preferido. Si el envío por el canal preferido falla (simulado con aleatoriedad), el sistema recurre a canales alternativos mediante el patrón **Chain of Responsibility**.
 
 ---
 
-## 🧱 Estructura del Proyecto
+## 🧱 Estructura del proyecto
 
-app/
-├── main.py
-├── models/
-│ └── init.py
-├── patterns/
-│ ├── channel_handler.py
-│ └── factory.py
-├── routes/
-│ └── endpoints.py
-├── services/
+1006739326/
+├── app/
+│ ├── main.py
+│ ├── models/
+│ ├── patterns/
+│ │ ├── channel_handler.py
+│ │ └── factory.py
+│ ├── routes/
+│ │ └── endpoints.py
+│ └── services/
 │ └── logger.py
-requirements.txt
-README.md
-swagger.yaml
+├── requirements.txt
+├── swagger.yaml
+├── README.md
 
 
 ---
 
-## 🧠 Patrones de diseño utilizados
+## 🧠 Patrones de diseño aplicados
 
-### 🔗 Chain of Responsibility
-Permite manejar el reintento de envío de notificaciones a través de una cadena de canales (email → sms → consola). Cada canal decide si manejar la notificación o pasarla al siguiente.
-
-### 🏭 Factory
-Se usa para construir dinámicamente la cadena de canales de notificación en el orden definido por el usuario.
-
-### ♻️ Singleton (opcional recomendado)
-Un logger que asegura que todos los intentos de envío se registren en una única instancia compartida.
+- 🔗 **Chain of Responsibility:** Encadena múltiples canales de notificación (email → sms → consola). Si uno falla, pasa al siguiente.
+- 🏭 **Factory Pattern:** Construye dinámicamente la cadena de canales con base en la configuración del usuario.
+- ♻️ **Singleton:** Logger único que registra cada intento de envío sin duplicación de estado.
 
 ---
 
-## 🚀 Endpoints REST
+## 🚀 Endpoints de la API
 
-### 📌 POST /users
-Registra un nuevo usuario con canales de notificación.
+### 📌 POST `/users`
+Registra un nuevo usuario con canales disponibles.
 
-#### 🧾 Request Body:
+#### 📤 Request Body:
 ```json
 {
   "name": "Juan",
   "preferred_channel": "email",
   "available_channels": ["email", "sms", "console"]
 }
-
-
-Respuesta
-Formato json
+```
+Respuesta:
+```json
 {
   "message": "User registered successfully",
   "user": {
@@ -73,10 +62,12 @@ Formato json
     "available_channels": ["email", "sms", "console"]
   }
 }
-
-GET /users
-Lista todos los usuarios registrados.
-Respuesta
+```
+---
+### 📌 GET /users
+Devuelve todos los usuarios registrados.
+Respuesta:
+```json
 [
   {
     "name": "Juan",
@@ -85,36 +76,88 @@ Respuesta
   }
 ]
 
-POST /notifications/send
+```
+---
+### 📌 POST /notifications/send
 
-Envía una notificación a un usuario. Si el canal preferido falla, se reintenta con los demás canales disponibles.
+Envía una notificación a un usuario. Si el canal preferido falla, se recurre a los canales alternativos.
 
-Request body:
+📤 Request Body:
+```json
 {
-  "user_name":"Juan",
+  "user_name": "Juan",
   "message": "Tu cita es mañana.",
   "priority": "high"
 }
-
-Respuesta exitosa:
-
-{
+```
+ Respuesta si tiene éxito:
+```json
+ {
   "message": "Notification delivered"
 }
+```
 
-Respuesta si todos los canales fallan:
-
+ Si todos los canales fallan:
+```json
 {
   "error": "All channels failed"
 }
+```
+---
+### 🛠️ Instrucciones de ejecución
 
-Instrucciones de ejecución
-
-Requisitos
+Requisitos:
 
 Python 3.12
+
 Flask
 
-Instalación y ejecución 
+Pasos:
+```
+# Crear entorno virtual (opcional pero recomendado)
+python -m venv venv
+venv\Scripts\activate  # Windows
+
+# Instalar dependencias
+pip install -r requirements.txt
+
+# Ejecutar la API
+python -m app.main
+
+```
+---
+### Pruebas con curl
+
+Registrar usuario:
+```
+curl -X POST http://127.0.0.1:5000/users ^
+-H "Content-Type: application/json" ^
+-d "{\"name\": \"Juan\", \"preferred_channel\": \"email\", \"available_channels\": [\"email\", \"sms\"]}"
+```
+Enviar notificación:
+```
+curl -X POST http://127.0.0.1:5000/notifications/send ^
+-H "Content-Type: application/json" ^
+-d "{\"user_name\": \"Juan\", \"message\": \"Tu cita es mañana.\", \"priority\": \"high\"}"
+```
+---
+### Documentación Swagger
+
+El archivo swagger.yaml documenta los endpoints de la API y puede ser visualizado desde https://editor.swagger.io.
 
 
+
+---
+### Diagrama de clases
+ ![Diagrama de Clases UML](./Diagram.png)
+#### El diagrama del sistema incluye:
+
+- User
+
+- NotificationHandler (abstracto)
+
+- EmailHandler, SMSHandler, ConsoleHandler
+
+- Factory para crear la cadena
+
+- Logger como Singleton
