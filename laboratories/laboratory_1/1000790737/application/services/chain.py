@@ -8,6 +8,7 @@ from typing import List
 
 from domain.ports.notification_sender import INotificationSender
 from domain.entities.channel import NotificationChannel
+from domain.entities.priority import Priority
 
 from application.ports.logger_port import ILogger
 from application.exceptions import NotificationChainFailedException
@@ -20,12 +21,12 @@ class ChainSender(INotificationSender):
         self.senders = senders
         self.logger = logger
 
-    def send(self, to: User, message: str) -> NotificationChannel:
+    def send(self, to: User, message: str, priority: Priority) -> NotificationChannel:
         for sender in self.senders:
             channel = sender.channel
             self.logger.send_attempt(to.user_name, channel, message)
 
-            if sender.send(to, message):
+            if sender.send(to, message, priority):
                 self.logger.send_success(to.user_name, channel, message)
                 return channel
             self.logger.send_failure(to.user_name, channel, message)

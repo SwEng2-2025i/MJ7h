@@ -6,6 +6,7 @@ from abc import ABCMeta, abstractmethod
 
 from domain.entities.user import User
 from domain.entities.channel import NotificationChannel
+from domain.entities.priority import Priority
 
 
 class INotificationSender(metaclass=ABCMeta):
@@ -17,7 +18,7 @@ class INotificationSender(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def send(self, to: User, message: str) -> NotificationChannel:
+    def send(self, to: User, message: str, priority: Priority) -> NotificationChannel:
         """Send a notification with the given message."""
         pass
 
@@ -25,4 +26,10 @@ class INotificationSender(metaclass=ABCMeta):
     @abstractmethod
     def channel(self) -> NotificationChannel:
         """Return the channel used for sending notifications."""
+        pass
+
+    @property
+    @abstractmethod
+    def priority(self) -> Priority:
+        """Return the priority level of the notification."""
         pass
