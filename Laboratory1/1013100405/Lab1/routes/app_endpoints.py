@@ -4,6 +4,7 @@ from domain.entities.user import User
 from infrastructure.users_repo import InMemoryUserRepository
 from domain.strategies.notification import NotificationContext, EmailStrategy, SmsStrategy, WhatsappStrategy, InstagramStrategy
 from infrastructure.notifications_logger import InMemoryLoggerRepository
+from domain.chains_responsibility.notification_body import SuccessHandler, UsernameGivenHandler, MessageGivenHandler, PriorityGivenHandler
 
 STRATEGY_MAP = {
     "email": EmailStrategy,
@@ -53,31 +54,27 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
     @app.route("/notifications/send", methods=["POST"])
     def send_notification():
         data = request.json
-        username = data.get("user_name")
-        message = data.get("message")
-        priority = data.get("priority")
+        
+        notification_body_handler = UsernameGivenHandler(MessageGivenHandler(PriorityGivenHandler(SuccessHandler())))
+        result = notification_body_handler.handle(data)
+        if result["response"] != 200:
+            return jsonify(result)
 
-        if not data or not username or not message or not priority:
-            return jsonify({"error": "Missing required fields"}), 400
-
-        # Algorithm
-        user = user_repo.get_user(username)
+        user = user_repo.get_user(data.get("user_name"))
         if not user:
-            return jsonify({"error": "User not found"}), 404
-
-
-
+            return jsonify({"error": "User not found in repository"}), 404
+        
         channel = user.preferred_channel.lower()
         strategy_cls = STRATEGY_MAP.get(channel)
         strategy = NotificationContext(strategy_cls())
-        successful = strategy.send(user, message, priority)
+        successful = strategy.send(user, data.get("message"), data.get("priority")) # strategy.send(user, message, priority)
 
         if not successful:
             for channel in user.available_channels:
                 if channel != user.preferred_channel:
                     strategy_cls = STRATEGY_MAP.get(channel)
                     strategy = NotificationContext(strategy_cls())
-                    successful = strategy.send(user, message, priority)
+                    successful = strategy.send(user, data.get("message"), data.get("priority"))
                     if successful:
                         break
 
