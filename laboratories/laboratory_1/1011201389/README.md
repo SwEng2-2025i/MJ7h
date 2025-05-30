@@ -55,7 +55,7 @@ Used to implement a global `LoggerSingleton` for consistent logging of all notif
 
 1. Clone the repository:
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/SwEng2-2025i/MJ7h.git
    cd laboratories/laboratory_1/1011201389/
    ```
 
