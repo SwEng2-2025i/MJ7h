@@ -5,6 +5,7 @@ from infrastructure.users_repo import InMemoryUserRepository
 from domain.strategies.notification import NotificationContext, EmailStrategy, SmsStrategy, WhatsappStrategy, InstagramStrategy
 from infrastructure.notifications_logger import InMemoryLoggerRepository
 from domain.chains_responsibility.notification_body import SuccessHandler, UsernameGivenHandler, MessageGivenHandler, PriorityGivenHandler
+from domain.chains_responsibility.notification_channels import TryPreferredChannel, TryOtherChannels
 
 STRATEGY_MAP = {
     "email": EmailStrategy,
@@ -19,6 +20,7 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
     # Volver disponibles estas instancias globalmente (from flask import current_app)
     app.config["USER_REPO"] = user_repo
     app.config["LOGGER"] = logger
+    app.config["STRATEGY_MAP"] = STRATEGY_MAP
 
     @app.route("/users", methods=["POST"])
     def create_user():
@@ -64,19 +66,8 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
         if not user:
             return jsonify({"error": "User not found in repository"}), 404
         
-        channel = user.preferred_channel.lower()
-        strategy_cls = STRATEGY_MAP.get(channel)
-        strategy = NotificationContext(strategy_cls())
-        successful = strategy.send(user, data.get("message"), data.get("priority")) # strategy.send(user, message, priority)
-
-        if not successful:
-            for channel in user.available_channels:
-                if channel != user.preferred_channel:
-                    strategy_cls = STRATEGY_MAP.get(channel)
-                    strategy = NotificationContext(strategy_cls())
-                    successful = strategy.send(user, data.get("message"), data.get("priority"))
-                    if successful:
-                        break
+        notification_channels_handler = TryPreferredChannel(TryOtherChannels())
+        successful = notification_channels_handler.handle(user, data)
 
         return jsonify({"status": "Notification processed","successfully_sent":successful}), 200
 
