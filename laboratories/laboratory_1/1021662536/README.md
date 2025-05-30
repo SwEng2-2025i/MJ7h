@@ -16,7 +16,7 @@ Este proyecto implementa una API REST para un sistema de notificaciones multican
 - **Chain of Responsibility:** Patrón de comportamiento, fue implementado en la clase `Channel` para manejar los intentos de envío de notificaciones. Cada canal (email, SMS, consola) actúa como un elemento en la cadena, pasando la responsabilidad al siguiente canal si el actual falla puesto que se cuenta con la referencia del siguiente.
 
 
-- **Factory Pattern:** Es un patrón de creación y está implementado en la clase `ChannelFactory` para crear instancias de canales de manera dinámica según el tipo de canal (email, sms, console), desacoplando la creación de objetos del resto del sistema a través de sobrescribir el método por cada canal.
+- **Factory Method:** Es un patrón de creación y está implementado en la clase `ChannelFactory` para crear instancias de canales de manera dinámica según el tipo de canal (email, sms, console), desacoplando la creación de objetos del resto del sistema a través de sobrescribir el método por cada canal.
 
 
 - **Singleton:** Patrón de creación, fue implementado en la clase `SingletonLogger` para garantizar un único logger que registra todos los eventos de la aplicación en un archivo notifications.log.  Se escogió por lo que ofrece una solución para garantizar que una clase tenga una única instancia.
@@ -37,7 +37,7 @@ laboratories/laboratory_1/1021662536/
 │   │   ├── notification.py
 │   ├── channels/
 │   │   ├── __init__.py
-│   │   ├── base_channel.py
+│   │   ├── channel.py
 │   │   ├── email.py
 │   │   ├── sms.py
 │   │   ├── console.py
@@ -65,7 +65,7 @@ La API expone los siguientes endpoints, documentados con Swagger en http://local
 
 ### **POST /api/users   - Registro de un Usuario nuevo**
 
-- Descripción: Registra un nuevo usuario con nombre, canal preferido y canales disponibles.
+- **Descripción:** Registra un nuevo usuario con nombre, canal preferido y canales disponibles.
 
 ```
 {
@@ -110,7 +110,7 @@ curl -X 'POST' \
 
 ### **GET /api/users - Lista de los usuarios actuales**
 
-- Descripción: Devuelve la lista de todos los usuarios registrados.
+- **Descripción:** Devuelve la lista de todos los usuarios registrados.
 
 -**Respuesta exitosa (200)**
 ```
@@ -145,7 +145,7 @@ curl -X 'GET' \
 
 ### **POST /api/notifications/send - Envío de Notificación**
 
-- Descripción: Envía una notificación a un usuario con un mensaje y prioridad.
+- **Descripción:** Envía una notificación a un usuario con un mensaje y prioridad.
 ```
 {
   "user_name": "Gaby",
@@ -180,25 +180,25 @@ curl -X 'POST' \
 ```
 
 ## 📌 **Configuración**
-Se deben segir estos pasos para configurar y ejecutar el proyecto localmente:
+Se deben seguir estos pasos para configurar y ejecutar el proyecto localmente:
 
-1. Clona el repositorio:
+1. Clonar el repositorio:
 ```
 git clone <URL_DEL_REPOSITORIO>
 cd laboratories/laboratory_1/1021662536
 ```
 
-2. Crea un entorno virtual:
+2. Creación de un entorno virtual:
 ```
 python -m venv venv
 ```
 
-3. Instala las dependencias:
+3. Instalar las dependencias:
 ```
 pip install -r requirements.txt
 ```
 
-4. Ejecuta la aplicación:
+4. Ejecutar la aplicación:
 ```
 python -m src.main
 ```
