@@ -1,0 +1,18 @@
+2025-05-29 20:51:14,146 - INFO - Notification Logger initialized (Singleton pattern)
+2025-05-29 20:51:18,974 - INFO - Notification Logger initialized (Singleton pattern)
+2025-05-29 20:51:38,838 - INFO - Notification Logger initialized (Singleton pattern)
+2025-05-29 20:51:38,905 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.12:5000
+2025-05-29 20:51:38,906 - INFO - [33mPress CTRL+C to quit[0m
+2025-05-29 20:51:38,921 - INFO -  * Restarting with stat
+2025-05-29 20:51:39,751 - INFO - Notification Logger initialized (Singleton pattern)
+2025-05-29 20:51:39,776 - WARNING -  * Debugger is active!
+2025-05-29 20:51:39,800 - INFO -  * Debugger PIN: 120-053-513
+2025-05-29 20:51:52,108 - INFO - 127.0.0.1 - - [29/May/2025 20:51:52] "GET /swagger/?id=3c1fd8e8-95ee-48ca-a51d-8e72f5cb7d85&vscodeBrowserReqId=1748569911777 HTTP/1.1" 200 -
+2025-05-29 20:51:52,550 - INFO - 127.0.0.1 - - [29/May/2025 20:51:52] "GET /swaggerui/droid-sans.css HTTP/1.1" 200 -
+2025-05-29 20:51:52,758 - INFO - 127.0.0.1 - - [29/May/2025 20:51:52] "GET /swaggerui/swagger-ui-bundle.js HTTP/1.1" 200 -
+2025-05-29 20:51:52,798 - INFO - 127.0.0.1 - - [29/May/2025 20:51:52] "GET /swaggerui/swagger-ui.css HTTP/1.1" 200 -
+2025-05-29 20:51:52,810 - INFO - 127.0.0.1 - - [29/May/2025 20:51:52] "GET /swaggerui/swagger-ui-standalone-preset.js HTTP/1.1" 200 -
+2025-05-29 20:51:53,226 - INFO - 127.0.0.1 - - [29/May/2025 20:51:53] "GET /swagger.json HTTP/1.1" 200 -
