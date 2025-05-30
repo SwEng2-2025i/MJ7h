@@ -3,6 +3,7 @@ from models.user import User
 from channels.email import EmailChannel
 from channels.sms import SMSChannel
 from channels.console import ConsoleChannel
+from logger import Logger
 
 import random
 
@@ -69,6 +70,11 @@ def send_notification():
         return jsonify({'message': 'Notification sent successfully'})
     else:
         return jsonify({'message': 'All channels failed!'}), 500
+
+@app.route('/logs', methods=['GET'])
+def get_logs():
+    logger = Logger()
+    return jsonify({'logs': logger.get_logs()})
 
 if __name__ == '__main__':
     app.run(debug=True)
