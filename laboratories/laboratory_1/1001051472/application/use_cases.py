@@ -22,16 +22,19 @@ class NotificationUseCase:
         if not user:
             return {"status": "failed", "reason": "User not found"}
 
-        # Construir la cadena de responsabilidad en orden de los canales disponibles
+        # Construir la cadena de responsabilidad: primero el canal preferido, luego los demás
         channel_map = {
             "email": EmailHandler,
             "sms": SMSHandler,
             "console": ConsoleHandler
         }
 
+        # Ordenar canales: preferido primero, luego los demás sin duplicados
+        ordered_channels = [user.preferred_channel] + [ch for ch in user.available_channels if ch != user.preferred_channel]
+
         chain = None
-        # Se construye la cadena de canales en el orden especificado por el usuario
-        for channel in reversed(user.available_channels):
+        # Construir la cadena en el orden correcto
+        for channel in reversed(ordered_channels):
             chain = channel_map[channel](chain)
 
         result = chain.handle(message, self.logger)

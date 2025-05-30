@@ -3,6 +3,9 @@ from application.use_cases import NotificationUseCase
 from infrastructure.in_memory_repo import InMemoryUserRepository
 from domain.logger_singleton import Logger
 
+# Canales válidos para el sistema
+VALID_CHANNELS = {"email", "sms", "console"}
+
 # Se agrega integración con Swagger usando flasgger
 def create_app():
     app = Flask(__name__)
@@ -32,21 +35,37 @@ def create_app():
               properties:
                 name:
                   type: string
+                  example: Juan
                 preferred_channel:
                   type: string
+                  enum: [email, sms, console]
+                  example: email
                 available_channels:
                   type: array
                   items:
                     type: string
+                    enum: [email, sms, console]
+                  example: ["email", "sms"]
         responses:
           201:
             description: Usuario registrado exitosamente
+            examples:
+              application/json: { "message": "User registered successfully" }
           400:
             description: Error en los datos enviados
+            examples:
+              application/json: { "error": "Canal no válido. Solo se permiten: email, sms, console." }
         """
         data = request.json
+        # Validar canales
+        preferred = data.get("preferred_channel")
+        available = data.get("available_channels", [])
+        if preferred not in VALID_CHANNELS or any(ch not in VALID_CHANNELS for ch in available):
+            return jsonify({"error": "Canal no válido. Solo se permiten: email, sms, console."}), 400
+        if preferred not in available:
+            return jsonify({"error": "El canal preferido debe estar en los canales disponibles."}), 400
         try:
-            use_case.register_user(data["name"], data["preferred_channel"], data["available_channels"])
+            use_case.register_user(data["name"], preferred, available)
             return jsonify({"message": "User registered successfully"}), 201
         except Exception as e:
             return jsonify({"error": str(e)}), 400
@@ -61,6 +80,14 @@ def create_app():
         responses:
           200:
             description: Lista de usuarios
+            examples:
+              application/json: [
+                {
+                  "name": "Juan",
+                  "preferred_channel": "email",
+                  "available_channels": ["email", "sms"]
+                }
+              ]
         """
         users = use_case.list_users()
         return jsonify(users)
@@ -81,15 +108,22 @@ def create_app():
               properties:
                 user_name:
                   type: string
+                  example: Juan
                 message:
                   type: string
+                  example: Tu cita es mañana.
                 priority:
                   type: string
+                  example: high
         responses:
           200:
             description: Notificación enviada
+            examples:
+              application/json: { "status": "delivered", "via": "Email" }
           400:
             description: Error en los datos enviados
+            examples:
+              application/json: { "status": "failed", "reason": "User not found" }
         """
         data = request.json
         result = use_case.send_notification(data["user_name"], data["message"], data["priority"])
