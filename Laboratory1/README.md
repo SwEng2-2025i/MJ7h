@@ -1,3 +1,5 @@
+# Juan Camilo López Bustos
+
 # Laboratory1 - Sistema de Notificaciones con Patrones de Diseño
 
 ## Descripción
@@ -153,23 +155,20 @@ python app.py
 ## Ejemplo de Uso con Postman
 
 ### 1. Registrar usuario
-
-- Abre Postman y crea una nueva petición.
-- Selecciona el método **POST** y coloca la URL: `http://127.0.0.1:5000/users`
-- Ve a la pestaña **Body** → selecciona **raw** y elige **JSON**.
-- Copia el siguiente JSON en el área de texto:
+- Método: **POST**
+- URL: `http://127.0.0.1:5000/users`
   ```json
   {
-    "name": "Juan",
+    "name": "Miguel",
     "preferred_channel": "email",
-    "available_channels": ["email", "sms", "console"]
+    "available_channels": ["email", "sms"]
   }
   ```
-- Haz clic en **Send**.
-- Deberías recibir una respuesta similar a:
+respuesta :
   ```json
   {"message": "User Juan created"}
   ```
+![Registrar usuario](Images/Crea_user.png)
 
 ---
 
@@ -177,8 +176,8 @@ python app.py
 
 - Método: **GET**
 - URL: `http://127.0.0.1:5000/users`
-- Haz clic en **Send**.
-- Verás la lista de usuarios registrados.
+  
+![Registrar usuario](Images/Cons_user.png)
 
 ---
 
@@ -186,16 +185,20 @@ python app.py
 
 - Método: **POST**
 - URL: `http://127.0.0.1:5000/notifications/send`
-- Ve a **Body** → **raw** → **JSON** y pega:
   ```json
   {
-    "user_name": "Juan",
+    "user_name": "Miguel",
     "message": "Tu cita es mañana.",
     "priority": "high"
   }
   ```
-- Haz clic en **Send**.
-- Verifica la respuesta de éxito o error.
+-Exito(200):
+
+![Registrar usuario](Images/msg_200.png)
+
+- Error(500):
+
+![Registrar usuario](Images/msg_500.png)
 
 ---
 
@@ -230,16 +233,6 @@ El logger está implementado como Singleton, garantizando una única instancia d
 
 ---
 
-## Evidencia de Funcionamiento
-
-Agrega aquí capturas de pantalla de:
-
-- Terminal corriendo Flask (`python app.py`).
-- Ejecuciones exitosas de los comandos curl para crear usuario y enviar notificación.
-- Respuesta del endpoint `/logs`.
-- (Opcional) Salida en consola mostrando el envío y fallback de notificaciones.
-
----
 
 ## Dependencias
 
@@ -253,17 +246,9 @@ Las dependencias están listadas en `requirements.txt`.
 
 ## Autor
 
-- Nombre: **[Tu Nombre]**
-- Matrícula: **[Tu Matrícula]**
+- Nombre: **[Juan Camilo Lopez BUstos]**
 - Curso: Ingeniería de Software II (2025i)
-- Universidad: **[Tu Universidad]**
+- Universidad: **[Universidad Nacional de Colombia]**
 
 ---
 
-## Notas adicionales
-
-- El sistema usa una base de datos en memoria (no persistente).
-- Para agregar nuevos canales de notificación, simplemente crea una nueva clase en `channels/` y agrégala al constructor de la cadena en `app.py`.
-- El logger Singleton facilita la auditoría y depuración del flujo de notificaciones.
-
----
