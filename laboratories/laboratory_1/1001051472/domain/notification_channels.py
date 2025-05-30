@@ -33,6 +33,10 @@ class SMSHandler(NotificationHandler):
 # Canal específico para Consola
 class ConsoleHandler(NotificationHandler):
     def handle(self, message, logger):
-        logger.log("Intentando enviar por consola...")
-        logger.log(f"Consola: {message}")
-        return "Console"
+        logger.log("Intentando enviar por console...")
+        if random.choice([True, False]):
+            logger.log("Console enviado exitosamente.")
+            return "Console"
+        elif self.successor:
+            return self.successor.handle(message, logger)
+        return "Failed"
