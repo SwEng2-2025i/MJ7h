@@ -1,0 +1,151 @@
+openapi: 3.0.3
+info:
+  title: Sistema de Notificaciones Multicanal - Gabriela Gallegos Rubio
+  description: API REST para enviar notificaciones a través de múltiples canales (email, SMS, consola).
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+    description: Servidor local
+paths:
+  /api/users:
+    post:
+      summary: Registrar un nuevo usuario
+      description: Crea un usuario con nombre, canal favorito y canales disponibles.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '201':
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Error en la solicitud
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      summary: Listar todos los usuarios
+      description: Devuelve la lista de usuarios registrados.
+      responses:
+        '200':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersResponse'
+  /api/notifications/send:
+    post:
+      summary: Enviar una notificación
+      description: Envía una notificación a un usuario con mensaje y prioridad.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationRequest'
+      responses:
+        '200':
+          description: Notificación enviada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationResponse'
+        '400':
+          description: Error en la solicitud
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    UserRequest:
+      type: object
+      required:
+        - name
+        - fav_channel
+        - available_channels
+      properties:
+        name:
+          type: string
+          example: Juan
+        fav_channel:
+          type: string
+          example: email
+          enum: [email, sms, console]
+        available_channels:
+          type: array
+          items:
+            type: string
+            enum: [email, sms, console]
+          example: [email, sms]
+    UserResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Usuario creado
+        user:
+          $ref: '#/components/schemas/User'
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Juan
+        fav_channel:
+          type: string
+          example: email
+        available_channels:
+          type: array
+          items:
+            type: string
+          example: [email, sms]
+    UsersResponse:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    NotificationRequest:
+      type: object
+      required:
+        - user_name
+        - message
+        - priority
+      properties:
+        user_name:
+          type: string
+          example: Gaby
+        message:
+          type: string
+          example: Vuelo mañana a las 8:00 am
+        priority:
+          type: string
+          example: high
+          enum: [low, medium, high]
+    NotificationResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Notificación enviada
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Error en la solicitud
