@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 
 from domain.entities.user import User
 from infrastructure.users_repo import InMemoryUserRepository
-from domain.notifications.strategy import NotificationContext, EmailStrategy, SmsStrategy, WhatsappStrategy, InstagramStrategy
+from domain.strategies.notification import NotificationContext, EmailStrategy, SmsStrategy, WhatsappStrategy, InstagramStrategy
 from infrastructure.notifications_logger import InMemoryLoggerRepository
 
 STRATEGY_MAP = {
