@@ -5,4 +5,10 @@ class ChannelHandler(ABC):
 
     def set_next(self,handler):
         self._next_handler = handler
-        return handler
+        return 
+    
+    @abstractmethod
+    def handle(self,notification):
+        if self._next_handler:
+            return self._next_handler.handle(notification)
+        return False
