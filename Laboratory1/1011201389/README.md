@@ -1,26 +1,54 @@
-# Laboratory 1
-Samuel Josué Vargas Castro
+# Laboratory 1 – Multichannel Notification System  
+**Author:** Samuel Josué Vargas Castro
 
-The system consists in sending notifications to users through an endpoint. The system has three main endpoints. POST /users create a user with the fields name, preferred_channel and available_channels; GET /users obtain all users and POST /notifications/send, sends a notification through the petition body, with the user_name, the message and the priority.
+## 🧩 Overview
 
-The system receives the data from the api built with Flask and stores the users in a runtime database.
-Every incoming data is validated using chains of handlers for the different attributes of the data, to be then stored in the local models.
-For the notification, the systems receives the data through the endpoint, search the destiny user and sends both objects to a notification service. The notification service stores the available handlers for the different channels in the system and builts a chain of responsibility with the desired channels of the user, beginning with the preferred channel. It also allows to write a succesful or unsuccesful response in a global aplication logger. Once there, the system tries to send in the first handler and if its succesful, returns the notification sent, but if it's unsuccessful, it pass the operation to next handler. Either way, every try is registered in the logger. Once every channel fails, the system sents an error response and logs that every channel failed.
+This system provides an API for sending notifications to registered users through their preferred communication channels. It supports multiple notification methods and applies key software design patterns to ensure scalability, readability, and modularity.
 
-# Diagram
+The system exposes three main endpoints:
 
-# Design Patterns
+- `POST /users`: Creates a user with `name`, `preferred_channel`, and `available_channels`.
+- `GET /users`: Retrieves all registered users.
+- `POST /notifications/send`: Sends a notification to a specific user with the fields `user_name`, `message`, and `priority`.
 
-In the system, there were various implemented designed patterns to ensure a better code.
-- Factory Method: In the models' classes, there was defined a from_dict method that receives a dictionary and builds the object without accessing publicly to the constructor, enabling a better creation of objects and reducing the code repetition.
-- Chain of Responsibility: This pattern was used for two main reasons, first, the data incoming in the responses should be in a specific format, and the builiding of chains of validations ensure that the different parameters are in the correct form and also is open in the future to change the rules of validation easily. On the other hand, it was used for the management of the available and preferred channels of the user, in this way, if a notification try fails, another handler assumes the responsibility.
-- Singleton: This pattern was used to ensure  an unique access to a logger instance, allowing an unified view to register the information concerning the notificications attempts.
+User data is stored in an in-memory runtime database. Input validation and notification delivery are managed through handler chains that enforce format rules and simulate message delivery reliability.
 
-# Setup and configuration
+---
 
-First, clone the repository
-On the main folder of the system laboratories/laboratory_1/1011201389/ there's a requirements.txt file, use the command <insert the command> to install the dependencies on the file, or also run the following command pip install flask flasgger
-Once running, you can create a user by doing a POST petition to the http://127.0.0.1:5001/users with the fields name, preferred_channel, available_channels. <Show the curl command>
-You can get a list of all users by doing a GET petition to the http://127.0.0.1:5001/users.
-You can send a notification to a user by doing a POST petition to the the http://127.0.0.1:5001/notification/send with the fields user_name, message and priority.
-Finally, you can see all the documentation of the api in http://127.0.0.1:5001/apidocs/
+## ⚙️ System Architecture
+
+1. The system is built with **Flask** and uses **Flasgger** to document the API.
+2. Incoming requests are validated using **handler chains** before storing or processing data.
+3. When sending a notification, the system:
+   - Locates the target user.
+   - Builds a **chain of notification handlers**, starting with the user's preferred channel.
+   - Tries to send the notification through each available channel.
+   - Logs every attempt (success or failure) via a singleton logger.
+   - Returns a success message if the notification is sent; otherwise, throws an error if all attempts fail.
+
+---
+
+## 📊 Class and Module Diagram
+
+> *(To be added here)*
+
+---
+
+## 🏗️ Design Patterns Used
+
+### 🏭 Factory Method
+Used in the `from_dict` method of model classes (e.g., `User`, `Notification`). This encapsulates object creation and simplifies parsing from incoming JSON data.
+
+### 🔗 Chain of Responsibility
+Applied in two main areas:
+- **Data validation**: A sequence of handlers ensures input data complies with expected formats. Each handler is responsible for one validation step.
+- **Notification dispatching**: Handlers represent channels (e.g., SMS, console). If one fails, the next takes over until the message is successfully delivered or all channels are exhausted.
+
+### 🔒 Singleton
+Used to implement a global `LoggerSingleton` for consistent logging of all notification attempts, ensuring centralized tracking across the application.
+
+---
+
+## 🚀 Setup and Usage
+
+### 📦 Installation
