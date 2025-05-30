@@ -13,21 +13,7 @@ This REST API allows you to register users with multiple notification channels (
 - `GET /swagger` — Swagger/OpenAPI documentation
 
 ## Class/Module Diagram
-```
-User
-  |-- name
-  |-- preferred_channel
-  |-- available_channels
-
-NotificationChannel (abstract)
-  |-- EmailChannel
-  |-- SMSChannel
-  |-- ConsoleChannel
-
-Logger (Singleton)
-
-app.py (Flask endpoints)
-```
+The Diagram is in the folder with name DiagramClass.png
 
 ## Design Pattern Justifications
 - **Chain of Responsibility:** Used for notification delivery attempts across multiple channels.
