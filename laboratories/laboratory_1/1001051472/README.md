@@ -90,7 +90,7 @@ La arquitectura sigue principios de clean architecture, separando adaptadores (m
 ```mermaid
 ---
 config:
-  theme: neutral
+  theme: dark
   layout: elk
   look: neo
   adaptiveLayout: true
