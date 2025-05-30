@@ -5,8 +5,19 @@ from infrastructure.users_repo import InMemoryUserRepository
 from domain.notifications.strategy import NotificationContext, EmailStrategy, SmsStrategy, WhatsappStrategy, InstagramStrategy
 from infrastructure.notifications_logger import InMemoryLoggerRepository
 
+STRATEGY_MAP = {
+    "email": EmailStrategy,
+    "sms": SmsStrategy,
+    "whatsapp": WhatsappStrategy,
+    "instagram": InstagramStrategy
+}
+
 def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepository):
     app = Flask(__name__)
+
+    # Volver disponibles estas instancias globalmente (from flask import current_app)
+    app.config["USER_REPO"] = user_repo
+    app.config["LOGGER"] = logger
 
     @app.route("/users", methods=["POST"])
     def create_user():
@@ -54,24 +65,27 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
         if not user:
             return jsonify({"error": "User not found"}), 404
 
-        strategy = None
-        for channel in user.available_channels:
-            if channel == "email":
-                strategy = NotificationContext(EmailStrategy())
-            elif channel == "sms":
-                strategy = NotificationContext(SmsStrategy())
-            elif channel == "whatsapp":
-                strategy = NotificationContext(WhatsappStrategy())
-            elif channel == "instagram":
-                strategy = NotificationContext(InstagramStrategy())
-            log = strategy.send(user, message, priority)
-            logger.save(entry=log)
 
-        return jsonify({"status": "Notification processed"}), 200
-    
-    @app.route("/logger", methods=["GET"])
-    def get_logger():
+
+        channel = user.preferred_channel.lower()
+        strategy_cls = STRATEGY_MAP.get(channel)
+        strategy = NotificationContext(strategy_cls())
+        successful = strategy.send(user, message, priority)
+
+        if not successful:
+            for channel in user.available_channels:
+                if channel != user.preferred_channel:
+                    strategy_cls = STRATEGY_MAP.get(channel)
+                    strategy = NotificationContext(strategy_cls())
+                    successful = strategy.send(user, message, priority)
+                    if successful:
+                        break
+
+        return jsonify({"status": "Notification processed","successfully_sent":successful}), 200
+
+    @app.route("/notifications/logger", methods=["GET"])
+    def list_notification_logs():
         logs = logger.list_all()
-        return jsonify(logs), 200
-
+        return jsonify({"logs": logs}), 200
+    
     return app

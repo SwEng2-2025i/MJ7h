@@ -8,4 +8,4 @@ class LogEntry:
     channel: str
     message: str
     priority: str
-    status: str  # "Successful" or "Failed"
+    successful: bool  # "Successful" or "Failed"
