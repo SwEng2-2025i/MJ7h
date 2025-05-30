@@ -88,16 +88,19 @@ La arquitectura sigue principios de clean architecture, separando adaptadores (m
 ## Diagrama de Clases/Módulos
 
 ```mermaid
+---
+config:
+  theme: neutral
+  layout: elk
+  look: neo
+---
 classDiagram
-    %% Adaptadores
     class HTTPHandler {
         +create_app()
         -create_user()
         -list_users()
         -send_notification()
     }
-
-    %% Casos de Uso
     class NotificationUseCase {
         -repository
         -logger
@@ -105,62 +108,49 @@ classDiagram
         +list_users()
         +send_notification(user_name, message, priority)
     }
-
-    %% Dominio
     class NotificationHandler {
         <<abstract>>
         #successor
-        +handle(message, logger)*
+        +handle(message, logger)
     }
-
     class EmailHandler {
         +handle(message, logger)
     }
-
     class SMSHandler {
         +handle(message, logger)
     }
-
     class ConsoleHandler {
         +handle(message, logger)
     }
-
     class User {
         +name
         +preferred_channel
         +available_channels
     }
-
     class Logger {
         -_instance
-        -logs[]
+        -logs[] 
         +log(message)
         +get_logs()
     }
-
-    %% Infraestructura
     class InMemoryUserRepository {
-        -users{}
+        -users: User[] 
         +add_user(user)
         +get_user(name)
         +list_users()
     }
-
-    %% Relaciones
     NotificationHandler <|-- EmailHandler
     NotificationHandler <|-- SMSHandler
     NotificationHandler <|-- ConsoleHandler
     NotificationHandler --> NotificationHandler : successor
-
     HTTPHandler --> NotificationUseCase : uses
     NotificationUseCase --> InMemoryUserRepository : uses
     NotificationUseCase --> Logger : uses
     NotificationUseCase --> NotificationHandler : uses
     InMemoryUserRepository --> User : stores
-
-    %% Notas
     note for Logger "Singleton Pattern"
     note for NotificationHandler "Chain of Responsibility Pattern"
+
 ```
 
 
