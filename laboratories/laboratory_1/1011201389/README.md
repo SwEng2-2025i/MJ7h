@@ -52,3 +52,82 @@ Used to implement a global `LoggerSingleton` for consistent logging of all notif
 ## 🚀 Setup and Usage
 
 ### 📦 Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository_url>
+   cd laboratories/laboratory_1/1011201389/
+   ```
+
+2. Install the dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+   Or, manually:
+   ```bash
+   pip install flask flasgger
+   ```
+
+3. Run the Flask server:
+   ```bash
+   python app.py
+   ```
+
+> The API will run locally at:  
+**http://127.0.0.1:5001**
+
+---
+
+### 📮 API Endpoints
+
+#### 🔸 Create a User
+
+- **POST** `/users`
+- **Body Example**:
+  ```json
+  {
+    "name": "Samuel",
+    "preferred_channel": "sms",
+    "available_channels": ["sms", "console"]
+  }
+  ```
+- **Curl Command**:
+  ```bash
+  curl -X POST http://127.0.0.1:5001/users \
+       -H "Content-Type: application/json" \
+       -d '{"name": "Samuel", "preferred_channel": "sms", "available_channels": ["sms", "console"]}'
+  ```
+
+#### 🔹 Get All Users
+
+- **GET** `/users`
+- **Curl Command**:
+  ```bash
+  curl http://127.0.0.1:5001/users
+  ```
+
+#### 🔸 Send a Notification
+
+- **POST** `/notifications/send`
+- **Body Example**:
+  ```json
+  {
+    "user_name": "Samuel",
+    "message": "Hello, this is a test!",
+    "priority": "high"
+  }
+  ```
+- **Curl Command**:
+  ```bash
+  curl -X POST http://127.0.0.1:5001/notifications/send \
+       -H "Content-Type: application/json" \
+       -d '{"user_name": "Samuel", "message": "Hello, this is a test!", "priority": "high"}'
+  ```
+
+---
+
+### 📘 API Documentation
+
+Once the server is running, you can access the interactive API documentation via Swagger UI at:
+
+👉 **http://127.0.0.1:5001/apidocs/**
