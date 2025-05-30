@@ -30,7 +30,124 @@ User data is stored in an in-memory runtime database. Input validation and notif
 
 ## 📊 Class and Module Diagram
 
-> *(To be added here)*
+```mermaid
+classDiagram
+
+%% ===== models =====
+namespace models {
+    class Notification {
+        -user_name: str
+        -message: str
+        -priority: str
+        +from_dict(data)
+        +to_dict()
+    }
+
+    class User {
+        -name: str
+        -preferred_channel: str
+        -available_channels: list
+        +from_dict(data)
+        +to_dict()
+    }
+}
+
+%% ===== logger =====
+namespace logger {
+    class LoggerSingleton {
+        -_instance: LoggerSingleton
+        -_initialized: bool
+        -log_file: str
+        +log(message)
+    }
+}
+
+%% ===== notification =====
+namespace notification {
+    class NotificationHandler {
+        -next_handler: NotificationHandler
+        -logger: LoggerSingleton
+        +handle(user, notification)
+        +will_be_successful()
+        +log_success(user, notification)
+        +log_failure(user, notification)
+        +channel: str
+    }
+
+    class SMSHandler {
+    }
+    
+    class EmailHandler {
+    }
+    
+    class ConsoleHandler {
+    }
+
+    class NotificationService {
+        -handlers: dict
+        +send_notification(user, notification)
+        +_build_chain(user)
+    }
+
+    
+}
+
+%% ===== validation =====
+namespace validation {
+
+    class BaseHandler {
+        -next: BaseHandler
+        +handle(data)
+    }
+
+}
+
+namespace validation_user {
+
+    class NameHandler {
+    }
+    
+    class PreferredChannelHandler {
+    }
+    
+    class AvailableChannelsHandler {
+    }
+    
+    class PreferredInAvailableChannelsHandler {
+    }
+}
+
+namespace validation_notification {
+    
+    class UserNameHandler {
+    }
+    
+    class MessageHandler {
+    }
+    
+    class PriorityHandler {
+    }
+
+}
+
+
+%% Relationships
+%% Inheritance
+NotificationHandler <|-- SMSHandler
+NotificationHandler <|-- EmailHandler
+NotificationHandler <|-- ConsoleHandler
+NotificationService o-- NotificationHandler
+BaseHandler <|-- NameHandler
+BaseHandler <|-- PreferredChannelHandler
+BaseHandler <|-- AvailableChannelsHandler
+BaseHandler <|-- PreferredInAvailableChannelsHandler
+BaseHandler <|-- UserNameHandler
+BaseHandler <|-- MessageHandler
+BaseHandler <|-- PriorityHandler
+Notification <-- NotificationService
+LoggerSingleton <-- NotificationService
+
+```
 
 ---
 
