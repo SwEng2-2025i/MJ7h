@@ -23,7 +23,7 @@ La arquitectura sigue principios de clean architecture, separando adaptadores (m
 ```
 - **Respuestas:**
   - 201 Created: `{ "message": "User registered successfully" }`
-  - 400 Bad Request: `{ "error": "..." }`
+  - 400 Bad Request: `{ "error": Canal no válido. Solo se permiten: email, sms, console" }`
 
 ### Listar todos los usuarios
 - **GET /users**
@@ -82,6 +82,90 @@ La arquitectura sigue principios de clean architecture, separando adaptadores (m
       "reason": "User not found" 
     }
     ```
+---
+
+
+## Diagrama de Clases/Módulos
+
+```mermaid
+classDiagram
+    %% Adaptadores
+    class HTTPHandler {
+        +create_app()
+        -create_user()
+        -list_users()
+        -send_notification()
+    }
+
+    %% Casos de Uso
+    class NotificationUseCase {
+        -repository
+        -logger
+        +register_user(name, preferred, available)
+        +list_users()
+        +send_notification(user_name, message, priority)
+    }
+
+    %% Dominio
+    class NotificationHandler {
+        <<abstract>>
+        #successor
+        +handle(message, logger)*
+    }
+
+    class EmailHandler {
+        +handle(message, logger)
+    }
+
+    class SMSHandler {
+        +handle(message, logger)
+    }
+
+    class ConsoleHandler {
+        +handle(message, logger)
+    }
+
+    class User {
+        +name
+        +preferred_channel
+        +available_channels
+    }
+
+    class Logger {
+        -_instance
+        -logs[]
+        +log(message)
+        +get_logs()
+    }
+
+    %% Infraestructura
+    class InMemoryUserRepository {
+        -users{}
+        +add_user(user)
+        +get_user(name)
+        +list_users()
+    }
+
+    %% Relaciones
+    NotificationHandler <|-- EmailHandler
+    NotificationHandler <|-- SMSHandler
+    NotificationHandler <|-- ConsoleHandler
+    NotificationHandler --> NotificationHandler : successor
+
+    HTTPHandler --> NotificationUseCase : uses
+    NotificationUseCase --> InMemoryUserRepository : uses
+    NotificationUseCase --> Logger : uses
+    NotificationUseCase --> NotificationHandler : uses
+    InMemoryUserRepository --> User : stores
+
+    %% Notas
+    note for Logger "Singleton Pattern"
+    note for NotificationHandler "Chain of Responsibility Pattern"
+```
+
+
+---
+
 
 ## Patrones de Diseño Aplicados
 
@@ -96,18 +180,18 @@ Usuario Juan:
 - Canales disponibles: [Email, SMS, Console]
 
 Escenario 1 - Éxito en primer intento:
-1. Email → ✓ Éxito
+1. Email →  Éxito
    Resultado: { "status": "delivered", "via": "Email" }
 
 Escenario 2 - Reintento exitoso:
-1. Email → ✗ Fallo
-2. SMS  → ✓ Éxito
+1. Email →  Fallo
+2. SMS  →  Éxito
    Resultado: { "status": "delivered", "via": "SMS" }
 
 Escenario 3 - Fallo total:
-1. Email    → ✗ Fallo
-2. SMS      → ✗ Fallo
-3. Console  → ✗ Fallo
+1. Email    →  Fallo
+2. SMS      →  Fallo
+3. Console  →  Fallo
    Resultado: { "status": "failed" }
 ```
 
@@ -118,17 +202,19 @@ Escenario 3 - Fallo total:
 
 ### Singleton (Logger)
 
-El logger se implementa como Singleton para garantizar un registro centralizado y consistente de todos los intentos de notificación.
+El logger se implementa como Singleton para asegura que todos los componentes del sistema compartan la misma instancia del logger y evita tener múltiples instancias que podrían fragmentar el historial de logs (intentos de notificaion en un mismo lugar),util porque necesitamos rastrear toda la cadena de intentos de notificación de manera centralizada y cronológica, independientemente de qué parte del sistema esté generando los logs.
 
 **Ejemplo de uso:**
 ```python
-# Mismo logger en diferentes partes del código
-logger1 = Logger()  # Primera instancia
-logger2 = Logger()  # Misma instancia que logger1
+# Ejemplo de uso en diferentes partes del sistema
+logger1 = Logger()
+logger2 = Logger()
 
-# Registro consistente de intentos
-logger1.log("Intentando enviar por email...")  # [LOG] Intentando enviar por email...
-logger2.log("Email fallido, intentando SMS...")  # [LOG] Email fallido, intentando SMS...
+logger1.log("Intento envío por email")
+logger2.log("Email falló, intentando SMS")
+
+print(logger1.get_logs())  # Muestra ambos mensajes
+print(logger2.get_logs())  # Muestra los mismos mensajes
 ```
 
 **Ventajas del patrón:**
@@ -188,16 +274,6 @@ curl -X POST http://127.0.0.1:5000/notifications/send \
 1. Importa los endpoints anteriores en Postman.
 2. Usa los ejemplos de payload para probar el registro, listado y envío de notificaciones.
 
----
 
-## Comentarios sobre el código
-
-- El código está modularizado y bien comentado.
-- Cada clase y método tiene una responsabilidad clara.
-- El archivo `domain/notification_channels.py` contiene comentarios y nombres descriptivos para facilitar la comprensión del patrón Chain of Responsibility.
-- El logger Singleton está documentado y su uso es evidente en los canales de notificación.
-- Los endpoints están documentados y validados para entradas erróneas.
-
----
 
 
