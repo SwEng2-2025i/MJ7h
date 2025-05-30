@@ -93,6 +93,7 @@ config:
   theme: neutral
   layout: elk
   look: neo
+  adaptiveLayout: true
 ---
 classDiagram
     class HTTPHandler {
