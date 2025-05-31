@@ -1,0 +1,58 @@
+Send a notification to a specific user.
+This endpoint validates the notification body and attempts to send
+a message to the specified user via their preferred and available channels.
+---
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      id: NotificationSendRequest
+      required:
+        - user_name
+        - message
+        - priority
+      properties:
+        user_name:
+          type: string
+          description: The username of the recipient.
+          example: "john_doe"
+        message:
+          type: string
+          description: The content of the notification message.
+          example: "Your order #123 has been shipped!"
+        priority:
+          type: string
+          enum: ["High", "Normal", "Low"]
+          description: The priority level of the notification.
+          example: "High"
+responses:
+  200:
+    description: Notification processed. Indicates if successfully sent via any channel.
+    schema:
+      properties:
+        status:
+          type: string
+          example: "Notification processed"
+        successfully_sent:
+          type: string
+          enum: [true, false] # This maps to the string returned by your notification logic
+          description: Indicates if the notification was sent successfully via at least one channel.
+  400:
+    description: Bad Request - Missing required fields for notification body.
+    schema:
+      properties:
+        message:
+          type: string
+          description: Error message detailing the validation failure.
+          example: "Error: username is required"
+  404:
+    description: User not found.
+    schema:
+      properties:
+        error:
+          type: string
+          description: Error message indicating the user was not found.
+          example: "User not found in repository"
+tags:
+  - Notifications
