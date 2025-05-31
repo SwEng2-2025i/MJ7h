@@ -5,6 +5,7 @@ from extra.logger import logger
 import random
 
 app = Flask(__name__)
+
 user_store = UserStore()
 # obtener usuarios
 @app.route('/users', methods=['GET'])
@@ -31,3 +32,6 @@ def register_user():
         return jsonify({'error': 'Usuario ya existe'}), 400
 
     return jsonify({'message': f'Usuario {name} registrado.'}), 201
+
+if __name__ == '__main__':
+    app.run(debug=True)
