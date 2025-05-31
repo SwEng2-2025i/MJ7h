@@ -1,0 +1,18 @@
+---- Log started at 2025-05-30 22:26:57.822103 ----
+---- Log started at 2025-05-30 22:26:58.321728 ----
+[2025-05-30 22:27:19] User registered: John
+[2025-05-30 22:27:37] User registered: Linda
+[2025-05-30 22:27:50] Attempting to notify by sms - John: Your appointment is tomorrow. hurry
+[2025-05-30 22:27:50] Success at sms - John
+[2025-05-30 22:27:59] Attempting to notify by sms - John: Your appointment is tomorrow. hurry
+[2025-05-30 22:27:59] Failure to sms John
+[2025-05-30 22:27:59] Attempting to notify by email - John: Your appointment is tomorrow. hurry
+[2025-05-30 22:27:59] Success at email - John
+[2025-05-30 22:28:35] Attempting to notify by email - Linda: Remember to pass by the grocery store
+[2025-05-30 22:28:35] Failure to email Linda
+[2025-05-30 22:28:35] Attempting to notify by sms - Linda: Remember to pass by the grocery store
+[2025-05-30 22:28:35] Success at sms - Linda
+[2025-05-30 22:28:40] Attempting to notify by email - Linda: Remember to pass by the grocery store
+[2025-05-30 22:28:40] Failure to email Linda
+[2025-05-30 22:28:40] Attempting to notify by sms - Linda: Remember to pass by the grocery store
+[2025-05-30 22:28:40] Success at sms - Linda
