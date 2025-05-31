@@ -509,7 +509,20 @@ graph TB
 
 ### Prerequisites
 - Docker and Docker Compose installed
+- Curl for testing
 
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/SwEng2-2025i/MJ7h.git
+cd MJ7h/laboratories/laboratory_1/1000790737
+```
+
+### 2. Build and Run the Docker Container
+
+```bash
+docker-compose up --build
+```
 
 ## Test the Project
 
