@@ -1,0 +1,133 @@
+openapi: 3.0.3
+info:
+  title: Notification API
+  version: "1.0.0"
+  description: >
+    API para gestionar usuarios y enviar notificaciones a través de múltiples canales
+    como correo electrónico o SMS. 
+servers:
+  - url: http://localhost:5000
+    description: Servidor local de desarrollo
+
+tags:
+  - name: Users
+    description: Operaciones relacionadas con usuarios
+  - name: Notifications
+    description: Envío de notificaciones a usuarios
+
+paths:
+  /users:
+    post:
+      tags: [Users]
+      summary: Crear un nuevo usuario
+      description: Registra un nuevo usuario con su canal preferido y lista de canales disponibles.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+            example:
+              name: Juan
+              preferred_channel: email
+              available_channels: [email, sms]
+      responses:
+        "201":
+          description: Usuario creado correctamente
+        "400":
+          description: Petición inválida (faltan campos o datos incorrectos)
+
+    get:
+      tags: [Users]
+      summary: Listar todos los usuarios
+      description: Devuelve una lista de todos los usuarios registrados en memoria.
+      responses:
+        "200":
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+  /notifications/send:
+    post:
+      tags: [Notifications]
+      summary: Enviar una notificación a un usuario
+      description: >
+        Envía una notificación a un usuario específico. Se intenta primero con el canal preferido.
+        Si este falla, se prueban los demás canales disponibles en orden.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotificationInput"
+            example:
+              user_name: Juan
+              message: Your appointment is tomorrow.
+              priority: high
+      responses:
+        "200":
+          description: Notificación enviada exitosamente
+        "400":
+          description: Datos incompletos o malformados
+        "404":
+          description: Usuario no encontrado
+        "500":
+          description: Todos los canales fallaron
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Juan
+        preferred_channel:
+          type: string
+          example: email
+        available_channels:
+          type: array
+          items:
+            type: string
+          example: [email, sms]
+
+    UserInput:
+      type: object
+      required:
+        - name
+        - preferred_channel
+        - available_channels
+      properties:
+        name:
+          type: string
+          description: Nombre del usuario
+        preferred_channel:
+          type: string
+          description: Canal preferido de notificación (email, sms, etc.)
+        available_channels:
+          type: array
+          description: Lista de canales alternativos disponibles
+          items:
+            type: string
+
+    NotificationInput:
+      type: object
+      required:
+        - user_name
+        - message
+        - priority
+      properties:
+        user_name:
+          type: string
+          description: Nombre del usuario receptor
+        message:
+          type: string
+          description: Mensaje de la notificación
+        priority:
+          type: string
+          enum: [low, normal, high]
+          description: Nivel de prioridad de la notificación
