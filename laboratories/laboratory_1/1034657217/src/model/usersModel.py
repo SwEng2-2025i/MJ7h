@@ -19,6 +19,5 @@ class UsersModel(Singleton):
         return self.users_list[-1].to_dict()
     
     def find_user_by_name(self,name:str)->User:
-        print("user list",self.users_list)
         user = next((u for u in self.users_list if u.name == name) ,None)
         return user

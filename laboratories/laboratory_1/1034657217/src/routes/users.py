@@ -9,7 +9,7 @@ user_ns = None
 def init_user_routes(api_instance, users_model_instance_param): # Ahora recibe la INSTANCIA del UsersModel
     """
     Inicializa las rutas de usuario y los modelos de Flask-RestX.
-    Debe ser llamado desde app.py.
+    Debe ser llamado desde main.py.
     """
     global user_ns
     user_ns = api_instance.namespace('users', description='User operations')

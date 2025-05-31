@@ -3,6 +3,10 @@ from utils.logger import Logger
 from model.user import User
 import random
 
+"""
+Concrete implementation of the notification channel's handlers
+All share a similar logic
+"""
 class EmailHandler(Handler):
     def handle(self, user:User,notification:dict):
         logger = Logger()

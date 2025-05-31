@@ -12,10 +12,10 @@ class NotificationsController:
             user_name = notification_data.get('user_name')
             message = notification_data.get('message')
             priority = notification_data.get('priority')
-
+            # verificar que estén todos los campos
             if not all([user_name,message,priority]):
                 return jsonify({"error":"Missing values"}), 400
-            
+            #usa la cadena de responsabilidad
             notification_success = self.notification_service.sendNotification(notification_data)
 
             return jsonify({

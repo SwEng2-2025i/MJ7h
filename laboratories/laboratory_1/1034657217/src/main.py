@@ -1,13 +1,19 @@
 from flask import Flask
 from flask_restx import Api
 from utils.logger import Logger
-from model.usersModel import UsersModel # Importa tu UsersModel
+from model.usersModel import UsersModel 
 from services.notification_service import NotificationService
 
-# Importa las funciones de inicialización de rutas
+""""
+Application entry point
+Includes swagger logic, which makes it be
+written in a roundabout way
+"""
+# Importar las funciones de inicialización de rutas
 from routes.users import init_user_routes
 from routes.notifications import init_notification_routes
 
+# Initialize instances of singleton objects
 logger =Logger()
 logger.startLog()
 UsersModel()
@@ -18,13 +24,13 @@ api = Api(app,
           version="1.0",
           doc='/swagger-ui')
 
-# Instanciar UsersModel y obtener la lista de usuarios en memoria
+# Instance of userModel for swagger
 users_model_singleton_instance = UsersModel() 
 
-# Instanciar el NotificationService, pasándole la lista de usuarios
+# Instance of notificationService
 notification_service_instance = NotificationService()
 
-# --- Inicializar y agregar Namespaces ---
+# Add namespaces for routes and for swagger
 user_ns = init_user_routes(api, users_model_singleton_instance)
 notification_ns = init_notification_routes(api, notification_service_instance)
 

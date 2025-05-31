@@ -3,16 +3,16 @@ from flask_restx import Resource, fields
 from utils.logger import Logger
 from services.notification_service import NotificationService
 
-# Instancia NotificationService (se pasará users_data desde app.py)
+# Instancia NotificationService 
 notification_service_instance = None # Se asignará en init_notification_routes
 
-# Este namespace será inicializado en app.py
+# Este namespace será inicializado en main.py
 notification_ns = None
 
 def init_notification_routes(api_instance, service_instance):
     """
     Inicializa las rutas de notificación y los modelos de Flask-RestX.
-    Debe ser llamado desde app.py.
+    Debe ser llamado desde main.py.
     """
     global notification_ns, notification_service_instance
     notification_ns = api_instance.namespace('notifications', description='Notification operations')

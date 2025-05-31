@@ -8,6 +8,7 @@ class UserController:
 
     def get_all_users(self):
        try:
+            #lista de los usuarios
            allUsers=self.user_model.showAllUsers()
            return jsonify({
                    'users':allUsers, 
@@ -26,7 +27,7 @@ class UserController:
                 name= data.get("name")
                 preferred_channel= data.get("preferred_channel")
                 available_channels=data.get("available_channels")
-            
+            #crear diccionario con datos del nuevo usuario
             newUser = {"name":name,"preferred_channel":preferred_channel,"available_channels":available_channels}
 
             self.user_model.addUser(newUser)
