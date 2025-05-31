@@ -2,9 +2,27 @@ from flask import Flask, request, jsonify
 from models.user_store import UserStore
 from channels.builder import build_chain
 from extra.logger import logger
+from flask_swagger_ui import get_swaggerui_blueprint
 import random
 
 app = Flask(__name__)
+
+# Configuración de Swagger UI
+SWAGGER_URL = '/docs'           
+API_URL = '/static/swagger.yaml' 
+
+# Configuración de Swagger UI para la documentación de la API
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={  # optional swagger-ui config overrides
+        'app_name': "Multichannel Notification System"
+    }
+)
+
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
+
 
 user_store = UserStore()
 # obtener usuarios
@@ -22,16 +40,16 @@ def register_user():
     available = data.get('available_channels', [])
 
     if not name or not preferred or not available:
-        return jsonify({'error': 'Falta nombre, canal preferido o canales disponibles'}), 400
+        return jsonify({'error': 'The name, preferred_channel or available_channels is missing'}), 400
 
     if preferred not in available:
-        return jsonify({'error': 'El canal preferido debe estar en la lista de disponibles'}), 400
+        return jsonify({'error': 'the preferred_channel must be in the list of available'}), 400
 
     success = user_store.add_user(name, preferred, available)
     if not success:
-        return jsonify({'error': 'Usuario ya existe'}), 400
+        return jsonify({'error': 'User already exist'}), 400
 
-    return jsonify({'message': f'Usuario {name} registrado.'}), 201
+    return jsonify({'message': f'user {name} registered.'}), 201
 
 # notificaciones 
 
@@ -43,10 +61,10 @@ def send_notification():
     priority = data.get('priority', 'normal')
     # verificacion vasica de contenido
     if not user_name or not message:
-        return jsonify({'error': 'Falta user_name o message'}), 400
+        return jsonify({'error': 'miss user_name or message'}), 400
     user = user_store.get_user(user_name)
     if not user:
-        return jsonify({'error': 'Usuario no encontrado'}), 404
+        return jsonify({'error': 'user not found'}), 404
     
     # Verificamos que el usuario tenga canales disponibles
     chain = build_chain(user['available_channels'], user['preferred_channel'])

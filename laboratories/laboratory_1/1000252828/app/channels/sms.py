@@ -4,4 +4,4 @@ class SMSChannel(ChannelHandler):
         super().__init__('sms')
     # Método para enviar un mensaje SMS
     def send(self, user_name, message):
-        print(f"Enviando SMS a {user_name}: {message}")
+        print(f"sent SMS to {user_name}: {message}")

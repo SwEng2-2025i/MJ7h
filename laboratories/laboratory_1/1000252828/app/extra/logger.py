@@ -18,7 +18,7 @@ class NotificationLogger:
         }
         # Agregar el registro a la lista de registros
         self.records.append(record)
-        print(f"[LOG] Usuario: {user_name}, Canal: {channel}, Éxito: {success}")
+        print(f"[LOG] user: {user_name}, channel: {channel}, success: {success}")
     # Obtiene todos los registros de notificación
     def get_logs(self):
         return list(self.records)

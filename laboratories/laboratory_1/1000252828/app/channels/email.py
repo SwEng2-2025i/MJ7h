@@ -5,4 +5,4 @@ class EmailChannel(ChannelHandler):
         super().__init__('email')
     #cambia el mensaje y ya
     def send(self, user_name, message):
-        print(f"Enviando email a {user_name}: {message}")
+        print(f"send email to {user_name}: {message}")
