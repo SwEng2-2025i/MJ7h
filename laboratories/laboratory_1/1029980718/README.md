@@ -7,22 +7,22 @@
 
 ## 📝 Descripción general
 
-Este sistema permite registrar usuarios con múltiples canales de notificación (email, SMS, consola) y enviar mensajes utilizando el canal preferido. Si el canal falla (simulado aleatoriamente), se utiliza un canal alternativo disponible mediante el patrón **Chain of Responsibility**.
-
-Incluye documentación Swagger para explorar y probar los endpoints fácilmente desde el navegador.
+Este proyecto implementa una API REST para un sistema de notificaciones multicanal. Permite a los usuarios registrarse y definir sus canales de comunicación preferidos (email, SMS, consola). Las notificaciones se envían prioritariamente a través del canal preferido del usuario. En caso de fallo (simulado aleatoriamente), el sistema utiliza un mecanismo de fallback basado en el patrón de diseño Chain of Responsibility para intentar la entrega a través de los canales alternativos disponibles. La API está documentada con Swagger, facilitando su exploración y prueba directamente desde el navegador.
 
 ---
 
 ## 🎯 Funcionalidades
 
-- Registrar usuarios con canales de notificación preferidos y alternativos.
-- Enviar notificaciones que se enrutan automáticamente a través de una cadena de canales.
-- Registrar cada intento de notificación con un **logger Singleton**.
+- Registro de usuarios con canales de notificación preferidos y alternativos.
+- Envío de notificaciones que se enrutan automáticamente a través de una cadena de canales.
+- Registro de cada intento de notificación con un **logger Singleton**.
+- Implementación del patrón Chain of Responsibility para el manejo de notificaciones.
+- Implementación del patrón Singleton para el manejo de la clase Logger.
 - API REST construida con Flask y documentada con Swagger.
 
 ---
 
-## ⚙️ Endpoints REST
+## ⚙️ Endpoints
 
 | Método | Ruta                  | Descripción                          |
 | ------ | --------------------- | ------------------------------------ |
