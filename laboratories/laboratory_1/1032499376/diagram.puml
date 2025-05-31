@@ -1,0 +1,96 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam classBackgroundColor white
+
+'────────────────── Clases ───────────────────
+class User {
+  - id : str
+  - name : str
+  - preferred_channel : ChannelType
+  - backup_channels : List<ChannelType>
+  --
+  + create(name, preferred, backups) : User
+}
+
+class Notification {
+  - id : str
+  - user : User
+  - message : str
+  - created_at : datetime
+  --
+  + create(user, message) : Notification
+}
+
+class EventLogger <<singleton>> {
+  - _instance : EventLogger
+  --
+  + info(msg)
+  + warning(msg)
+  + error(msg)
+}
+
+enum ChannelType {
+  EMAIL
+  SMS
+  CONSOLE
+}
+
+abstract class ChannelHandler {
+  - _next : ChannelHandler
+  --
+  + set_next(handler) : ChannelHandler
+  + handle(notification) : bool
+  # _send(notification) : bool
+}
+
+class EmailHandler {
+  --
+  # _send(notification) : bool
+}
+
+class SMSHandler {
+  --
+  # _send(notification) : bool
+}
+
+class ConsoleHandler {
+  --
+  # _send(notification) : bool
+}
+
+class ChainBuilder <<static>> {
+  --
+  + build_chain_for(user) : ChannelHandler
+  + handler_factory(channel) : ChannelHandler
+}
+
+class UserResource {
+  --
+  + post()
+  + get()
+}
+
+class NotificationSendResource {
+  --
+  + post()
+}
+
+'────────────────── Relaciones ───────────────
+ChannelHandler <|-- EmailHandler
+ChannelHandler <|-- SMSHandler
+ChannelHandler <|-- ConsoleHandler
+
+UserResource --> User
+UserResource --> ChannelType
+
+NotificationSendResource --> Notification
+NotificationSendResource ..> EventLogger
+NotificationSendResource ..> ChainBuilder
+NotificationSendResource ..> ChannelType
+
+ChannelHandler ..> EventLogger
+ChainBuilder ..> ChannelHandler
+
+User "1" o-- "*" Notification
+@enduml

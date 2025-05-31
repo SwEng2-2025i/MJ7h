@@ -1,0 +1,266 @@
+2025-05-30 13:10:30,488 | Notif:025eed15-bcae-4147-98a4-499c1d223e19 | To:Juan | Priority:high | Delivered:True
+2025-05-30 13:10:30,489 | 127.0.0.1 - - [30/May/2025 13:10:30] "POST /notifications/send HTTP/1.1" 200 -
+2025-05-30 13:30:21,312 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\core\\logger.py', reloading
+2025-05-30 13:34:41 |  * Debugger is active!
+2025-05-30 13:34:41 |  * Debugger PIN: 420-294-270
+2025-05-30 13:34:52 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\core\\patterns\\chain.py', reloading
+2025-05-30 13:34:52 |  * Debugger is active!
+2025-05-30 13:34:52 |  * Debugger PIN: 420-294-270
+2025-05-30 13:34:59 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\core\\patterns\\chain.py', reloading
+2025-05-30 13:34:59 |  * Debugger is active!
+2025-05-30 13:34:59 |  * Debugger PIN: 420-294-270
+2025-05-30 13:35:06 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\core\\patterns\\chain.py', reloading
+2025-05-30 13:35:06 |  * Debugger is active!
+2025-05-30 13:35:06 |  * Debugger PIN: 420-294-270
+2025-05-30 13:35:45 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\resources\\notification.py', reloading
+2025-05-30 13:35:46 |  * Debugger is active!
+2025-05-30 13:35:46 |  * Debugger PIN: 420-294-270
+2025-05-30 13:36:07 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\resources\\notification.py', reloading
+2025-05-30 13:36:07 |  * Debugger is active!
+2025-05-30 13:36:07 |  * Debugger PIN: 420-294-270
+2025-05-30 13:36:12 | 127.0.0.1 - - [30/May/2025 13:36:12] "[33mPOST /notifications/send HTTP/1.1[0m" 404 -
+2025-05-30 13:36:24 | 127.0.0.1 - - [30/May/2025 13:36:24] "GET /users HTTP/1.1" 200 -
+2025-05-30 13:36:42 | 127.0.0.1 - - [30/May/2025 13:36:42] "[35m[1mPOST /users HTTP/1.1[0m" 201 -
+2025-05-30 13:36:48 | 127.0.0.1 - - [30/May/2025 13:36:48] "GET /users HTTP/1.1" 200 -
+2025-05-30 13:37:08 | 127.0.0.1 - - [30/May/2025 13:37:08] "[35m[1mPOST /notifications/send HTTP/1.1[0m" 500 -
+2025-05-30 13:39:56 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\core\\patterns\\chain.py', reloading
+2025-05-30 13:39:56 |  * Debugger is active!
+2025-05-30 13:39:56 |  * Debugger PIN: 420-294-270
+2025-05-30 13:40:06 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\core\\patterns\\chain.py', reloading
+2025-05-30 13:40:06 |  * Debugger is active!
+2025-05-30 13:40:06 |  * Debugger PIN: 420-294-270
+2025-05-30 13:40:50 | 127.0.0.1 - - [30/May/2025 13:40:50] "GET /users HTTP/1.1" 200 -
+2025-05-30 13:40:53 | 127.0.0.1 - - [30/May/2025 13:40:53] "[35m[1mPOST /users HTTP/1.1[0m" 201 -
+2025-05-30 13:41:02 | TRY  | notif=e8606d47-aa84-4c6d-87af-6a85f9c06004 | channel=EMAIL   | result=FAIL
+2025-05-30 13:41:02 | TRY  | notif=e8606d47-aa84-4c6d-87af-6a85f9c06004 | channel=EMAIL   | result=FAIL
+2025-05-30 13:41:02 | TRY  | notif=e8606d47-aa84-4c6d-87af-6a85f9c06004 | channel=SMS     | result=OK
+2025-05-30 13:41:02 | END  | notif=e8606d47-aa84-4c6d-87af-6a85f9c06004 | user=Juan | priority=high | delivered=True
+2025-05-30 13:41:02 | 127.0.0.1 - - [30/May/2025 13:41:02] "POST /notifications/send HTTP/1.1" 200 -
+2025-05-30 13:47:04 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\core\\patterns\\chain.py', reloading
+2025-05-30 13:49:57 | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-30 13:49:57 | [33mPress CTRL+C to quit[0m
+2025-05-30 13:49:57 |  * Restarting with stat
+2025-05-30 13:49:57 |  * Debugger is active!
+2025-05-30 13:49:57 |  * Debugger PIN: 420-294-270
+2025-05-30 13:50:35 | 127.0.0.1 - - [30/May/2025 13:50:35] "GET /users HTTP/1.1" 200 -
+2025-05-30 13:50:39 | 127.0.0.1 - - [30/May/2025 13:50:39] "[35m[1mPOST /users HTTP/1.1[0m" 201 -
+2025-05-30 13:50:42 | TRY  | notif=32e42657-c9df-4055-8aa1-e09ae91bfc8b | channel=EMAIL   | result=OK
+2025-05-30 13:50:42 | END  | notif=32e42657-c9df-4055-8aa1-e09ae91bfc8b | user=Juan | priority=high | delivered=True
+2025-05-30 13:50:42 | 127.0.0.1 - - [30/May/2025 13:50:42] "POST /notifications/send HTTP/1.1" 200 -
+2025-05-30 13:52:12 | TRY  | notif=4645d680-ab81-4edf-84ca-34702bccc16e | channel=EMAIL   | result=FAIL
+2025-05-30 13:52:12 | TRY  | notif=4645d680-ab81-4edf-84ca-34702bccc16e | channel=SMS     | result=OK
+2025-05-30 13:52:12 | END  | notif=4645d680-ab81-4edf-84ca-34702bccc16e | user=Juan | priority=high | delivered=True
+2025-05-30 13:52:12 | 127.0.0.1 - - [30/May/2025 13:52:12] "POST /notifications/send HTTP/1.1" 200 -
+2025-05-30 13:52:17 | TRY  | notif=c2a77016-ac33-428d-b43a-2f45e6830c53 | channel=EMAIL   | result=OK
+2025-05-30 13:52:17 | END  | notif=c2a77016-ac33-428d-b43a-2f45e6830c53 | user=Juan | priority=high | delivered=True
+2025-05-30 13:52:17 | 127.0.0.1 - - [30/May/2025 13:52:17] "POST /notifications/send HTTP/1.1" 200 -
+2025-05-30 14:00:01 | 127.0.0.1 - - [30/May/2025 14:00:01] "[33mGET /apidocuments/ HTTP/1.1[0m" 404 -
+2025-05-30 14:00:21 | 127.0.0.1 - - [30/May/2025 14:00:21] "[33mGET /apidocs/ HTTP/1.1[0m" 404 -
+2025-05-30 14:01:42 | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-30 14:01:42 | [33mPress CTRL+C to quit[0m
+2025-05-30 14:01:42 |  * Restarting with stat
+2025-05-30 14:01:42 |  * Debugger is active!
+2025-05-30 14:01:42 |  * Debugger PIN: 420-294-270
+2025-05-30 14:01:43 | 127.0.0.1 - - [30/May/2025 14:01:43] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 14:01:43 | 127.0.0.1 - - [30/May/2025 14:01:43] "GET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1" 200 -
+2025-05-30 14:01:43 | 127.0.0.1 - - [30/May/2025 14:01:43] "GET /flasgger_static/swagger-ui.css HTTP/1.1" 200 -
+2025-05-30 14:01:43 | 127.0.0.1 - - [30/May/2025 14:01:43] "GET /flasgger_static/lib/jquery.min.js HTTP/1.1" 200 -
+2025-05-30 14:01:43 | 127.0.0.1 - - [30/May/2025 14:01:43] "GET /flasgger_static/swagger-ui-bundle.js HTTP/1.1" 200 -
+2025-05-30 14:01:43 | 127.0.0.1 - - [30/May/2025 14:01:43] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 14:01:44 | 127.0.0.1 - - [30/May/2025 14:01:44] "GET /flasgger_static/favicon-32x32.png HTTP/1.1" 200 -
+2025-05-30 14:05:06 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\resources\\user.py', reloading
+2025-05-30 14:05:06 |  * Restarting with stat
+2025-05-30 14:05:06 |  * Debugger is active!
+2025-05-30 14:05:06 |  * Debugger PIN: 420-294-270
+2025-05-30 14:05:17 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\resources\\user.py', reloading
+2025-05-30 14:05:17 |  * Restarting with stat
+2025-05-30 14:05:17 |  * Debugger is active!
+2025-05-30 14:05:17 |  * Debugger PIN: 420-294-270
+2025-05-30 14:05:32 | 127.0.0.1 - - [30/May/2025 14:05:32] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 14:05:33 | 127.0.0.1 - - [30/May/2025 14:05:33] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 14:05:33 | 127.0.0.1 - - [30/May/2025 14:05:33] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 14:05:33 | 127.0.0.1 - - [30/May/2025 14:05:33] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 14:05:33 | 127.0.0.1 - - [30/May/2025 14:05:33] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 14:05:33 | 127.0.0.1 - - [30/May/2025 14:05:33] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 14:05:33 | 127.0.0.1 - - [30/May/2025 14:05:33] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-05-30 14:05:45 | 127.0.0.1 - - [30/May/2025 14:05:45] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 14:05:45 | 127.0.0.1 - - [30/May/2025 14:05:45] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 14:05:45 | 127.0.0.1 - - [30/May/2025 14:05:45] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 14:05:45 | 127.0.0.1 - - [30/May/2025 14:05:45] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 14:05:45 | 127.0.0.1 - - [30/May/2025 14:05:45] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 14:05:45 | 127.0.0.1 - - [30/May/2025 14:05:45] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 14:05:45 | 127.0.0.1 - - [30/May/2025 14:05:45] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-05-30 14:07:27 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\resources\\user.py', reloading
+2025-05-30 14:07:27 |  * Restarting with stat
+2025-05-30 14:07:28 |  * Debugger is active!
+2025-05-30 14:07:28 |  * Debugger PIN: 420-294-270
+2025-05-30 14:07:29 | 127.0.0.1 - - [30/May/2025 14:07:29] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 14:07:29 | 127.0.0.1 - - [30/May/2025 14:07:29] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 14:07:29 | 127.0.0.1 - - [30/May/2025 14:07:29] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 14:07:29 | 127.0.0.1 - - [30/May/2025 14:07:29] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 14:07:29 | 127.0.0.1 - - [30/May/2025 14:07:29] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 14:07:29 | 127.0.0.1 - - [30/May/2025 14:07:29] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 14:07:29 | 127.0.0.1 - - [30/May/2025 14:07:29] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-05-30 14:26:51 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\resources\\user.py', reloading
+2025-05-30 14:26:51 |  * Restarting with stat
+2025-05-30 14:27:10 | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-30 14:27:10 | [33mPress CTRL+C to quit[0m
+2025-05-30 14:27:10 |  * Restarting with stat
+2025-05-30 14:27:10 |  * Debugger is active!
+2025-05-30 14:27:10 |  * Debugger PIN: 420-294-270
+2025-05-30 14:27:54 | 127.0.0.1 - - [30/May/2025 14:27:54] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 14:27:55 | 127.0.0.1 - - [30/May/2025 14:27:55] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 14:27:55 | 127.0.0.1 - - [30/May/2025 14:27:55] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 14:27:55 | 127.0.0.1 - - [30/May/2025 14:27:55] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 14:27:55 | 127.0.0.1 - - [30/May/2025 14:27:55] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 14:27:55 | 127.0.0.1 - - [30/May/2025 14:27:55] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 14:27:55 | 127.0.0.1 - - [30/May/2025 14:27:55] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-05-30 14:31:45 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\resources\\user.py', reloading
+2025-05-30 14:31:45 |  * Restarting with stat
+2025-05-30 14:31:46 |  * Debugger is active!
+2025-05-30 14:31:46 |  * Debugger PIN: 420-294-270
+2025-05-30 14:32:27 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\resources\\user.py', reloading
+2025-05-30 14:32:27 |  * Restarting with stat
+2025-05-30 14:32:27 |  * Debugger is active!
+2025-05-30 14:32:27 |  * Debugger PIN: 420-294-270
+2025-05-30 14:32:28 | 127.0.0.1 - - [30/May/2025 14:32:28] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 14:32:28 | 127.0.0.1 - - [30/May/2025 14:32:28] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 14:32:28 | 127.0.0.1 - - [30/May/2025 14:32:28] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 14:32:29 | 127.0.0.1 - - [30/May/2025 14:32:29] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 14:32:29 | 127.0.0.1 - - [30/May/2025 14:32:29] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 14:32:29 | 127.0.0.1 - - [30/May/2025 14:32:29] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 14:32:29 | 127.0.0.1 - - [30/May/2025 14:32:29] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-05-30 14:32:35 | 127.0.0.1 - - [30/May/2025 14:32:35] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 14:32:35 | 127.0.0.1 - - [30/May/2025 14:32:35] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 14:32:35 | 127.0.0.1 - - [30/May/2025 14:32:35] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 14:32:35 | 127.0.0.1 - - [30/May/2025 14:32:35] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 14:32:35 | 127.0.0.1 - - [30/May/2025 14:32:35] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 14:32:35 | 127.0.0.1 - - [30/May/2025 14:32:35] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 14:38:09 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\resources\\user.py', reloading
+2025-05-30 14:38:09 |  * Restarting with stat
+2025-05-30 14:38:09 |  * Debugger is active!
+2025-05-30 14:38:09 |  * Debugger PIN: 420-294-270
+2025-05-30 14:38:16 | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-30 14:38:16 | [33mPress CTRL+C to quit[0m
+2025-05-30 14:38:16 |  * Restarting with stat
+2025-05-30 14:38:16 |  * Debugger is active!
+2025-05-30 14:38:16 |  * Debugger PIN: 420-294-270
+2025-05-30 14:38:24 | 127.0.0.1 - - [30/May/2025 14:38:24] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 14:38:25 | 127.0.0.1 - - [30/May/2025 14:38:25] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 14:38:25 | 127.0.0.1 - - [30/May/2025 14:38:25] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 14:38:25 | 127.0.0.1 - - [30/May/2025 14:38:25] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 14:38:25 | 127.0.0.1 - - [30/May/2025 14:38:25] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 14:38:25 | 127.0.0.1 - - [30/May/2025 14:38:25] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 14:38:25 | 127.0.0.1 - - [30/May/2025 14:38:25] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-05-30 14:38:30 | 127.0.0.1 - - [30/May/2025 14:38:30] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 14:38:30 | 127.0.0.1 - - [30/May/2025 14:38:30] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 14:38:30 | 127.0.0.1 - - [30/May/2025 14:38:30] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 14:38:30 | 127.0.0.1 - - [30/May/2025 14:38:30] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 14:38:30 | 127.0.0.1 - - [30/May/2025 14:38:30] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 14:38:30 | 127.0.0.1 - - [30/May/2025 14:38:30] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 14:38:30 | 127.0.0.1 - - [30/May/2025 14:38:30] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-05-30 14:40:31 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\resources\\user.py', reloading
+2025-05-30 14:40:31 |  * Restarting with stat
+2025-05-30 14:40:31 |  * Debugger is active!
+2025-05-30 14:40:31 |  * Debugger PIN: 420-294-270
+2025-05-30 14:40:36 | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-30 14:40:36 | [33mPress CTRL+C to quit[0m
+2025-05-30 14:40:36 |  * Restarting with stat
+2025-05-30 14:40:36 |  * Debugger is active!
+2025-05-30 14:40:36 |  * Debugger PIN: 420-294-270
+2025-05-30 14:40:40 | 127.0.0.1 - - [30/May/2025 14:40:40] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 14:40:40 | 127.0.0.1 - - [30/May/2025 14:40:40] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 14:40:40 | 127.0.0.1 - - [30/May/2025 14:40:40] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 14:40:40 | 127.0.0.1 - - [30/May/2025 14:40:40] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 14:40:40 | 127.0.0.1 - - [30/May/2025 14:40:40] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 14:40:40 | 127.0.0.1 - - [30/May/2025 14:40:40] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 14:40:40 | 127.0.0.1 - - [30/May/2025 14:40:40] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-05-30 14:43:58 | 127.0.0.1 - - [30/May/2025 14:43:58] "GET /users HTTP/1.1" 200 -
+2025-05-30 14:44:08 | 127.0.0.1 - - [30/May/2025 14:44:08] "[35m[1mPOST /users HTTP/1.1[0m" 201 -
+2025-05-30 14:44:10 | 127.0.0.1 - - [30/May/2025 14:44:10] "GET /users HTTP/1.1" 200 -
+2025-05-30 14:49:03 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\resources\\notification.py', reloading
+2025-05-30 14:49:03 |  * Restarting with stat
+2025-05-30 14:49:04 |  * Debugger is active!
+2025-05-30 14:49:04 |  * Debugger PIN: 420-294-270
+2025-05-30 14:49:05 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\resources\\notification.py', reloading
+2025-05-30 14:49:05 |  * Restarting with stat
+2025-05-30 14:49:05 |  * Debugger is active!
+2025-05-30 14:49:05 |  * Debugger PIN: 420-294-270
+2025-05-30 14:49:12 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\resources\\notification.py', reloading
+2025-05-30 14:49:12 |  * Restarting with stat
+2025-05-30 14:49:12 |  * Debugger is active!
+2025-05-30 14:49:12 |  * Debugger PIN: 420-294-270
+2025-05-30 14:49:12 | 127.0.0.1 - - [30/May/2025 14:49:12] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 14:49:13 | 127.0.0.1 - - [30/May/2025 14:49:13] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 14:49:13 | 127.0.0.1 - - [30/May/2025 14:49:13] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 14:49:13 | 127.0.0.1 - - [30/May/2025 14:49:13] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 14:49:13 | 127.0.0.1 - - [30/May/2025 14:49:13] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 14:49:13 | 127.0.0.1 - - [30/May/2025 14:49:13] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 14:49:13 | 127.0.0.1 - - [30/May/2025 14:49:13] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-05-30 14:49:44 | 127.0.0.1 - - [30/May/2025 14:49:44] "[31m[1mPOST /notifications/send HTTP/1.1[0m" 400 -
+2025-05-30 14:49:45 | 127.0.0.1 - - [30/May/2025 14:49:45] "[31m[1mPOST /notifications/send HTTP/1.1[0m" 400 -
+2025-05-30 14:50:03 | 127.0.0.1 - - [30/May/2025 14:50:03] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 14:50:03 | 127.0.0.1 - - [30/May/2025 14:50:03] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 14:50:03 | 127.0.0.1 - - [30/May/2025 14:50:03] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 14:50:03 | 127.0.0.1 - - [30/May/2025 14:50:03] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 14:50:03 | 127.0.0.1 - - [30/May/2025 14:50:03] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 14:50:03 | 127.0.0.1 - - [30/May/2025 14:50:03] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 14:50:03 | 127.0.0.1 - - [30/May/2025 14:50:03] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-05-30 14:50:06 | 127.0.0.1 - - [30/May/2025 14:50:06] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 14:50:06 | 127.0.0.1 - - [30/May/2025 14:50:06] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 14:50:06 | 127.0.0.1 - - [30/May/2025 14:50:06] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 14:50:06 | 127.0.0.1 - - [30/May/2025 14:50:06] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 14:50:06 | 127.0.0.1 - - [30/May/2025 14:50:06] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 14:50:06 | 127.0.0.1 - - [30/May/2025 14:50:06] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 14:50:06 | 127.0.0.1 - - [30/May/2025 14:50:06] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-05-30 14:50:10 | 127.0.0.1 - - [30/May/2025 14:50:10] "[33mPOST /notifications/send HTTP/1.1[0m" 404 -
+2025-05-30 14:50:23 | 127.0.0.1 - - [30/May/2025 14:50:23] "GET /users HTTP/1.1" 200 -
+2025-05-30 14:50:44 | 127.0.0.1 - - [30/May/2025 14:50:44] "[35m[1mPOST /users HTTP/1.1[0m" 201 -
+2025-05-30 14:53:46 | 127.0.0.1 - - [30/May/2025 14:53:46] "GET /users HTTP/1.1" 200 -
+2025-05-30 14:53:49 | 127.0.0.1 - - [30/May/2025 14:53:49] "[31m[1mPOST /users HTTP/1.1[0m" 400 -
+2025-05-30 14:54:09 | 127.0.0.1 - - [30/May/2025 14:54:09] "[35m[1mPOST /users HTTP/1.1[0m" 201 -
+2025-05-30 14:54:15 | 127.0.0.1 - - [30/May/2025 14:54:15] "GET /users HTTP/1.1" 200 -
+2025-05-30 14:54:24 | TRY  | notif=9166cc31-518f-4eea-a088-85f48189361a | channel=EMAIL   | result=OK
+2025-05-30 14:54:24 | END  | notif=9166cc31-518f-4eea-a088-85f48189361a | user=Juan | priority=normal | delivered=True
+2025-05-30 14:54:24 | 127.0.0.1 - - [30/May/2025 14:54:24] "POST /notifications/send HTTP/1.1" 200 -
+2025-05-30 14:59:03 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\API\\main.py', reloading
+2025-05-30 14:59:03 |  * Restarting with stat
+2025-05-30 14:59:03 |  * Debugger is active!
+2025-05-30 14:59:03 |  * Debugger PIN: 420-294-270
+2025-05-30 14:59:07 | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-30 14:59:07 | [33mPress CTRL+C to quit[0m
+2025-05-30 14:59:07 |  * Restarting with stat
+2025-05-30 14:59:08 |  * Debugger is active!
+2025-05-30 14:59:08 |  * Debugger PIN: 420-294-270
+2025-05-30 15:20:52 | 127.0.0.1 - - [30/May/2025 15:20:52] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 15:20:53 | 127.0.0.1 - - [30/May/2025 15:20:53] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 15:20:53 | 127.0.0.1 - - [30/May/2025 15:20:53] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 15:20:53 | 127.0.0.1 - - [30/May/2025 15:20:53] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 15:20:53 | 127.0.0.1 - - [30/May/2025 15:20:53] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 15:20:53 | 127.0.0.1 - - [30/May/2025 15:20:53] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 15:20:53 | 127.0.0.1 - - [30/May/2025 15:20:53] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-05-30 15:33:12 | 127.0.0.1 - - [30/May/2025 15:33:12] "[35m[1mPOST /users HTTP/1.1[0m" 201 -
+2025-05-30 15:34:27 | 127.0.0.1 - - [30/May/2025 15:34:27] "GET /users HTTP/1.1" 200 -
+2025-05-30 15:34:30 | 127.0.0.1 - - [30/May/2025 15:34:30] "GET /users HTTP/1.1" 200 -
+2025-05-30 15:34:54 | TRY  | notif=15dc3494-da81-4426-a50b-dc08f4cbfbb6 | channel=EMAIL   | result=FAIL
+2025-05-30 15:34:54 | TRY  | notif=15dc3494-da81-4426-a50b-dc08f4cbfbb6 | channel=SMS     | result=OK
+2025-05-30 15:34:54 | END  | notif=15dc3494-da81-4426-a50b-dc08f4cbfbb6 | user=Juan | priority=high | delivered=True
+2025-05-30 15:34:54 | 127.0.0.1 - - [30/May/2025 15:34:54] "POST /notifications/send HTTP/1.1" 200 -
+2025-05-30 15:52:56 |  * Detected change in 'D:\\Nicolás Zuluaga\\99. U\\Semetre 17\\Ingeniería de Software 2\\Laboratorio\\Laboratorio 1\\core\\patterns\\chain.py', reloading
+2025-05-30 15:52:56 |  * Restarting with stat
+2025-05-30 15:52:57 |  * Debugger is active!
+2025-05-30 15:52:57 |  * Debugger PIN: 420-294-270
+2025-05-30 16:33:41 | 127.0.0.1 - - [30/May/2025 16:33:41] "GET /apidocs/ HTTP/1.1" 200 -
+2025-05-30 16:33:41 | 127.0.0.1 - - [30/May/2025 16:33:41] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-05-30 16:33:41 | 127.0.0.1 - - [30/May/2025 16:33:41] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-05-30 16:33:41 | 127.0.0.1 - - [30/May/2025 16:33:41] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-05-30 16:33:41 | 127.0.0.1 - - [30/May/2025 16:33:41] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-05-30 16:33:42 | 127.0.0.1 - - [30/May/2025 16:33:42] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-05-30 16:33:50 | 127.0.0.1 - - [30/May/2025 16:33:50] "[35m[1mPOST /users HTTP/1.1[0m" 201 -
+2025-05-30 16:33:59 | 127.0.0.1 - - [30/May/2025 16:33:59] "GET /users HTTP/1.1" 200 -
