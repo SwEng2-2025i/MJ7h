@@ -63,6 +63,101 @@ The API exposes the following endpoints:
 
 ## Class/Module diagram
 
+```mermaid
+---
+config:
+  theme: dark
+  layout: elk
+  look: neo
+  adaptiveLayout: true
+---
+classDiagram
+    direction LR
+
+    class Singleton {
+        -_instance
+        +__new__()
+    }
+
+    class User {
+        +name: str
+        +preferred_channel: str
+        +available_channels: list<str>
+        +__init__(name, preferred_channel, available_channels)
+        +to_dict(): dict
+    }
+
+    class UsersModel {
+        -users_list: list<User>
+        -_initialized: bool
+        +__init__()
+        +addUser(newUser: dict)
+        +showAllUsers(): list<dict>
+        +lastUser(): dict
+        +find_user_by_name(name: str): User
+    }
+
+    class Logger {
+        -log_file: TextIO
+        +__init__()
+        +log(message: str)
+    }
+
+    class ChannelHandler {
+        _next_handler: ChannelHandler
+        +set_next(handler: ChannelHandler): ChannelHandler
+        +handle(user: User, notification: dict): bool
+        +~_do_handle(user: User, notification: dict): bool
+    }
+
+    class EmailHandler
+    class SMSHandler
+    class ConsoleHandler
+
+    class NotificationService {
+        -userModel: UsersModel
+        -handlers: dict<str, ChannelHandler>
+        +__init__(users_model_instance: UsersModel)
+        +userExists(name: str): User
+        +_checkUserPreferredChannel(user: User): bool
+        +_buildNotificationChain(user: User): tuple<ChannelHandler, list<str>>
+        +sendNotification(notification: dict): tuple<bool, str>
+    }
+
+
+    UsersModel --|> Singleton
+    Logger --|> Singleton
+
+    UsersModel "1" o-- "*" User : contains
+
+    NotificationService "1" --> "1" UsersModel : uses
+    NotificationService "1" --> "1" ChannelHandler : holds handlers
+
+    EmailHandler --|> ChannelHandler
+    SMSHandler --|> ChannelHandler
+    ConsoleHandler --|> ChannelHandler
+
+    ChannelHandler "1" --> "0..1" ChannelHandler : _next_handler
+
+
+    NotificationService ..> User : uses
+    NotificationService ..> Logger : logs
+    ChannelHandler ..> Logger : logs
+
+```
+
+### Detailed folder structure
+
+| Folder/File                        | Classes / Functions                                 | Responsibility                                                                       |
+| ---------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `controllers/`                     | `notifications_controller.py`, `user_controller.py` | Implements bussiness logic                                                           |
+| `patterns/`                        | `channel_handler.py`, `singleton.py`                | Templates of design patterns to be implemented                                       |
+| `models`                           | `user.py`, `usersModel.py`                          | Handles user data manipulation (storage, retrieval)                                  |
+| `services/notification_service.py` | `NotificationService`                               | Implements notification sending logic via chain of responsability                    |
+| `routes/`                          | `users.py`, `notifications.py`                      | Separation of concern of endpoints for user and notification. Includes swagger logic |
+| `utils/`                           | `handler.py`, `logger.py`                           | Application utilities                                                                |
+| `main.py`                          | -                                                   | Application bootstrap and main file                                                  |
+
 ## Design Pattern Justifications
 
 This system leverages two key design patterns to ensure modularity, flexibility,
@@ -163,6 +258,9 @@ python main.py
 ```
 
 ### 5. Access Swagger Documentation
+
+Once the app is running, you can check out the swagger documentation in
+`http://localhost:5000/swagger-ui`
 
 ### 6. Testing the API with curl
 
