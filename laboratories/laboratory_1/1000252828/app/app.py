@@ -61,7 +61,7 @@ def send_notification():
     priority = data.get('priority', 'normal')
     # verificacion vasica de contenido
     if not user_name or not message:
-        return jsonify({'error': 'miss user_name or message'}), 400
+        return jsonify({'error': 'Missing user_name or message'}), 400
     user = user_store.get_user(user_name)
     if not user:
         return jsonify({'error': 'user not found'}), 404

@@ -12,9 +12,6 @@ paths:
   /users:
     post:
       summary: Register a new user
-      description: >
-        Create a user with a name, preferred channel, and a list of available channels.
-        The preferred channel must be one of the available channels.
       requestBody:
         required: true
         content:
@@ -25,7 +22,7 @@ paths:
                 name:
                   type: string
                   example: Juan
-                  description: The full name of the user
+                  description: The user's name
                 preferred_channel:
                   type: string
                   enum: [email, sms, console]
@@ -39,7 +36,7 @@ paths:
                   example:
                     - email
                     - sms
-                  description: List of channels the user can receive notifications on
+                  description: List of channels available for this user
               required:
                 - name
                 - preferred_channel
@@ -54,8 +51,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: "Usuario Juan registrado."
-                    description:  success message indicating registration
+                    example: "User Juan registered."
         "400":
           description: Bad request (e.g., missing fields or preferred channel not in list)
           content:
@@ -65,12 +61,9 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: "Falta nombre, canal preferido o canales disponibles"
-                    description:  error message for missing data
-
+                    example: "Missing name, preferred channel, or available channels"
     get:
       summary: List all users
-      description: Retrieve a list of all registered users, including their preferred and available channels.
       responses:
         "200":
           description: Array of registered users
@@ -87,11 +80,9 @@ paths:
                         name:
                           type: string
                           example: Juan
-                          description: User's name
                         preferred_channel:
                           type: string
                           example: email
-                          description: User's preferred channel
                         available_channels:
                           type: array
                           items:
@@ -99,15 +90,10 @@ paths:
                           example:
                             - email
                             - sms
-                          description: List of channels available to user
 
   /notifications/send:
     post:
       summary: Send a notification to a user
-      description: >
-        Attempt to send a notification message to the specified user. 
-        The system will first try the user’s preferred channel; if it fails, 
-        it will move down the chain of available channels until delivery succeeds or all channels fail.
       requestBody:
         required: true
         content:
@@ -118,22 +104,22 @@ paths:
                 user_name:
                   type: string
                   example: Juan
-                  description: The name of the registered user
+                  description: The name of the user to notify
                 message:
                   type: string
                   example: "Your appointment is tomorrow."
-                  description: The notification message to send 
+                  description: The notification content
                 priority:
                   type: string
                   enum: [low, normal, high]
                   example: high
-                  description: The priority level of the notification
+                  description: Priority level of the notification
               required:
                 - user_name
                 - message
       responses:
         "200":
-          description: Result of notification delivery attempts
+          description: Notification delivery result
           content:
             application/json:
               schema:
@@ -142,17 +128,16 @@ paths:
                   delivered:
                     type: boolean
                     example: true
-                    description: Indicates if any channel succeeded
+                    description: Whether any channel succeeded
                   attempts:
                     type: array
-                    description: List of each channel attempt and its outcome
                     items:
                       type: object
                       properties:
                         channel:
                           type: string
                           example: email
-                          description: Channel that was attempted
+                          description: Channel name attempted
                         success:
                           type: boolean
                           example: false
@@ -162,7 +147,7 @@ paths:
                     example: high
                     description: The priority of the notification
         "400":
-          description: Bad request (e.g., missing user_name or message)
+          description: Bad request (e.g., missing fields)
           content:
             application/json:
               schema:
@@ -170,8 +155,7 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: "Falta user_name o message"
-                    description:  error message for missing fields
+                    example: "Missing user_name or message"
         "404":
           description: User not found
           content:
@@ -181,5 +165,4 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: "Usuario no encontrado"
-                    description:  error message when user does not exist
+                    example: "User not found"
