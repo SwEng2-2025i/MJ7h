@@ -1,0 +1,4 @@
+Flask>=2.0.0
+flasgger>=0.9.5
+Flask-Limiter>=3.4.0
+# functools>=3.2.3

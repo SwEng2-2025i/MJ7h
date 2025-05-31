@@ -1,0 +1,12 @@
+[2025-05-30 23:03:11] Intentando enviar un correo electrónico a Juan
+[2025-05-30 23:03:11] Correo electrónico enviado a Juan con el mensaje: Your appointment is tomorrow.
+[2025-05-30 23:03:19] Intentando enviar un correo electrónico a Juan
+[2025-05-30 23:03:19] Error al enviar el correo electrónico a Juan. Intentando con el siguiente canal...
+[2025-05-30 23:03:19] Intentando enviar un SMS a Juan
+[2025-05-30 23:03:19] SMS enviado a Juan con el mensaje: Your appointment is tomorrow.
+[2025-05-30 23:19:02] Intentando enviar un correo electrónico a Juan
+[2025-05-30 23:19:02] Correo electrónico enviado a Juan con el mensaje: Tu cita es mañana.
+[2025-05-30 23:19:08] Intentando enviar un correo electrónico a Juan
+[2025-05-30 23:19:08] Error al enviar el correo electrónico a Juan. Intentando con el siguiente canal...
+[2025-05-30 23:19:08] Intentando enviar un SMS a Juan
+[2025-05-30 23:19:08] SMS enviado a Juan con el mensaje: Tu cita es mañana.
