@@ -4,16 +4,25 @@ from channels.email import EmailChannel
 from channels.sms import SMSChannel
 from channels.console import ConsoleChannel
 from logger import Logger
-
+from flasgger import Swagger
 import random
 
 app = Flask(__name__)
+swagger = Swagger(app)
+
 
 # Base de datos en memoria
 users_db = {}
 
 # Función para construir la cadena de canales según los canales disponibles y preferido
 def build_channel_chain(user):
+    """
+    Construye la cadena de canales para notificaciones en base a la preferencia del usuario.
+    Args:
+        user (User): El usuario al que se notificará.
+    Returns:
+        Channel: El canal inicial de la cadena.
+    """
     # Ordena los canales según el preferido; después, los otros
     ordered = [user.preferred_channel] + [ch for ch in user.available_channels if ch != user.preferred_channel]
     
@@ -31,6 +40,39 @@ def build_channel_chain(user):
 # Endpoint para registrar usuario
 @app.route('/users', methods=['POST'])
 def create_user():
+    """
+    Registrar un nuevo usuario
+    ---
+    tags:
+      - Users
+    parameters:
+      - in: body
+        name: body
+        schema:
+          type: object
+          required:
+            - name
+            - preferred_channel
+            - available_channels
+          properties:
+            name:
+              type: string
+              description: Nombre del usuario
+            preferred_channel:
+              type: string
+              enum: [email, sms, console]
+              description: Canal preferido para notificaciones
+            available_channels:
+              type: array
+              items:
+                type: string
+              description: Lista de canales disponibles
+    responses:
+      201:
+        description: Usuario creado exitosamente
+      400:
+        description: El usuario ya existe
+    """
     data = request.json
     name = data['name']
     preferred = data['preferred_channel']
@@ -43,6 +85,28 @@ def create_user():
 # Endpoint para listar usuarios
 @app.route('/users', methods=['GET'])
 def list_users():
+    """
+    Listar todos los usuarios registrados
+    ---
+    tags:
+      - Users
+    responses:
+      200:
+        description: Lista de usuarios
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              preferred_channel:
+                type: string
+              available_channels:
+                type: array
+                items:
+                  type: string
+    """
     return jsonify([
         {
             'name': user.name,
@@ -55,6 +119,38 @@ def list_users():
 # Endpoint para enviar notificación
 @app.route('/notifications/send', methods=['POST'])
 def send_notification():
+    """
+    Enviar notificación a un usuario
+    ---
+    tags:
+      - Notifications
+    parameters:
+      - in: body
+        name: body
+        schema:
+          type: object
+          required:
+            - user_name
+            - message
+            - priority
+          properties:
+            user_name:
+              type: string
+              description: Nombre del usuario destinatario
+            message:
+              type: string
+              description: Mensaje de la notificación
+            priority:
+              type: string
+              description: Prioridad de la notificación
+    responses:
+      200:
+        description: Notificación enviada exitosamente
+      404:
+        description: Usuario no encontrado
+      500:
+        description: Fallaron todos los canales
+    """
     data = request.json
     user_name = data['user_name']
     message = data['message']
@@ -73,6 +169,22 @@ def send_notification():
 
 @app.route('/logs', methods=['GET'])
 def get_logs():
+    """
+    Obtener logs del sistema
+    ---
+    tags:
+      - Logs
+    responses:
+      200:
+        description: Lista de logs del sistema
+        schema:
+          type: object
+          properties:
+            logs:
+              type: array
+              items:
+                type: string
+    """
     logger = Logger()
     return jsonify({'logs': logger.get_logs()})
 
