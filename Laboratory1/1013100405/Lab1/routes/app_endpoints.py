@@ -25,15 +25,16 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
     @app.route("/users", methods=["POST"])
     def create_user():
         data = request.json
+
         # Validar que el cuerpo del request sea válido
         user_body_handler = NewUsernameGivenHandler(ValidatePreferredChannelHandler(ValidateAvailableChannelsHandler(SuccessHandler())))
         result = user_body_handler.handle(data)
 
+        # Si la validación falla, devolver el error
         if result["response"] != 200:
             return jsonify(result)
-        # if not data or "username" not in data or "preferred_channel" not in data or "available_channels" not in data:
-        #     return jsonify({"error": "Missing fields"}), 400
         
+        # Crear el user
         user = User(
             username=data["username"],
             preferred_channel=data["preferred_channel"],
@@ -42,6 +43,7 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
 
         user_repo.save(user)
 
+        # Devolver detalles del user creado
         return jsonify({
             "username": user.username,
             "preferred_channel": user.preferred_channel,
@@ -50,8 +52,9 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
     
 
     @app.route("/users", methods=["GET"])
-    def list_users():
+    def list_users(): # Obtener la lista de users
         users = user_repo.list_all()
+
         return jsonify(
         [{"username": user.username,
         "preferred_channel": user.preferred_channel,
@@ -62,22 +65,26 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
     def send_notification():
         data = request.json
         
+        # Validad que el cuerpo de la notificacion sea valido
         notification_body_handler = UsernameGivenHandler(MessageGivenHandler(PriorityGivenHandler(SuccessHandler())))
         result = notification_body_handler.handle(data)
+        # Si la validación falla, devolver el error
         if result["response"] != 200:
             return jsonify(result)
 
+        # Validar que el user exista
         user = user_repo.get_user(data.get("user_name"))
         if not user:
             return jsonify({"error": "User not found in repository"}), 404
         
+        # Lógica para intentar enviar la notificacion por los distintos canales disponibles
         notification_channels_handler = TryPreferredChannel(TryOtherChannels())
         successful = notification_channels_handler.handle(user, data)
 
         return jsonify({"status": "Notification processed","successfully_sent":successful}), 200
 
     @app.route("/notifications/logger", methods=["GET"])
-    def list_notification_logs():
+    def list_notification_logs(): #Obtener la lista de logs de notificaiones
         logs = logger.list_all()
         return jsonify({"logs": logs}), 200
     
