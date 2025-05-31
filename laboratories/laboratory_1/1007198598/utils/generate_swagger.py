@@ -1,0 +1,98 @@
+# Generate swagger.json
+import json,os
+
+def generate_swagger_json():
+    # Obtiene la ruta absoluta del archivo
+    file_path = os.path.join(os.getcwd(), 'static', 'swagger.json')
+    swagger = { 
+        "swagger": "2.0",
+        "info": {
+            "version": "1.0.0",
+            "title": "Multichannel Notification System API",
+            "description": "REST API for managing users and sending notifications using advanced design patterns."
+        },
+        "paths": {
+            "/users": {
+                "post": {
+                    "summary": "Register a new user",
+                    "parameters": [
+                        {
+                            "name": "body",
+                            "in": "body",
+                            "required": True,
+                            "schema": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    ],
+                    "responses": {
+                        "201": {
+                            "description": "User registered successfully."
+                        },
+                        "400": {
+                            "description": "Incomplete or invalid data."
+                        }
+                    }
+                },
+                "get": {
+                    "summary": "List all users",
+                    "responses": {
+                        "200": {
+                            "description": "List of users."
+                        }
+                    }
+                }
+            },
+            "/notifications/send": {
+                "post": {
+                    "summary": "Send a notification to a user",
+                    "parameters": [
+                        {
+                            "name": "body",
+                            "in": "body",
+                            "required": True,
+                            "schema": {
+                                "$ref": "#/definitions/Notification"
+                            }
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "Notification sent successfully."
+                        },
+                        "400": {
+                            "description": "Incomplete or invalid data."
+                        },
+                        "404": {
+                            "description": "User not found."
+                        }
+                    }
+                }
+            }
+        },
+        "definitions": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "preferred_channel": {"type": "string"},
+                    "available_channels": {
+                        "type": "array",
+                        "items": {"type": "string"}
+                    }
+                },
+                "required": ["name", "preferred_channel", "available_channels"]
+            },
+            "Notification": {
+                "type": "object",
+                "properties": {
+                    "user_name": {"type": "string"},
+                    "message": {"type": "string"}
+                },
+                "required": ["user_name", "message"]
+            }
+        }
+    }
+
+    with open(file_path, 'w') as swagger_file:
+        json.dump(swagger, swagger_file, indent=4)
