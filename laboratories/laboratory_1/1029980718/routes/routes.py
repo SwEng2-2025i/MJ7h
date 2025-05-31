@@ -65,12 +65,15 @@ def create_user():
     """
     data = request.get_json()
     required_fields = {"name", "preferred_channel", "available_channels"}
+    # Validate required fields
     if not data or not required_fields.issubset(data):
         return jsonify({"error": "Missing required fields"}), 400
+    # Validate valid channels
     valid_channels = {"email", "sms", "console"}
     if data["preferred_channel"] not in valid_channels or any(ch not in valid_channels for ch in data["available_channels"]):
         return jsonify({"error": "Invalid data provided"}), 400
-    register_user(data)
+    # Register user using the service
+    register_user(data) 
     return jsonify({"status": "user registered"}), 201
 
 @bp.route("/users", methods=["GET"])
@@ -182,12 +185,15 @@ def notify():
     """
     data = request.get_json()
     required_fields = {"user_name", "message"}
+    # Validate required fields
     if not data or not required_fields.issubset(data):
         return jsonify({"error": "Invalid notification data"}), 400
+    
     # Validate optional priority
     valid_priorities = {"low", "medium", "high"}
     priority = data.get("priority")
     if priority and priority not in valid_priorities:
         return jsonify({"error": "Invalid priority value"}), 400
+    # Send notification using the service
     response, status_code = send_notification(data)
     return jsonify(response), status_code
