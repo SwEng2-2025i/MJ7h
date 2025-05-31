@@ -1,2 +1,2 @@
 Flask
-flasgger
+flask-swagger-ui
