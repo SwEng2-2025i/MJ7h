@@ -2,16 +2,54 @@ import sys, os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
 
+from flask import Flask, request, jsonify
+from flasgger import Swagger, swag_from  # type: ignore
+
 from application.services.user_service import UserService
 from application.services.notification_service import NotificationService
 
-from flask import Flask, request, jsonify
+
+swagger_config = {  # type: ignore
+    "headers": [],
+    "specs": [
+        {
+            "endpoint": "apispec_1",
+            "route": "/apispec_1.json",
+            "rule_filter": lambda rule: True,  # type: ignore
+            "model_filter": lambda tag: True,  # type: ignore
+        }
+    ],
+    "static_url_path": "/flasgger_static",
+    "swagger_ui": True,
+    "specs_route": "/apidocs/",
+}
+
+swagger_template = {  # type: ignore
+    "swagger": "2.0",
+    "info": {
+        "title": "Multichannel Notification System API",
+        "description": "REST API for managing users and sending notifications through multiple channels with Chain of Responsibility pattern",
+        "contact": {
+            "name": "Carlos Santiago Sandoval Casallas",
+            "email": "csandovalc@unal.edu.co",
+        },
+        "version": "1.0.0",
+    },
+    "host": "localhost:5000",
+    "basePath": "/",
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+}
 
 
 def register_routes(
     app: Flask, user_service: UserService, notification_service: NotificationService
 ):
+    swagger = Swagger(app, config=swagger_config, template=swagger_template)  # type: ignore
+
     @app.route("/users", methods=["POST"])
+    @swag_from("docs/post_users.yml")
     def create_user():  # type: ignore
         data = request.json
         if not data or "user_name" not in data or "preferred_channel" not in data:
@@ -50,6 +88,7 @@ def register_routes(
         )
 
     @app.route("/users", methods=["GET"])
+    @swag_from("docs/get_users.yml")
     def list_users():  # type: ignore
         users = user_service.list_users()
         return (
@@ -73,6 +112,7 @@ def register_routes(
         )
 
     @app.route("/notifications/send", methods=["POST"])
+    @swag_from("docs/post_notification_send.yml")
     def send_notification():  # type: ignore
         data = request.json
         if not data or "user_name" not in data or "message" not in data:

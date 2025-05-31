@@ -1,0 +1,77 @@
+tags:
+  - Notifications
+summary: Send a notification
+description: Send a notification to a user through their preferred channel with fallback support using Chain of Responsibility pattern
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - user_name
+        - message
+        - priority
+      properties:
+        user_name:
+          type: string
+          description: Username of the recipient
+          example: "usuario1"
+        message:
+          type: string
+          description: Message content to send
+          example: "Your appointment is scheduled for tomorrow at 3 PM"
+        priority:
+          type: string
+          enum: ['high', 'medium', 'low']
+          description: Message priority level
+          example: "high"
+responses:
+  201:
+    description: Notification sent successfully
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Notification sent successfully"
+        channel_used:
+          type: string
+          example: "email"
+        attempts:
+          type: integer
+          example: 1
+        delivery_status:
+          type: string
+          example: "success"
+        user_name:
+          type: string
+          example: "usuario1"
+        priority:
+          type: string
+          example: "high"
+  400:
+    description: Bad request - Missing required fields
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+  404:
+    description: User not found
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+  500:
+    description: Failed to send notification through all available channels
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+        attempts:
+          type: integer
+        user_name:
+          type: string

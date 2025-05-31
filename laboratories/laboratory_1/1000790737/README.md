@@ -21,12 +21,16 @@ This project implements a **Multichannel Notification System** using a REST API 
 ## Endpoint Documentation
 
 ### Base URL: `http://localhost:5000`
+### Swagger Documentation: `http://localhost:5000/apidocs/`
 
 | Method | Endpoint              | Description                                      |
 |--------|-----------------------|--------------------------------------------------|
 | POST   | `/users`              | Register a user with name, preferred and available channels |
 | GET    | `/users`              | List all registered users                        |
 | POST   | `/notifications/send` | Send a notification with message and priority    |
+
+**Swagger API Documentation**: Once the application is running, visit [`http://localhost:5000/apidocs/`](http://localhost:5000/apidocs/) to explore and test the API endpoints using Swagger UI.
+
 
 ### Request/Response Examples:
 
