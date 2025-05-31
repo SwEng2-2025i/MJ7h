@@ -20,13 +20,17 @@ def list_users():
     return list(users.values())
 
 def send_notification(data):
+    # Validate required fields
     if not data or "user_name" not in data or "message" not in data:
         return {"error": "Invalid notification data"}, 400
+    
+    # Get notification data
     name = data["user_name"]
     message = data["message"]
     priority = data.get("priority")
-    notification = Notification(name, message, priority)
+    # Log notification
     Logger().log(f"Notification created for {name} with priority {priority}")
+    # Validate user exists
     if name not in users:
         return {"error": "User not found"}, 404
 
