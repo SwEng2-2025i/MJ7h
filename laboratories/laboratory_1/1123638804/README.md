@@ -65,7 +65,7 @@ The Diagram is in the folder with name DiagramClass.png
        "Attempting EMAIL to Juan: 'Your appointment is tomorrow.' - Success"
       ]
 
-   -Get user(Get/user)
+   - Get user(Get/user)
       ```powershell
       curl.exe http://localhost:5000/users
       ```
