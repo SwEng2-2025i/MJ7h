@@ -1,0 +1,35 @@
+tags:
+  - Users
+summary: Get all registered users
+description: Retrieve a list of all registered users with their notification preferences
+responses:
+  200:
+    description: List of users retrieved successfully
+    schema:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              user_name:
+                type: string
+              preferred_channel:
+                type: string
+              available_channels:
+                type: array
+                items:
+                  type: string
+              phone_number:
+                type: string
+              email:
+                type: string
+    examples:
+      application/json:
+        data:
+          - user_name: "usuario1"
+            preferred_channel: "email"
+            available_channels: ["email", "sms", "app_notification"]
+            phone_number: "1234567890"
+            email: "usuario1@example.com"
