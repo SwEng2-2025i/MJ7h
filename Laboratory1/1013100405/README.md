@@ -85,7 +85,7 @@ Their description can be found at greater detail at the [Swagger Documentation](
 
 **Response**:
 
-```json
+```JSON
 
 {
 
@@ -113,6 +113,56 @@ Their description can be found at greater detail at the [Swagger Documentation](
 
 ```
 
+### `POST /users`
+
+**Description**: Create a new user with a specified username, preferred notification channel, and a list of available channels.
+
+Request Body:
+```JSON
+
+{
+  "username": "Juan",
+  "preferred_channel": "whatsapp",
+  "available_channels": ["email", "sms", "whatsapp", "instagram"]
+}
+```
+
+Response:
+```JSON
+
+{
+  "available_channels": [
+    "email",
+    "sms",
+    "whatsapp",
+    "instagram"
+  ],
+  "preferred_channel": "whatsapp",
+  "username": "Juan"
+}
+```
+### `GET /users`
+
+**Description**: Retrieve a list of all registered users, including their usernames, preferred notification channels, and available channels.
+
+Request body: None
+
+Response:
+```JSON
+
+[
+  {
+    "available_channels": [
+      "email",
+      "sms",
+      "whatsapp",
+      "instagram"
+    ],
+    "preferred_channel": "whatsapp",
+    "username": "Juan"
+  }
+]
+```
 
 ## Design Patterns Used
 ### Chain of Responsibility Patterns
