@@ -1,0 +1,77 @@
+@startuml
+skinparam class {
+    BackgroundColor White
+    ArrowColor #2688d4
+    BorderColor #2688d4
+}
+
+abstract class NotificationChannel {
+    -next_channel: NotificationChannel
+    -logger: NotificationLogger
+    +set_next(channel: NotificationChannel)
+    +notify(user: str, message: str, priority: str): bool
+    #{abstract} _send(user: str, message: str, priority: str): bool
+}
+
+class EmailChannel {
+    -_send(user: str, message: str, priority: str): bool
+}
+
+class SMSChannel {
+    -_send(user: str, message: str, priority: str): bool
+}
+
+class ConsoleChannel {
+    -_send(user: str, message: str, priority: str): bool
+}
+
+class NotificationLogger << (S,#FF7700) Singleton >> {
+    -_instance: NotificationLogger
+    -logger: Logger
+    +info(message: str)
+    +error(message: str)
+    +warning(message: str)
+}
+
+class User {
+    +name: str
+    +preferred_channel: str
+    +available_channels: List[str]
+}
+
+class NotificationService {
+    -users: Dict[str, User]
+    -logger: NotificationLogger
+    +register_user(name: str, preferred_channel: str, available_channels: List[str]): bool
+    +get_users(): List[Dict]
+    +send_notification(user_name: str, message: str, priority: str): bool
+}
+
+class FlaskAPI {
+    +register_user()
+    +list_users()
+    +send_notification()
+}
+
+NotificationChannel <|-- EmailChannel
+NotificationChannel <|-- SMSChannel
+NotificationChannel <|-- ConsoleChannel
+NotificationChannel --> NotificationLogger : uses >
+NotificationService --> NotificationLogger : uses >
+NotificationService --> User : manages >
+NotificationService --> NotificationChannel : uses >
+FlaskAPI --> NotificationService : uses >
+
+note right of NotificationChannel
+  Chain of Responsibility Pattern:
+  Each channel can pass the notification
+  to the next one if delivery fails
+end note
+
+note right of NotificationLogger
+  Singleton Pattern:
+  Ensures a single logging instance
+  throughout the application
+end note
+
+@enduml
