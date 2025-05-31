@@ -1,10 +1,18 @@
 from .base import ChannelHandler
+from logger import Logger
+import random
 
-class ConsoleChannel(ChannelHandler):
+class ConsoleChannel:
+    def __init__(self, next_handler=None):
+        self.next_handler = next_handler
+
     def handle(self, user, message):
-        if 'console' in user.available_channels:
-            print(f"[CONSOLE] Notificación mostrada para {user.name}: {message}")
+        logger = Logger()
+        success = random.choice([True, False])
+        logger.log(f"Intento de envío por CONSOLE a {user.name}: {'éxito' if success else 'fallo'} - Mensaje: {message}")
+        if success:
             return True
-        if self.next_handler:
+        elif self.next_handler:
             return self.next_handler.handle(user, message)
         return False
+
