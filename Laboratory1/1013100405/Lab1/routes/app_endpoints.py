@@ -6,7 +6,7 @@ from domain.strategies.notification import NotificationContext, EmailStrategy, S
 from infrastructure.notifications_logger import InMemoryLoggerRepository
 from domain.chains_responsibility.notification_body import SuccessHandler, UsernameGivenHandler, MessageGivenHandler, PriorityGivenHandler
 from domain.chains_responsibility.notification_channels import TryPreferredChannel, TryOtherChannels
-
+from domain.chains_responsibility.user_body import NewUsernameGivenHandler, ValidateAvailableChannelsHandler, ValidatePreferredChannelHandler, SuccessHandler
 STRATEGY_MAP = {
     "email": EmailStrategy,
     "sms": SmsStrategy,
@@ -25,9 +25,14 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
     @app.route("/users", methods=["POST"])
     def create_user():
         data = request.json
-        # Validaciones básicas
-        if not data or "username" not in data or "preferred_channel" not in data or "available_channels" not in data:
-            return jsonify({"error": "Missing fields"}), 400
+        # Validar que el cuerpo del request sea válido
+        user_body_handler = NewUsernameGivenHandler(ValidatePreferredChannelHandler(ValidateAvailableChannelsHandler(SuccessHandler())))
+        result = user_body_handler.handle(data)
+
+        if result["response"] != 200:
+            return jsonify(result)
+        # if not data or "username" not in data or "preferred_channel" not in data or "available_channels" not in data:
+        #     return jsonify({"error": "Missing fields"}), 400
         
         user = User(
             username=data["username"],
