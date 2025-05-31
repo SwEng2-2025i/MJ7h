@@ -1,6 +1,7 @@
 from .user import User
+from patterns.singleton import Singleton
 
-class UsersModel:
+class UsersModel(Singleton):
     def __init__(self):
         self.users_list:list[User] = []
     
@@ -15,6 +16,6 @@ class UsersModel:
     def lastUser(self):
         return self.users_list[-1].to_dict()
     
-    def giveList(self):
-        user_list = self.users_list
-        return user_list
+    def find_user_by_name(self,name:str)->User:
+        user = next((u for u in self.users_list if u.name == name) ,None)
+        return user

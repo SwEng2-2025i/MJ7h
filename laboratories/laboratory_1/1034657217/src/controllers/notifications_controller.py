@@ -1,9 +1,10 @@
 from flask import jsonify, request
 from model import usersModel
-from services.notification_chain import NotificationChain
+from services.notification_service import NotificationService
 class NotificationsController:
     def __init__(self):
         self.user_model = usersModel.UsersModel()
+        self.notification_service = NotificationService()
     
     def sendNotification(self):
         try:
@@ -15,14 +16,10 @@ class NotificationsController:
             if not all([user_name,message,priority]):
                 return jsonify({"error":"Missing values"}), 400
             
-            notification_sender = NotificationChain()
-            notification_sender.buildChain(user_name)
-            success = notification_sender.sendNotification(notification_data)
+            notification_success = self.notification_service.sendNotification(notification_data)
 
             return jsonify({
-                "user_name":user_name,
-                "message":message,
-                "priority":priority
+                "success":notification_success
             }),200
     
 
