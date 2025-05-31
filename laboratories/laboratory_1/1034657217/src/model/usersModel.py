@@ -3,7 +3,9 @@ from patterns.singleton import Singleton
 
 class UsersModel(Singleton):
     def __init__(self):
-        self.users_list:list[User] = []
+        if not hasattr(self, '_initialized'):
+            self.users_list:list[User] = []
+            self._initialized = True # Marcar como inicializado
     
     def addUser(self,newUser):
         user = User(newUser["name"],newUser["preferred_channel"], newUser["available_channels"])
@@ -17,5 +19,6 @@ class UsersModel(Singleton):
         return self.users_list[-1].to_dict()
     
     def find_user_by_name(self,name:str)->User:
+        print("user list",self.users_list)
         user = next((u for u in self.users_list if u.name == name) ,None)
         return user
