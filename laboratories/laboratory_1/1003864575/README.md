@@ -1,4 +1,4 @@
-ññ# 🧪 Laboratorio Individual Avanzado: Sistema de Notificaciones Multicanal (REST API)
+# 🧪 Laboratorio Individual Avanzado: Sistema de Notificaciones Multicanal (REST API)
 
 ## 📝 Contexto
 
