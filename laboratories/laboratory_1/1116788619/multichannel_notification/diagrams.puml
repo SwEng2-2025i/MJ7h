@@ -1,0 +1,23 @@
+@startuml
+actor User
+participant API
+participant EmailHandler
+participant SmsHandler
+participant LoggerSingleton
+
+User -> API: POST /notifications/send
+API -> EmailHandler: handle(user, message)
+EmailHandler -> LoggerSingleton: log("email", user, message, status)
+alt Email success
+    EmailHandler --> API: success
+else Email fails
+    EmailHandler -> SmsHandler: handle(user, message)
+    SmsHandler -> LoggerSingleton: log("sms", user, message, status)
+    alt Sms success
+        SmsHandler --> API: success
+    else Sms fails
+        SmsHandler --> API: failure
+    end
+end
+API --> User: JSON response
+@enduml

@@ -1,0 +1,109 @@
+openapi: 3.0.0
+info:
+  title: Multichannel Notification API
+  description: API para el sistema de notificaciones multicanal con fallback.
+  version: "1.0.0"
+servers:
+  - url: http://127.0.0.1:5000
+paths:
+  /users:
+    post:
+      summary: Registrar un usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - preferred_channel
+                - available_channels
+              properties:
+                name:
+                  type: string
+                preferred_channel:
+                  type: string
+                  enum: [email, sms]
+                available_channels:
+                  type: array
+                  items:
+                    type: string
+                    enum: [email, sms]
+      responses:
+        '201':
+          description: Usuario registrado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    get:
+      summary: Listar usuarios registrados
+      responses:
+        '200':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    preferred_channel:
+                      type: string
+                    available_channels:
+                      type: array
+                      items:
+                        type: string
+
+  /notifications/send:
+    post:
+      summary: Enviar una notificación
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_name
+                - message
+                - priority
+              properties:
+                user_name:
+                  type: string
+                message:
+                  type: string
+                priority:
+                  type: string
+                  enum: [alta, media, baja]
+      responses:
+        '200':
+          description: Resultado del intento de notificación
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: string
+
+  /logs:
+    get:
+      summary: Obtener logs de intentos de envío
+      responses:
+        '200':
+          description: Lista de logs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
