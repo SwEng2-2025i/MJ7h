@@ -458,6 +458,7 @@ graph TB
 - `NotificationHandler` abstract base class defines the chain interface
 - `EmailHandler`, `SMSHandler`, `ConsoleHandler` implement specific channel logic
 - Each handler attempts delivery and passes to the next handler if it fails
+- It is responsible only for ensuring that the next link in the chain attempts to handle it
 
 **Benefits**:
 - Decouples senders from receivers
@@ -478,6 +479,7 @@ graph TB
 - Makes algorithms interchangeable
 - Eliminates conditional statements
 - Easy to add new channel types
+- By removing the handler's responsibility from the chain, there is no need to alter the chain to make changes to the algorithm
 
 ### 3. **Singleton Pattern**
 **Location**: [`adapters/outbound/logger.py`](adapters/outbound/logger.py)
@@ -485,12 +487,10 @@ graph TB
 **Purpose**: Ensures only one logger instance exists throughout the application lifecycle.
 
 **Implementation**:
-- Thread-safe singleton implementation
 - Global access point for logging functionality
 - Maintains consistent logging format across the system
 
 **Benefits**:
-- Controlled access to shared resource
 - Reduces memory footprint
 - Centralized logging configuration
 
