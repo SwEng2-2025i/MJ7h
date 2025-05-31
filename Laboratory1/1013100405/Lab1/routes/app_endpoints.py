@@ -71,7 +71,7 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
         
         data = request.json
         
-        # Validad que el cuerpo de la notificacion sea valido
+        # Validar que el cuerpo de la notificacion sea valido
         notification_body_handler = UsernameGivenHandler(MessageGivenHandler(PriorityGivenHandler(SuccessHandler())))
         result = notification_body_handler.handle(data)
         # Si la validación falla, devolver el error
