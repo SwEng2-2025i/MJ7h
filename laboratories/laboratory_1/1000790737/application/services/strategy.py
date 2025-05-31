@@ -7,6 +7,7 @@ from abc import ABCMeta, abstractmethod
 
 from domain.entities.user import User
 from domain.entities.channel import NotificationChannel
+from domain.entities.priority import Priority
 
 from application.ports.logger_port import ILogger
 
@@ -21,7 +22,9 @@ class SendStrategy(metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def send_msg(self, to: User, message: str, channel: NotificationChannel) -> bool:
+    def send_msg(
+        self, to: User, message: str, channel: NotificationChannel, priority: Priority
+    ) -> bool:
         """Send an SMS to the specified phone number with the given message."""
         pass
 
@@ -32,7 +35,9 @@ class RandomChoiceStrategy(SendStrategy):
     def __init__(self, logger: ILogger) -> None:
         self.logger = logger
 
-    def send_msg(self, to: User, message: str, channel: NotificationChannel) -> bool:
+    def send_msg(
+        self, to: User, message: str, channel: NotificationChannel, priority: Priority
+    ) -> bool:
         """Randomly choose a strategy to send the message."""
         # Simulate sending an IP Over Avian Carriers message using an invented company
         is_success = random.choice([True, False])
@@ -40,12 +45,17 @@ class RandomChoiceStrategy(SendStrategy):
             to=to.user_name,
             channel=channel,
             msg=message,
+            priority=priority,
         )
 
         if is_success:
-            self.logger.send_success(to=to.user_name, channel=channel, msg=message)
+            self.logger.send_success(
+                to=to.user_name, channel=channel, msg=message, priority=priority
+            )
         else:
-            self.logger.send_failure(to=to.user_name, channel=channel, msg=message)
+            self.logger.send_failure(
+                to=to.user_name, channel=channel, msg=message, priority=priority
+            )
         return is_success
 
 
@@ -55,7 +65,9 @@ class RandomIntStrategy(SendStrategy):
     def __init__(self, logger: ILogger) -> None:
         self.logger = logger
 
-    def send_msg(self, to: User, message: str, channel: NotificationChannel) -> bool:
+    def send_msg(
+        self, to: User, message: str, channel: NotificationChannel, priority: Priority
+    ) -> bool:
         """Randomly choose a strategy to send the message."""
         # Simulate sending an IP Over Avian Carriers message using an invented company
         is_success = random.randint(0, 1) == 1
@@ -63,10 +75,15 @@ class RandomIntStrategy(SendStrategy):
             to=to.user_name,
             channel=channel,
             msg=message,
+            priority=priority,
         )
 
         if is_success:
-            self.logger.send_success(to=to.user_name, channel=channel, msg=message)
+            self.logger.send_success(
+                to=to.user_name, channel=channel, msg=message, priority=priority
+            )
         else:
-            self.logger.send_failure(to=to.user_name, channel=channel, msg=message)
+            self.logger.send_failure(
+                to=to.user_name, channel=channel, msg=message, priority=priority
+            )
         return is_success

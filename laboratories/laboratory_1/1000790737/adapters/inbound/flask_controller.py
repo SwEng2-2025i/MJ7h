@@ -21,19 +21,56 @@ def register_routes(
         if not isinstance(data["available_channels"], list):
             return jsonify({"error": "Available channels must be a list"}), 400
 
-        user = user_service.register_user(
-            data["user_name"],
-            data["preferred_channel"],
-            data["available_channels"],
-            phone_number=data.get("phone_number"),
-            email=data.get("email"),
+        try:
+            user = user_service.register_user(
+                data["user_name"],
+                data["preferred_channel"],
+                data["available_channels"],
+                phone_number=data.get("phone_number"),
+                email=data.get("email"),
+            )
+        except Exception as e:
+            return jsonify({"error": str(e)}), 400
+        return (
+            jsonify(
+                {
+                    "message": "User registered",
+                    "user": {
+                        "user_name": user.user_name,
+                        "preferred_channel": user.preferred_channel.value,
+                        "available_channels": [
+                            channel.value for channel in user.available_channels
+                        ],
+                        "phone_number": user.phone_number,
+                        "email": user.email,
+                    },
+                }
+            ),
+            201,
         )
-        return jsonify({"message": "User registered", "user": user}), 201
 
     @app.route("/users", methods=["GET"])
     def list_users():  # type: ignore
         users = user_service.list_users()
-        return jsonify([user.__dict__ for user in users]), 200
+        return (
+            jsonify(
+                {
+                    "data": [
+                        {
+                            "user_name": user.user_name,
+                            "preferred_channel": user.preferred_channel.value,
+                            "available_channels": [
+                                channel.value for channel in user.available_channels
+                            ],
+                            "phone_number": user.phone_number,
+                            "email": user.email,
+                        }
+                        for user in users
+                    ]
+                }
+            ),
+            200,
+        )
 
     @app.route("/notifications/send", methods=["POST"])
     def send_notification():  # type: ignore
@@ -43,9 +80,12 @@ def register_routes(
         if not isinstance(data["priority"], str):
             return jsonify({"error": "Priority must be a string"}), 400
 
-        notification = notification_service.send_notification(
-            user_name=data["user_name"],
-            message=data["message"],
-            priority=data.get("priority", "normal"),
-        )
+        try:
+            notification = notification_service.send_notification(
+                user_name=data["user_name"],
+                message=data["message"],
+                priority=data.get("priority", "normal"),
+            )
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
         return jsonify(notification), 201

@@ -26,4 +26,6 @@ class InMemoryUserRepository(IUserRepository):
 
     def get_all(self) -> list[User]:
         """Get all users in the repository."""
-        return list(self.users.values())
+        users = [user for user in self.users.values()]
+        users.sort(key=lambda u: u.user_name)
+        return users

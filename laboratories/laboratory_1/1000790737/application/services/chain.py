@@ -1,36 +1,49 @@
 import sys, os
 
-from ...domain.entities.user import User
-
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
 from typing import List
 
 from domain.ports.notification_sender import INotificationSender
-from domain.entities.channel import NotificationChannel
 from domain.entities.priority import Priority
+from domain.entities.user import User
+from domain.entities.channel import NotificationChannel
 
-from application.ports.logger_port import ILogger
 from application.exceptions import NotificationChainFailedException
 
 
-class ChainSender(INotificationSender):
+class ChainSender:
     """Chain of responsibility for sending notifications."""
 
-    def __init__(self, senders: List[INotificationSender], logger: ILogger):
-        self.senders = senders
-        self.logger = logger
+    def __init__(
+        self,
+        available_senders: List[INotificationSender],
+    ):
+        self.senders_dict = {s.channel: s for s in available_senders}
 
-    def send(self, to: User, message: str, priority: Priority) -> NotificationChannel:
-        for sender in self.senders:
-            channel = sender.channel
-            self.logger.send_attempt(to.user_name, channel, message)
+    def send(self, user: User, message: str, priority: Priority) -> NotificationChannel:
+        """Send a notification to the user using the chain of responsibility."""
+        if not user.available_channels:
+            raise NotificationChainFailedException(
+                f"User {user.user_name} has no available channels."
+            )
 
-            if sender.send(to, message, priority):
-                self.logger.send_success(to.user_name, channel, message)
+        first_channel = user.available_channels[0]
+        if first_channel not in self.senders_dict:
+            raise NotificationChainFailedException(
+                f"Channel {first_channel} is not available for sending notifications."
+            )
+
+        for channel in user.available_channels:
+            sender = self.senders_dict.get(channel)
+            if not sender:
+                continue
+
+            success = sender.send(user.user_name, message, priority.value)
+
+            if success:
                 return channel
-            self.logger.send_failure(to.user_name, channel, message)
 
         raise NotificationChainFailedException(
-            f"Failed to send notification to {to.user_name} via all available channels."
+            f"Failed to send notification to {user.user_name} using all available channels."
         )

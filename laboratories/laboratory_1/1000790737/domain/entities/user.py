@@ -25,6 +25,15 @@ class User:
         if preferred_channel not in available_channels:
             self._available_channels.insert(0, preferred_channel)
 
+    def __repr__(self) -> str:
+        return (
+            f"User(user_name={self._user_name}, "
+            f"preferred_channel={self._preferred_channel}, "
+            f"available_channels={self._available_channels}, "
+            f"phone_number={self._phone_number}, "
+            f"email={self._email})"
+        )
+
     # For this example, the
     @property
     def user_name(self) -> str:
@@ -45,7 +54,11 @@ class User:
     @property
     def available_channels(self) -> List[NotificationChannel]:
         if self._available_channels[0] != self._preferred_channel:
-            self._available_channels.insert(0, self._preferred_channel)
-            self._available_channels = list(set(self._available_channels))
+            ordered_channels = [self._preferred_channel]
+            ordered_channels.extend(
+                channel
+                for channel in self._available_channels
+                if channel != self._preferred_channel
+            )
 
         return self._available_channels
