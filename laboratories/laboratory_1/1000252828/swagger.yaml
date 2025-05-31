@@ -1,0 +1,170 @@
+```yaml
+openapi: 3.0.0
+info:
+  title: Multichannel Notification System API
+  version: 1.0.0
+  description: >
+    REST API to register users and send multichannel notifications (email, SMS, console).
+    Uses Chain of Responsibility for channel fallback and a Singleton logger for recording attempts.
+servers:
+  - url: http://localhost:5000
+
+paths:
+  /users:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Juan
+                  description: The user's name
+                preferred_channel:
+                  type: string
+                  enum: [email, sms, console]
+                  example: email
+                  description: The user's preferred notification channel
+                available_channels:
+                  type: array
+                  items:
+                    type: string
+                    enum: [email, sms, console]
+                  example:
+                    - email
+                    - sms
+                  description: List of channels available for this user
+              required:
+                - name
+                - preferred_channel
+                - available_channels
+      responses:
+        "201":
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User Juan registered."
+        "400":
+          description: Bad request (e.g., missing fields or preferred channel not in list)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Missing name, preferred channel, or available channels"
+    get:
+      summary: List all users
+      responses:
+        "200":
+          description: Array of registered users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: Juan
+                        preferred_channel:
+                          type: string
+                          example: email
+                        available_channels:
+                          type: array
+                          items:
+                            type: string
+                          example:
+                            - email
+                            - sms
+
+  /notifications/send:
+    post:
+      summary: Send a notification to a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                  example: Juan
+                  description: The name of the user to notify
+                message:
+                  type: string
+                  example: "Your appointment is tomorrow."
+                  description: The notification content
+                priority:
+                  type: string
+                  enum: [low, normal, high]
+                  example: high
+                  description: Priority level of the notification
+              required:
+                - user_name
+                - message
+      responses:
+        "200":
+          description: Notification delivery result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  delivered:
+                    type: boolean
+                    example: true
+                    description: Whether any channel succeeded
+                  attempts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        channel:
+                          type: string
+                          example: email
+                          description: Channel name attempted
+                        success:
+                          type: boolean
+                          example: false
+                          description: Whether that channel succeeded
+                  priority:
+                    type: string
+                    example: high
+                    description: The priority of the notification
+        "400":
+          description: Bad request (e.g., missing fields)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Missing user_name or message"
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "User not found"
+```
