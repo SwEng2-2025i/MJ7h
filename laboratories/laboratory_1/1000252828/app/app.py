@@ -33,5 +33,48 @@ def register_user():
 
     return jsonify({'message': f'Usuario {name} registrado.'}), 201
 
+# notificaciones 
+
+@app.route('/notifications/send', methods=['POST'])
+def send_notification():
+    data = request.get_json()
+    user_name = data.get('user_name')
+    message = data.get('message')
+    priority = data.get('priority', 'normal')
+    # verificacion vasica de contenido
+    if not user_name or not message:
+        return jsonify({'error': 'Falta user_name o message'}), 400
+    user = user_store.get_user(user_name)
+    if not user:
+        return jsonify({'error': 'Usuario no encontrado'}), 404
+    
+    # Verificamos que el usuario tenga canales disponibles
+    chain = build_chain(user['available_channels'], user['preferred_channel'])
+
+    delivered = False
+    attempts = []
+    current = chain
+    # Iteramos sobre la cadena de responsabilidad para enviar el mensaje
+    while current:
+        channel_name = current.name
+        # Simula el envío del mensaje a través del canal con la posibilidad de que salga mal
+        success = random.choice([True, False])
+        # guarda el log del intento
+        logger.log_attempt(user_name, channel_name, message, success)
+        attempts.append({'channel': channel_name, 'success': success})
+        if success:
+            delivered = True
+            break
+        current = current.next_channel
+
+    return jsonify({
+        'delivered': delivered,
+        'attempts': attempts,
+        'priority': priority
+    }), 200
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
