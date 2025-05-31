@@ -29,18 +29,57 @@ The Diagram is in the folder with name DiagramClass.png
    python app.py
    ```
 3. Test endpoints (examples):
-   - Register user:
+   - Register user(POST/users):
      ```powershell
-     curl -X POST http://localhost:5000/users -H "Content-Type: application/json" -d "{\"name\":\"Juan\",\"preferred_channel\":\"email\",\"available_channels\":[\"email\",\"sms\"]}"
+     curl.exe -X POST http://localhost:5000/users -H "Content-Type: application/json" -d "{\"name\":\"Juan\",\"preferred_channel\":\"email\",\"available_channels\":[\"email\",\"sms\"]}"
      ```
-   - Send notification:
+     -Respond:
+     {
+        "message": "User registered",
+        "user": {
+              "available_channels": [
+              "email",
+              "sms"
+             ],
+             "name": "Juan",
+             "preferred_channel": "email"
+        }
+      }
+     
+   - Send notification(POST/notifications/send):
      ```powershell
-     curl -X POST http://localhost:5000/notifications/send -H "Content-Type: application/json" -d "{\"user_name\":\"Juan\",\"message\":\"Your appointment is tomorrow.\",\"priority\":\"high\"}"
+     curl.exe -X POST http://localhost:5000/notifications/send -H "Content-Type: application/json" -d "{\"user_name\":\"Juan\",\"message\":\"Your appointment is tomorrow.\",\"priority\":\"high\"}"
      ```
+     -Respond:
+     {
+       "delivered": true
+      }
    - Get logs:
      ```powershell
-     curl http://localhost:5000/logs
+     curl.exe http://localhost:5000/logs
      ```
+     -Respond:
+     [
+       "Attempting EMAIL to Juan: 'Your appointment is tomorrow.' - Failed",
+       "Attempting SMS to Juan: 'Your appointment is tomorrow.' - Success",
+       "Attempting EMAIL to Juan: 'Your appointment is tomorrow.' - Success"
+      ]
+
+   -Get user(Get/user)
+      ```powershell
+      curl.exe http://localhost:5000/users
+      ```
+    -Respond:
+      [
+       {
+        "available_channels": [
+            "email",
+            "sms"
+        ],
+        "name": "Juan",
+        "preferred_channel": "email"
+       }
+      ]
    - View Swagger:
      Open http://localhost:5000/swagger in your browser.
 
