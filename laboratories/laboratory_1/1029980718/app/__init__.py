@@ -57,8 +57,7 @@ def create_app():
     
     Swagger(app, config=swagger_config, template=swagger_template)
     
-    # Import blueprint with correct path
-    
+    # Register blueprint 
     app.register_blueprint(bp)
     
     return app
