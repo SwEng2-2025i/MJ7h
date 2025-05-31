@@ -1,0 +1,3 @@
+2025-05-30 23:38:00,892 - INFO - Notification successfully sent via Email: Notification(user='juan', message='¡Hola Juan! Tienes una nueva notificación.', priority='alta')
+2025-05-30 23:38:00,893 - INFO - Notification successfully sent via SMS: Notification(user='juan', message='¡Hola Juan! Tienes una nueva notificación.', priority='alta')
+2025-05-30 23:38:00,893 - WARNING - Notification failed via Email, trying next channel: Notification(user='juan', message='¡Hola Juan! Tienes una nueva notificación.', priority='alta')

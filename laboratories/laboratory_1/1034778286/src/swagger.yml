@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: Multichannel Notification API
+  version: 1.0.0
+  description: API para un sistema de notificaciones multicanal.
+
+paths:
+  /users:
+    post:
+      summary: Registra un nuevo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - preferred_channel
+                - available_channels
+              properties:
+                name:
+                  type: string
+                  example: Juan
+                preferred_channel:
+                  type: string
+                  example: email
+                available_channels:
+                  type: array
+                  items:
+                    type: string
+                  example: ["email", "sms"]
+      responses:
+        '200':
+          description: Usuario creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User Juan created successfully
+                  user_data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      preferred_channel:
+                        type: string
+                      available_channels:
+                        type: array
+                        items:
+                          type: string
+
+  /notifications/send:
+    post:
+      summary: Envía una notificación a un usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_name
+                - message
+                - priority
+              properties:
+                user_name:
+                  type: string
+                  example: Juan
+                message:
+                  type: string
+                  example: Your appointment is tomorrow.
+                priority:
+                  type: string
+                  example: high
+      responses:
+        '200':
+          description: Notificación enviada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Notification sent successfully
+                  notification_data:
+                    type: object
+                    properties:
+                      user:
+                        type: string
+                      message:
+                        type: string
+                      priority:
+                        type: string
+                  channel_used:
+                    type: string
+                    example: sms
