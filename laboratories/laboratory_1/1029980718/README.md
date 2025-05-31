@@ -121,19 +121,6 @@ classDiagram
     ConsoleHandler --|> NotificationHandler
 
     Logger --* Logger : _instance (Singleton)
-
-    class FlaskApp {
-        +run()
-    }
-
-    class RoutesBlueprint {
-        +create_user()
-        +get_users()
-        +notify()
-    }
-
-    FlaskApp o-- RoutesBlueprint : registers
-    RoutesBlueprint ..> NotificationService : calls
 ```
 
 ---
