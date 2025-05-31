@@ -206,8 +206,9 @@ respuesta :
 
 - Método: **GET**
 - URL: `http://127.0.0.1:5000/logs`
-- Haz clic en **Send**.
-- Verás el historial de logs generados por el sistema.
+
+![Registrar usuario](Images/get_logs.png)
+
 
 ---
 
@@ -251,4 +252,3 @@ Las dependencias están listadas en `requirements.txt`.
 - Universidad: **[Universidad Nacional de Colombia]**
 
 ---
-
