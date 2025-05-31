@@ -1,0 +1,55 @@
+summary: Retrieve notification history.
+description: This endpoint returns a list of all sent notifications with relevant metadata including channel, message, priority, success status, and timestamp.
+responses:
+  200:
+    description: List of notification logs.
+    schema:
+      type: object
+      properties:
+        logs:
+          type: array
+          items:
+            type: object
+            properties:
+              timestamp:
+                type: string
+                format: date-time
+                description: When the notification was sent.
+                example: "2025-05-30 18:31:02.276949"
+              username:
+                type: string
+                description: The username of the recipient.
+                example: "Juan"
+              channel:
+                type: string
+                description: The channel used to send the notification.
+                example: "whatsapp"
+              message:
+                type: string
+                description: Content of the message.
+                example: "Your appointment is tomorrow."
+              priority:
+                type: string
+                description: Notification priority.
+                example: "medium"
+              successful:
+                type: boolean
+                description: Whether the notification was successfully delivered.
+                example: true
+    examples:
+      application/json:
+        logs:
+          - timestamp: "2025-05-30 18:31:02.276949"
+            username: "Juan"
+            channel: "whatsapp"
+            message: "Your appointment is tomorrow."
+            priority: "medium"
+            successful: false
+          - timestamp: "2025-05-30 18:31:02.276985"
+            username: "Juan"
+            channel: "email"
+            message: "Your appointment is tomorrow."
+            priority: "medium"
+            successful: true
+tags:
+  - Notifications

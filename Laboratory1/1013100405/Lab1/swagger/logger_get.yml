@@ -1,0 +1,39 @@
+Retrieve all notification logs.
+Returns a list of all recorded notification events.
+---
+responses:
+  200:
+    description: A list of notification log entries.
+    schema:
+      type: object
+      properties:
+        logs:
+          type: array
+          items:
+            type: object
+            properties:
+              timestamp:
+                type: string
+                format: date-time # Good for string representations of datetime
+                example: "2023-10-27 10:30:00.123456"
+              username:
+                type: string
+                example: "john_doe"
+              channel:
+                type: string
+                enum: ["email", "sms", "whatsapp", "instagram"]
+                example: "email"
+              message:
+                type: string
+                example: "Your order has shipped."
+              priority:
+                type: string
+                enum: ["High", "Normal", "Low"]
+                example: "High"
+              successful: # <--- Changed to boolean
+                type: boolean
+                description: True if the notification was successfully sent, False otherwise.
+                example: true
+              # Note: Your LogEntry dataclass does not have 'details'. Removed for consistency.
+tags:
+  - Notifications

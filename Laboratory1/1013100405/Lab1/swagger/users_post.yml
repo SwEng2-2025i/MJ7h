@@ -1,0 +1,52 @@
+summary: Create a new user.
+description: This endpoint allows the creation of new user profiles with their notification preferences.
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      id: UserCreationRequest
+      required:
+        - username
+        - preferred_channel
+        - available_channels
+      properties:
+        username:
+          type: string
+          description: Unique username for the new user.
+          example: "john_doe"
+        preferred_channel:
+          type: string
+          enum: ["email", "sms", "whatsapp", "instagram"]
+          description: The user's preferred notification channel.
+          example: "email"
+        available_channels:
+          type: array
+          items:
+            type: string
+            enum: ["email", "sms", "whatsapp", "instagram"]
+          description: List of all channels available for the user.
+          example: ["email", "sms", "whatsapp"]
+responses:
+  201:
+    description: User successfully created.
+    schema:
+      properties:
+        username:
+          type: string
+        preferred_channel:
+          type: string
+        available_channels:
+          type: array
+          items:
+            type: string
+  400:
+    description: Bad Request - Missing fields or invalid data.
+    schema:
+      properties:
+        message:
+          type: string
+          description: Error message detailing the validation failure.
+          example: "Error: username is required for user creation"
+tags:
+  - Users

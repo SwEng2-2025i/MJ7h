@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flasgger import Swagger, swag_from
 
 from domain.entities.user import User
 from infrastructure.users_repo import InMemoryUserRepository
@@ -16,6 +17,7 @@ STRATEGY_MAP = {
 
 def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepository):
     app = Flask(__name__)
+    swagger = Swagger(app)
 
     # Volver disponibles estas instancias globalmente (from flask import current_app)
     app.config["USER_REPO"] = user_repo
@@ -23,6 +25,7 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
     app.config["STRATEGY_MAP"] = STRATEGY_MAP
 
     @app.route("/users", methods=["POST"])
+    @swag_from('../swagger/users_post.yml')
     def create_user():
         data = request.json
 
@@ -52,6 +55,7 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
     
 
     @app.route("/users", methods=["GET"])
+    @swag_from('../swagger/users_get.yml')
     def list_users(): # Obtener la lista de users
         users = user_repo.list_all()
 
@@ -62,7 +66,9 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
         } for user in users])
     
     @app.route("/notifications/send", methods=["POST"])
+    @swag_from('../swagger/notification_post.yml')
     def send_notification():
+        
         data = request.json
         
         # Validad que el cuerpo de la notificacion sea valido
@@ -84,7 +90,9 @@ def create_app(user_repo: InMemoryUserRepository, logger:InMemoryLoggerRepositor
         return jsonify({"status": "Notification processed","successfully_sent":successful}), 200
 
     @app.route("/notifications/logger", methods=["GET"])
+    @swag_from('../swagger/logger_get.yml')
     def list_notification_logs(): #Obtener la lista de logs de notificaiones
+        
         logs = logger.list_all()
         return jsonify({"logs": logs}), 200
     
