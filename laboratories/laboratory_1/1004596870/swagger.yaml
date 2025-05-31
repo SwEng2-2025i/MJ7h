@@ -1,0 +1,86 @@
+openapi: 3.0.0
+info:
+  title: Multichannel Notification API
+  version: 1.0.0
+  description: API to register users and send notifications with a chain of responsibility fallback.
+
+servers:
+  - url: http://localhost:5000
+
+paths:
+  /users:
+    post:
+      summary: Register a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                preferred_channel:
+                  type: string
+                  enum: [email, sms, console]
+                available_channels:
+                  type: array
+                  items:
+                    type: string
+              required:
+                - name
+                - preferred_channel
+                - available_channels
+      responses:
+        '201':
+          description: User created successfully
+        '400':
+          description: Invalid input
+
+    get:
+      summary: Get all registered users
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    preferred_channel:
+                      type: string
+                    available_channels:
+                      type: array
+                      items:
+                        type: string
+
+  /notifications/send:
+    post:
+      summary: Send a notification to a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                message:
+                  type: string
+                priority:
+                  type: string
+                  enum: [low, medium, high]
+              required:
+                - user_name
+                - message
+                - priority
+      responses:
+        '200':
+          description: Notification sent (or attempted)
+        '404':
+          description: User not found
