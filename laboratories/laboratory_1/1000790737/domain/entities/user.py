@@ -23,7 +23,7 @@ class User:
         self._email = email
 
         if preferred_channel not in available_channels:
-            self.available_channels.insert(0, preferred_channel)
+            self._available_channels.insert(0, preferred_channel)
 
     # For this example, the
     @property
@@ -44,4 +44,8 @@ class User:
 
     @property
     def available_channels(self) -> List[NotificationChannel]:
+        if self._available_channels[0] != self._preferred_channel:
+            self._available_channels.insert(0, self._preferred_channel)
+            self._available_channels = list(set(self._available_channels))
+
         return self._available_channels

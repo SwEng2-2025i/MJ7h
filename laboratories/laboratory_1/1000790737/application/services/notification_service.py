@@ -29,7 +29,7 @@ class NotificationService:
         self, user_name: str, message: str, priority: str
     ) -> dict[str, str]:
         """Send a notification to the user with the given user_name."""
-        user: User = self.user_repository.get(user_name)
+        user: User | None = self.user_repository.get(user_name)
         msg_priority: Priority = Priority(priority.lower())
 
         if not user:

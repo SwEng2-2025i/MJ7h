@@ -9,7 +9,7 @@ class IUserRepository(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def get(self, user_name: str) -> User:
+    def get(self, user_name: str) -> User | None:
         """Get a user by their user name.
         Returns None if the user does not exist."""
         pass
