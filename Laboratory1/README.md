@@ -1,3 +1,4 @@
+@@ -0,0 +1,93 @@
 # 🧪 Advanced Individual Lab: Multichannel Notification System (REST API)
 
 ## 📝 Context
@@ -90,4 +91,7 @@ Use `random.choice([True, False])` to simulate failures.
 It must be delivered **via a pull request to the main branch of the repository**, which must be merged before the delivery date. In the folder laboratories/laboratory_1, create an X folder (where X = your identity document number), which must include the deliverable.
 
 
-## ⏱️ Delivery date -> MAY 30, 2025 -> 23:59 GTM-5
+## ⏱️ Delivery date -> MAY 30, 2025 -> 23:59 GTM-5*
+
+---
+

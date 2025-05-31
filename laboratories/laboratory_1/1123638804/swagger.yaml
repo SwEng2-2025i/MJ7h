@@ -1,0 +1,71 @@
+openapi: 3.0.0
+info:
+  title: Multichannel Notification System API
+  version: 1.0.0
+  description: |
+    REST API for registering users and sending notifications via multiple channels (email, sms, console) with fallback and logging.
+servers:
+  - url: http://localhost:5000
+paths:
+  /users:
+    post:
+      summary: Register a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                preferred_channel:
+                  type: string
+                  enum: [email, sms, console]
+                available_channels:
+                  type: array
+                  items:
+                    type: string
+                    enum: [email, sms, console]
+              required: [name, preferred_channel, available_channels]
+      responses:
+        '201':
+          description: User registered
+        '400':
+          description: Missing fields or user exists
+    get:
+      summary: List all users
+      responses:
+        '200':
+          description: List of users
+  /notifications/send:
+    post:
+      summary: Send a notification to a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                message:
+                  type: string
+                priority:
+                  type: string
+                  enum: [low, medium, high]
+              required: [user_name, message, priority]
+      responses:
+        '200':
+          description: Notification sent (or failed)
+        '400':
+          description: Missing fields
+        '404':
+          description: User not found
+  /logs:
+    get:
+      summary: Get notification logs
+      responses:
+        '200':
+          description: List of log entries

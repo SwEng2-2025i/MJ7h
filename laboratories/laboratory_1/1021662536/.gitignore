@@ -1,0 +1,18 @@
+# Ignorar archivos y directorios específicos del proyecto
+
+# Ignorar el entorno virtual
+venv/
+.env/
+
+# Ignorar archivos generados por Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Ignorar el archivo de log generado en el logger 
+notifications.log
+
+# Ignorar archivos de config del sistema
+.DS_Store
+*.swp
