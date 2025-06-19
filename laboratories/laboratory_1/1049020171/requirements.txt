@@ -1,0 +1,11 @@
+# Dependencias principales
+flask==2.3.2          # Framework web
+flasgger==0.9.5       # Documentación Swagger/OpenAPI
+jsonschema==4.17.3    # Validación de esquemas JSON
+pyyaml==6.0           # Soporte para YAML (configuración Swagger)
+mistune==2.0.5        # Renderizado de Markdown en Swagger
+
+# Dependencias de desarrollo (opcionales pero recomendadas)
+python-dotenv==1.0.0  # Manejo de variables de entorno
+requests==2.31.0      # Para pruebas HTTP (opcional)
+pytest==7.4.0         # Framework de pruebas
