@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from report_generator import TestReportGenerator
 
 def abrir_frontend(driver):
     # Opens the frontend application in the browser
@@ -100,7 +101,18 @@ def ver_tareas(driver):
     print("Tareas:", tasks)
     assert "Terminar laboratorio" in tasks
 
+def results_template(name, status, test_start, details=None):
+    results = {
+            'name': name,
+            'status': status,
+            'duration': round(time.time() - test_start, 2),
+        }
+    results['details'] = details if details else results['details']
+    return results
+
 def main():
+    results = []
+    start_time = time.time()
     # Main test runner that initializes the browser and runs the full E2E flow
     options = Options()
     # options.add_argument('--headless')  # Uncomment for headless mode
@@ -108,16 +120,47 @@ def main():
 
     try:
         wait = WebDriverWait(driver, 10)
+        #1 abrir el frontend
+        test_start = time.time()
         abrir_frontend(driver)
+        details = f"Frontend opened at {driver.current_url}"
+        results.append(results_template("Open Frontend", "PASS", test_start, details))
+        #2 crear un usuario
+        test_start = time.time()
         user_id = crear_usuario(driver, wait)
+        details = f"User created with ID: {user_id}"
+        results.append(results_template("Create User (UI)", "PASS", test_start,details ))
+        #3 crear tarea
+        test_start = time.time()
         task_id = crear_tarea(driver, wait, user_id)
+        details = f"Task created with ID: {task_id}"
+        results.append(results_template("Create Task (UI)", "PASS", test_start, details))
+        #4 Verificar tareas
+        test_start = time.time()
         ver_tareas(driver)
-        time.sleep(3)  # Allow time to see the tasks before deletion
+        details = f"Task created with ID: {task_id}"
+        results.append(results_template("Create Task (UI)", "PASS", test_start, details))
+        time.sleep(2)  # Allow time to see the tasks before deletion
+        #5 borrar tarea
+        test_start = time.time()
+        details = f"Task {task_id} deleted successfully"
         borrar_tarea(driver, wait, task_id)
+        results.append(results_template("Delete Task (UI)", "PASS", test_start, details))
+        #6 borrar usuario
+        test_start = time.time()
+        details = f"User {user_id} deleted successfully"
         borrar_usuario(driver, wait, user_id)
+        results.append(results_template("Delete User (UI)", "PASS", test_start, details))
         time.sleep(3)  # Final delay to observe results if not running headless
+        print("✅ Integration Test completed successfully.")
+    except Exception as e:
+        print(f"❌ Test failed: {e}")
+        results.append(results_template("Integration Test", "FAIL", time.time() - start_time, str(e)))
     finally:
         driver.quit()  # Always close the browser at the end
+    
+    generator = TestReportGenerator()
+    generator.generate_report(results,"Frontend E2E Test Report")
 
 if __name__ == "__main__":
     main()
