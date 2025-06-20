@@ -61,6 +61,12 @@ HTML = '''
     button:hover {
       background: #45a049;
     }
+    .delete-btn {
+      background: #f44336;
+    }
+    .delete-btn:hover {
+      background: #da190b;
+    }
     .result {
       margin-top: 10px;
       color: green;
@@ -92,6 +98,14 @@ HTML = '''
   </div>
 
   <div class="card">
+    <h2>🗑️ Eliminar Usuario</h2>
+    <label>ID de Usuario:</label>
+    <input id='delete-userid' placeholder='Ej: 1'>
+    <button class="delete-btn" onclick='eliminarUsuario()'>Eliminar Usuario</button>
+    <div id="delete-user-result" class="result"></div>
+  </div>
+
+  <div class="card">
     <h2>📝 Crear Tarea</h2>
     <label>ID de Usuario:</label>
     <input id='userid' placeholder='Ej: 1'>
@@ -99,6 +113,14 @@ HTML = '''
     <input id='task' placeholder='Ej: Terminar laboratorio'>
     <button onclick='crearTarea()'>Crear Tarea</button>
     <div id="task-result" class="result"></div>
+  </div>
+
+  <div class="card">
+    <h2>🗑️ Eliminar Tarea</h2>
+    <label>ID de Tarea:</label>
+    <input id='delete-taskid' placeholder='Ej: 1'>
+    <button class="delete-btn" onclick='eliminarTarea()'>Eliminar Tarea</button>
+    <div id="delete-task-result" class="result"></div>
   </div>
 
   <div class="card">
@@ -126,6 +148,22 @@ function crearUsuario() {
   });
 }
 
+function eliminarUsuario() {
+  const userId = document.getElementById('delete-userid').value;
+  fetch(`http://localhost:5001/users/${userId}`, {
+    method: 'DELETE'
+  }).then(r => r.json()).then(data => {
+    const result = document.getElementById('delete-user-result');
+    if (data.message) {
+      result.textContent = `✅ Usuario eliminado con ID ${data.message}`;
+      result.className = 'result';
+    } else {
+      result.textContent = `❌ Error: ${data.error}`;
+      result.className = 'error';
+    }
+  });
+}
+
 function crearTarea() {
   const title = document.getElementById('task').value;
   const user_id = document.getElementById('userid').value;
@@ -137,6 +175,22 @@ function crearTarea() {
     const result = document.getElementById('task-result');
     if (data.id) {
       result.textContent = `✅ Tarea creada con ID ${data.id}`;
+      result.className = 'result';
+    } else {
+      result.textContent = `❌ Error: ${data.error}`;
+      result.className = 'error';
+    }
+  });
+}
+
+function eliminarTarea() {
+  const taskId = document.getElementById('delete-taskid').value;
+  fetch(`http://localhost:5002/tasks/${taskId}`, {
+    method: 'DELETE'
+  }).then(r => r.json()).then(data => {
+    const result = document.getElementById('delete-task-result');
+    if (data.message) {
+      result.textContent = `✅ Tarea eliminada con ID ${data.message}`;
       result.className = 'result';
     } else {
       result.textContent = `❌ Error: ${data.error}`;

@@ -25,6 +25,26 @@ def crear_usuario(driver, wait):
     user_id = ''.join(filter(str.isdigit, user_result))  # Extract numeric ID from result
     return user_id
 
+def borrar_usuario(driver, wait, user_id):
+    # Fills out the user deletion form with a user ID and submits it
+    # Waits until the confirmation text appears and asserts the result
+    delete_userid_input = driver.find_element(By.ID, "delete-userid")
+    delete_userid_input.send_keys(user_id)
+    time.sleep(1)
+
+    eliminar_usuario_btn = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Eliminar Usuario')]"))
+    )
+    eliminar_usuario_btn.click()
+    time.sleep(2)
+
+    wait.until(
+        EC.text_to_be_present_in_element((By.ID, "delete-user-result"), "Usuario eliminado con ID")
+    )
+    delete_user_result = driver.find_element(By.ID, "delete-user-result")
+    print("Resultado eliminación usuario:", delete_user_result.text)
+    assert "Usuario eliminado con ID" in delete_user_result.text
+
 def crear_tarea(driver, wait, user_id):
     # Fills out the task creation form with a task and user ID, then submits it
     # Waits until the confirmation text appears and asserts the result
@@ -49,6 +69,27 @@ def crear_tarea(driver, wait, user_id):
     task_result = driver.find_element(By.ID, "task-result")
     print("Texto en task_result:", task_result.text)
     assert "Tarea creada con ID" in task_result.text
+    return ''.join(filter(str.isdigit, task_result.text))  # Extract numeric ID from result
+
+def borrar_tarea(driver, wait, task_id):
+    # Fills out the task deletion form with a task ID and submits it
+    # Waits until the confirmation text appears and asserts the result
+    delete_taskid_input = driver.find_element(By.ID, "delete-taskid")
+    delete_taskid_input.send_keys(task_id)
+    time.sleep(1)
+
+    eliminar_tarea_btn = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Eliminar Tarea')]"))
+    )
+    eliminar_tarea_btn.click()
+    time.sleep(2)
+
+    wait.until(
+        EC.text_to_be_present_in_element((By.ID, "delete-task-result"), "Tarea eliminada con ID")
+    )
+    delete_task_result = driver.find_element(By.ID, "delete-task-result")
+    print("Resultado eliminación tarea:", delete_task_result.text)
+    assert "Tarea eliminada con ID" in delete_task_result.text
 
 def ver_tareas(driver):
     # Clicks the button to refresh the task list and verifies the new task appears
@@ -69,8 +110,11 @@ def main():
         wait = WebDriverWait(driver, 10)
         abrir_frontend(driver)
         user_id = crear_usuario(driver, wait)
-        crear_tarea(driver, wait, user_id)
+        task_id = crear_tarea(driver, wait, user_id)
         ver_tareas(driver)
+        time.sleep(3)  # Allow time to see the tasks before deletion
+        borrar_tarea(driver, wait, task_id)
+        borrar_usuario(driver, wait, user_id)
         time.sleep(3)  # Final delay to observe results if not running headless
     finally:
         driver.quit()  # Always close the browser at the end
