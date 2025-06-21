@@ -1,58 +1,116 @@
-Cambio 1 implementado:
-En requirements.txt agregué la librerías faltantes:
-pip install flask_cors selenium
+# 🧪 Class Activity 2: Integration Test
 
+### Estudiante: Estephanie Pérez Mira
 
-Para hacer primera parte del taller, se hicieron nuevos metodos HTML para los servicios.
+Este taller implementa pruebas automáticas con limpieza de datos y generación de reportes en PDF para un sistema compuesto por dos servicios: **Users Service** y **Tasks Service**, además de una interfaz web de frontend.
 
-Primero se implemento el metodo de eliminar una tarea individual, dentro de task service:
+---
+
+## 📦 Requisitos
+
+A priori, se agregaron estas dependencias faltantes al archivo `requirements.txt`:
+
+```
+pip install flask_cors selenium reportlab
+```
+
+---
+
+## 🧹 Cambios Implementados: Data clean up
+
+### 1. Eliminación de Tareas Individuales
+
+Se agregó al **Tasks Service** un endpoint para eliminar una tarea por su ID:
+
+```python
 @service_b.route('/tasks/<int:task_id>', methods=['DELETE'])
-    def delete_task(task_id):
-        task = Task.query.get(task_id)
-        if not task:
-            return jsonify({'error': 'Tarea no encontrada'}), 404
+def delete_task(task_id):
+    task = Task.query.get(task_id)
+    if not task:
+        return jsonify({'error': 'Tarea no encontrada'}), 404
 
-        db.session.delete(task)
-        db.session.commit()
-        return jsonify({'message': f'Tarea {task_id} eliminada correctamente'}), 200
+    db.session.delete(task)
+    db.session.commit()
+    return jsonify({'message': f'Tarea {task_id} eliminada correctamente'}), 200
+```
 
-Luego se hizo un metodo en users tasks con este detalle:
-Para que el servicio de usuarios (service_a) verifique si el usuario tiene tareas asociadas en el tasks service antes de eliminarlo, debes:
+---
 
-    Agregar una ruta DELETE para /users/<int:user_id>.
+### 2. Validación antes de eliminar un usuario
 
-    Hacer una solicitud GET al tasks service para consultar las tareas del usuario.
+El **Users Service** ahora se comunica con el **Tasks Service** para verificar si un usuario tiene tareas asociadas antes de permitir su eliminación:
 
-    Si tiene tareas asociadas, rechazar la eliminación con un error.
+Pasos realizados:
+- Se creó un endpoint `DELETE /users/<user_id>`.
+- Se hizo una consulta GET al servicio de tareas.
+- Si el usuario tiene tareas, se rechaza la eliminación.
+- Si no tiene tareas, se elimina exitosamente.
+```python
+@service_a.route('/users/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'error': 'Usuario no encontrado'}), 404
 
-    Si no tiene tareas, proceder a eliminar al usuario.
+    try:
+        response = requests.get('http://localhost:5002/tasks')
+        response.raise_for_status()
+        tasks = response.json()
+    except Exception as e:
+        return jsonify({'error': f'No se pudo verificar las tareas: {str(e)}'}), 500
 
+    user_tasks = [t for t in tasks if t["user_id"] == user_id]
 
-Luego efectuamos los data clean up en el test de backend haciendo lo siguiente:
-primero, agregar los metodos para la eliminacion de una tarea y un user:
+    if user_tasks:
+        return jsonify({'error': 'No se puede eliminar el usuario. Tiene tareas asociadas.'}), 400
+
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({'message': f'Usuario {user_id} eliminado correctamente'}), 200
+```
+
+---
+### 3. Limpieza de datos al final de la prueba de Integración Backend
+
+Se agregaron funciones para eliminar la tarea y el usuario:
+
+```python
 def delete_task(task_id):
     response = requests.delete(f"{TASKS_URL}/{task_id}")
     response.raise_for_status()
-    print(f"🗑️ Task {task_id} deleted")
 
 def delete_user(user_id):
     response = requests.delete(f"{USERS_URL}/{user_id}")
     response.raise_for_status()
-    print(f"🗑️ User {user_id} deleted")
+```
 
-luego, agregar estas lineal al final de la funcion integration test:
- #🔄 Step 4: Data clean up
+Y se usaron al final de `integration_test()`:
+
+```python
+def integration_test():
+    ...
+    # 🔄 Limpieza de datos
     delete_task(task_id)
     delete_user(user_id)
+```
 
-Lo siguiente fue efectuar los cleanup para el test de frontend, haciendo lo siguiente:
-Modificar crear_tarea() para devolver task_id, quedando algo así:
+---
+
+### 4. Devolver el ID de la tarea creada en test Frontend
+
+Se modificó la función `crear_tarea()` para retornar el ID:
+
+```python
 def crear_tarea(driver, wait, user_id):
     ...
-    assert "Tarea creada con ID" in task_result.text
     task_id = ''.join(filter(str.isdigit, task_result.text))
     return task_id
-Luego, se modificó el main de esta manera:
+```
+
+### 5. Limpieza de datos al final de test Frontend
+Se modificó `main()` de esta manera:
+
+```python
 def main():
     options = Options()
     # options.add_argument('--headless')  # Uncomment for headless mode
@@ -85,17 +143,24 @@ def main():
                 print(f"🗑️ Usuario {user_id} eliminado: {response.status_code}")
             except Exception as e:
                 print(f"❌ Error al eliminar el usuario: {e}")
+```
 
+---
 
+## 📝 Cambios Implementados: Generación de Reportes PDF
 
+### 🗂️ Ubicación de reportes
 
-Para generar los reportes en pdf de los tests:
-Modificar el archivo requirements.txt para tener la libreria que es util para lograrlo:
-pip install reportlab
+Todos los reportes se guardan secuencialmente en la carpeta:  
+`Test/test_reports/`
 
-Todo los reportes de test son guardados secuencialemente en la carpeta Test/test_reports/
+---
 
-El codigo modificado en frontent fue agregar la funcion generar reporte:
+### 1. Función general para crear reportes PDF
+
+Función usada en frontend:
+
+```python
 def generar_reporte_pdf(contenido):
     carpeta = "test_reports"
     os.makedirs(carpeta, exist_ok=True)
@@ -122,22 +187,10 @@ def generar_reporte_pdf(contenido):
 
     c.save()
     print(f"✅ Reporte generado: {ruta_completa}")
+```
 
-La cual fue llamada de esta manera al final de main:
-def main():
-    ...
-    contenido = f"""
-Resultado de prueba automatizada:
-Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-Estado: {estado}
-Usuario ID: {user_id or 'N/A'}
-Tarea ID: {task_id or 'N/A'}
-Error (si ocurrió): {errores or 'Ninguno'}
-"""
-        generar_reporte_pdf(contenido)
-
-
-Para los reportes del test de backend, tambien guardados en Test/test_reports/, se hizo tambien una funcion:
+Función usada en backend:
+```python
 def generar_reporte_pdf(contenido):
     carpeta = "test_reports"
     os.makedirs(carpeta, exist_ok=True)
@@ -164,9 +217,34 @@ def generar_reporte_pdf(contenido):
 
     c.save()
     print(f"✅ Reporte generado: {ruta_completa}")
+```
+---
 
+### 2. Generación del reporte en frontend
 
-Y se llamó dentro de integration_test() al final, de esta manera:
+Dentro de `main()` al final:
+
+```python
+def main():
+    ...
+    contenido = f"""
+Resultado de prueba automatizada:
+Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Estado: {estado}
+Usuario ID: {user_id or 'N/A'}
+Tarea ID: {task_id or 'N/A'}
+Error (si ocurrió): {errores or 'Ninguno'}
+"""
+    generar_reporte_pdf(contenido)
+```
+
+---
+
+### 3. Generación del reporte en backend
+
+Al final de `integration_test()`:
+
+```python
 def integration_test():
     ...
     contenido = f"""
@@ -178,5 +256,4 @@ Tarea ID: {task_id or 'N/A'}
 Error (si ocurrió): {error or 'Ninguno'}
 """
     generar_reporte_pdf(contenido)
-
-    
+```
