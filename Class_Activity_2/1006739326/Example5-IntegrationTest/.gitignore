@@ -1,0 +1,9 @@
+# Entorno virtual
+.venv/
+
+# Archivos compilados de Python
+__pycache__/
+*.pyc
+
+# Reportes (se generarán en runtime)
+reports/
