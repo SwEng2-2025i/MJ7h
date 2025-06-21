@@ -27,6 +27,16 @@ def get_tasks():
     tasks = response.json()
     return tasks
 
+def delete_task(task_id):
+    response = requests.delete(f"{TASKS_URL}/{task_id}")
+    response.raise_for_status()
+    print(f"🗑️ Task {task_id} deleted")
+
+def delete_user(user_id):
+    response = requests.delete(f"{USERS_URL}/{user_id}")
+    response.raise_for_status()
+    print(f"🗑️ User {user_id} deleted")
+
 def integration_test():
     # Step 1: Create user
     user_id = create_user("Camilo")
@@ -40,6 +50,10 @@ def integration_test():
 
     assert any(t["id"] == task_id for t in user_tasks), "❌ The task was not correctly registered"
     print("✅ Test completed: task was successfully registered and linked to the user.")
+
+    # 🔄 Step 4: Data clean up
+    delete_task(task_id)
+    delete_user(user_id)
 
 
 if __name__ == "__main__":
