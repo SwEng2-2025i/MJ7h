@@ -1,4 +1,4 @@
-# Flask Microservices Integration Laboratory - README
+# Integration Testing Activity - README
 
 ## 📊 Activity Overview
 
