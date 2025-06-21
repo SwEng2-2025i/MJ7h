@@ -1,0 +1,1 @@
+pip install flask flask_sqlalchemy requests flask_cors selenium fpdf2
