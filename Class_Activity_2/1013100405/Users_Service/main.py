@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS  # 👈 Agregado
+import requests
 
 service_a = Flask(__name__)
 CORS(service_a)  # 👈 Habilita CORS
@@ -36,6 +37,29 @@ def get_user(user_id):
 def list_users():
     users = User.query.all()
     return jsonify([{'id': user.id, 'name': user.name} for user in users])
+
+@service_a.route('/users/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'error': 'Usuario no encontrado'}), 404
+
+    try:
+        response = requests.get('http://localhost:5002/tasks')
+        response.raise_for_status()
+        tasks = response.json()
+    except Exception as e:
+        return jsonify({'error': f'No se pudo verificar las tareas: {str(e)}'}), 500
+
+    user_tasks = [t for t in tasks if t["user_id"] == user_id]
+
+    if user_tasks:
+        return jsonify({'error': 'No se puede eliminar el usuario. Tiene tareas asociadas.'}), 400
+
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({'message': f'Usuario {user_id} eliminado correctamente'}), 200
+
 
 if __name__ == '__main__':
     with service_a.app_context():
