@@ -1,0 +1,8 @@
+flask
+flask_sqlalchemy
+flask_cors
+requests
+selenium
+reportlab
+pytest
+pytest-html
