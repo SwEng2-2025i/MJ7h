@@ -26,3 +26,29 @@ Para que el servicio de usuarios (service_a) verifique si el usuario tiene tarea
     Si tiene tareas asociadas, rechazar la eliminación con un error.
 
     Si no tiene tareas, proceder a eliminar al usuario.
+
+
+Luego efectuamos los data clean up en el test de backend haciendo lo siguiente:
+primero, agregar los metodos para la eliminacion de una tarea y un user:
+def delete_task(task_id):
+    response = requests.delete(f"{TASKS_URL}/{task_id}")
+    response.raise_for_status()
+    print(f"🗑️ Task {task_id} deleted")
+
+def delete_user(user_id):
+    response = requests.delete(f"{USERS_URL}/{user_id}")
+    response.raise_for_status()
+    print(f"🗑️ User {user_id} deleted")
+
+luego, agregar estas lineal al final de la funcion integration test:
+ #🔄 Step 4: Data clean up
+    delete_task(task_id)
+    delete_user(user_id)
+
+Lo siguiente fue efectuar los cleanup para el test de frontend, haciendo lo siguiente:
+Modificar crear_tarea() para devolver task_id, quedando algo así:
+def crear_tarea(driver, wait, user_id):
+    ...
+    assert "Tarea creada con ID" in task_result.text
+    task_id = ''.join(filter(str.isdigit, task_result.text))
+    return task_id

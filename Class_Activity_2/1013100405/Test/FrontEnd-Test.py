@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import requests
+
 
 def abrir_frontend(driver):
     # Opens the frontend application in the browser
@@ -49,6 +51,8 @@ def crear_tarea(driver, wait, user_id):
     task_result = driver.find_element(By.ID, "task-result")
     print("Texto en task_result:", task_result.text)
     assert "Tarea creada con ID" in task_result.text
+    task_id = ''.join(filter(str.isdigit, task_result.text))
+    return task_id
 
 def ver_tareas(driver):
     # Clicks the button to refresh the task list and verifies the new task appears
@@ -60,20 +64,38 @@ def ver_tareas(driver):
     assert "Terminar laboratorio" in tasks
 
 def main():
-    # Main test runner that initializes the browser and runs the full E2E flow
     options = Options()
     # options.add_argument('--headless')  # Uncomment for headless mode
     driver = webdriver.Chrome(options=options)
+
+    task_id = None
+    user_id = None
 
     try:
         wait = WebDriverWait(driver, 10)
         abrir_frontend(driver)
         user_id = crear_usuario(driver, wait)
-        crear_tarea(driver, wait, user_id)
+        task_id = crear_tarea(driver, wait, user_id)
         ver_tareas(driver)
-        time.sleep(3)  # Final delay to observe results if not running headless
+        time.sleep(2)
     finally:
-        driver.quit()  # Always close the browser at the end
+        driver.quit()  # Siempre cierra el navegador
+
+        # 🔄 Data clean up:
+        if task_id:
+            try:
+                response = requests.delete(f"http://localhost:5002/tasks/{task_id}")
+                print(f"🗑️ Tarea {task_id} eliminada: {response.status_code}")
+            except Exception as e:
+                print(f"❌ Error al eliminar la tarea: {e}")
+
+        if user_id:
+            try:
+                response = requests.delete(f"http://localhost:5001/users/{user_id}")
+                print(f"🗑️ Usuario {user_id} eliminado: {response.status_code}")
+            except Exception as e:
+                print(f"❌ Error al eliminar el usuario: {e}")
+
 
 if __name__ == "__main__":
     main()
