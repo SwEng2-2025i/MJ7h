@@ -1,0 +1,6 @@
+fpdf2
+requests
+selenium
+Flask
+Flask-Cors
+Flask-SQLAlchemy
