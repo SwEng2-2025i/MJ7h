@@ -16,7 +16,7 @@ jobs:
       - name: Validate push deadline
         run: |
 
-          deadline_date="2025-05-30"
+          deadline_date="2025-06-21"
 
           deadline_time="23:59"
 
