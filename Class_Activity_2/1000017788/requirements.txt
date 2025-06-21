@@ -1,0 +1,6 @@
+flask
+flask_sqlalchemy
+requests
+selenium
+reportlab
+flask_cors
