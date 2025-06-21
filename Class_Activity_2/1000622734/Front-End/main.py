@@ -92,8 +92,20 @@ HTML = '''
   </div>
 
   <div class="card">
+    <h2>👥 Usuarios</h2>
+    <ul id='users'></ul>
+    <button onclick='verUsuarios()'>Actualizar lista de usuarios</button>
+
+    <h2>🗑️ Eliminar Usuario</h2>
+    <label>ID de usuario:</label>
+    <input id='userid-delete'>
+    <button onclick='eliminarUsuario()'>Eliminar Usuario</button>
+    <div id="user-delete-result" class="result"></div>
+  </div>
+
+  <div class="card">
     <h2>📝 Crear Tarea</h2>
-    <label>ID de Usuario:</label>
+    <label>ID de usuario:</label>
     <input id='userid' placeholder='Ej: 1'>
     <label>Título de la tarea:</label>
     <input id='task' placeholder='Ej: Terminar laboratorio'>
@@ -103,8 +115,14 @@ HTML = '''
 
   <div class="card">
     <h2>📋 Tareas</h2>
-    <button onclick='verTareas()'>Actualizar lista de tareas</button>
     <ul id='tasks'></ul>
+    <button onclick='verTareas()'>Actualizar lista de tareas</button>
+
+    <h2>🗑️ Eliminar Tarea</h2>
+    <label>ID de tarea:</label>
+    <input id='task-delete'>
+    <button onclick='eliminarTarea()'>Eliminar Tarea</button>
+    <div id="task-delete-result" class="result"></div>
   </div>
 
 <script>
@@ -126,6 +144,37 @@ function crearUsuario() {
   });
 }
 
+function eliminarUsuario() {
+  const userId = document.getElementById('userid-delete').value;
+  fetch(`http://localhost:5001/users/${userId}`, {
+    method: 'DELETE',
+    headers: {'Content-Type': 'application/json'}
+  }).then(r => r.json()).then(data => {
+    const result = document.getElementById('user-delete-result');
+    if (data.id) {
+      result.textContent = `✅ Usuario con ID ${data.id} eliminado`;
+      result.className = 'result';
+    } else {
+      result.textContent = `❌ Error: ${data.error}`;
+      result.className = 'error';
+    }
+  });
+}
+
+function verUsuarios() {
+  fetch('http://localhost:5001/users')
+    .then(r => r.json())
+    .then(data => {
+      let ul = document.getElementById('users');
+      ul.innerHTML = '';
+      data.forEach(u => {
+        let li = document.createElement('li');
+        li.innerText = `${u.id}: ${u.name}`;
+        ul.appendChild(li);
+      });
+    });
+}
+
 function crearTarea() {
   const title = document.getElementById('task').value;
   const user_id = document.getElementById('userid').value;
@@ -145,6 +194,23 @@ function crearTarea() {
   });
 }
 
+function eliminarTarea() {
+  const taskId = document.getElementById('task-delete').value;
+  fetch(`http://localhost:5002/tasks/${taskId}`, {
+    method: 'DELETE',
+    headers: {'Content-Type': 'application/json'}
+  }).then(r => r.json()).then(data => {
+    const result = document.getElementById('task-delete-result');
+    if (data.id) {
+      result.textContent = `✅ Tarea con ID ${data.id} eliminada`;
+      result.className = 'result';
+    } else {
+      result.textContent = `❌ Error: ${data.error}`;
+      result.className = 'error';
+    }
+  });
+}
+
 function verTareas() {
   fetch('http://localhost:5002/tasks')
     .then(r => r.json())
@@ -153,7 +219,7 @@ function verTareas() {
       ul.innerHTML = '';
       data.forEach(t => {
         let li = document.createElement('li');
-        li.innerText = `${t.title} (Usuario ID: ${t.user_id})`;
+        li.innerText = `${t.id}: ${t.title} (Usuario con ID ${t.user_id})`;
         ul.appendChild(li);
       });
     });

@@ -38,6 +38,16 @@ def get_tasks():
     tasks = Task.query.all()
     return jsonify([{'id': t.id, 'title': t.title, 'user_id': t.user_id} for t in tasks])
 
+@service_b.route('/tasks/<int:task_id>', methods=['DELETE'])
+def delete_task(task_id):
+    task = db.session.get(Task, task_id)
+    if not task:
+        return jsonify({'error': 'Tarea no encontrada'}), 404
+
+    db.session.delete(task)
+    db.session.commit()
+    return jsonify({'id': task.id, 'title': task.title, 'user_id': task.user_id}), 200
+
 if __name__ == '__main__':
     with service_b.app_context():
         db.create_all()
