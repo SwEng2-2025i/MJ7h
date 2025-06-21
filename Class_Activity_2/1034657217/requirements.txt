@@ -1,0 +1,8 @@
+flask==3.1.1
+flask_sqlalchemy
+requests==2.32.4
+flask-cors==6.0.1
+selenium==4.33.0
+reportlab==4.4.2
+matplotlib==3.10.3
+numpy
