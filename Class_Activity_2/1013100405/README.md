@@ -85,3 +85,98 @@ def main():
                 print(f"🗑️ Usuario {user_id} eliminado: {response.status_code}")
             except Exception as e:
                 print(f"❌ Error al eliminar el usuario: {e}")
+
+
+
+
+Para generar los reportes en pdf de los tests:
+Modificar el archivo requirements.txt para tener la libreria que es util para lograrlo:
+pip install reportlab
+
+Todo los reportes de test son guardados secuencialemente en la carpeta Test/test_reports/
+
+El codigo modificado en frontent fue agregar la funcion generar reporte:
+def generar_reporte_pdf(contenido):
+    carpeta = "test_reports"
+    os.makedirs(carpeta, exist_ok=True)
+    existentes = [f for f in os.listdir(carpeta) if f.startswith("reporte_test_") and f.endswith(".pdf")]
+    numeros = [int(f.split("_")[-1].replace(".pdf", "")) for f in existentes]
+    siguiente = max(numeros) + 1 if numeros else 1
+    nombre_archivo = f"reporte_test_{siguiente:03}.pdf"
+    ruta_completa = os.path.join(carpeta, nombre_archivo)
+
+    c = canvas.Canvas(ruta_completa, pagesize=LETTER)
+    c.setFont("Helvetica", 12)
+    c.drawString(50, 750, "Reporte de pruebas E2E - Frontend")
+    c.drawString(50, 730, f"Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    c.drawString(50, 710, f"Reporte N° {siguiente}")
+
+    y = 690
+    for linea in contenido.splitlines():
+        c.drawString(50, y, linea)
+        y -= 20
+        if y < 50:
+            c.showPage()
+            c.setFont("Helvetica", 12)
+            y = 750
+
+    c.save()
+    print(f"✅ Reporte generado: {ruta_completa}")
+
+La cual fue llamada de esta manera al final de main:
+def main():
+    ...
+    contenido = f"""
+Resultado de prueba automatizada:
+Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Estado: {estado}
+Usuario ID: {user_id or 'N/A'}
+Tarea ID: {task_id or 'N/A'}
+Error (si ocurrió): {errores or 'Ninguno'}
+"""
+        generar_reporte_pdf(contenido)
+
+
+Para los reportes del test de backend, tambien guardados en Test/test_reports/, se hizo tambien una funcion:
+def generar_reporte_pdf(contenido):
+    carpeta = "test_reports"
+    os.makedirs(carpeta, exist_ok=True)
+    existentes = [f for f in os.listdir(carpeta) if f.startswith("reporte_test_") and f.endswith(".pdf")]
+    numeros = [int(f.split("_")[-1].replace(".pdf", "")) for f in existentes]
+    siguiente = max(numeros) + 1 if numeros else 1
+    nombre_archivo = f"reporte_test_{siguiente:03}.pdf"
+    ruta_completa = os.path.join(carpeta, nombre_archivo)
+
+    c = canvas.Canvas(ruta_completa, pagesize=LETTER)
+    c.setFont("Helvetica", 12)
+    c.drawString(50, 750, "Reporte de pruebas de integración - Backend")
+    c.drawString(50, 730, f"Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    c.drawString(50, 710, f"Reporte N° {siguiente}")
+
+    y = 690
+    for linea in contenido.splitlines():
+        c.drawString(50, y, linea)
+        y -= 20
+        if y < 50:
+            c.showPage()
+            c.setFont("Helvetica", 12)
+            y = 750
+
+    c.save()
+    print(f"✅ Reporte generado: {ruta_completa}")
+
+
+Y se llamó dentro de integration_test() al final, de esta manera:
+def integration_test():
+    ...
+    contenido = f"""
+Resultado de prueba de integración:
+Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Estado: {estado}
+Usuario ID: {user_id or 'N/A'}
+Tarea ID: {task_id or 'N/A'}
+Error (si ocurrió): {error or 'Ninguno'}
+"""
+    generar_reporte_pdf(contenido)
+
+    
