@@ -52,3 +52,36 @@ def crear_tarea(driver, wait, user_id):
     assert "Tarea creada con ID" in task_result.text
     task_id = ''.join(filter(str.isdigit, task_result.text))
     return task_id
+Luego, se modificó el main de esta manera:
+def main():
+    options = Options()
+    # options.add_argument('--headless')  # Uncomment for headless mode
+    driver = webdriver.Chrome(options=options)
+
+    task_id = None
+    user_id = None
+
+    try:
+        wait = WebDriverWait(driver, 10)
+        abrir_frontend(driver)
+        user_id = crear_usuario(driver, wait)
+        task_id = crear_tarea(driver, wait, user_id)
+        ver_tareas(driver)
+        time.sleep(2)
+    finally:
+        driver.quit()  # Siempre cierra el navegador
+
+        # 🔄 Limpiar datos si fueron creados
+        if task_id:
+            try:
+                response = requests.delete(f"http://localhost:5002/tasks/{task_id}")
+                print(f"🗑️ Tarea {task_id} eliminada: {response.status_code}")
+            except Exception as e:
+                print(f"❌ Error al eliminar la tarea: {e}")
+
+        if user_id:
+            try:
+                response = requests.delete(f"http://localhost:5001/users/{user_id}")
+                print(f"🗑️ Usuario {user_id} eliminado: {response.status_code}")
+            except Exception as e:
+                print(f"❌ Error al eliminar el usuario: {e}")
