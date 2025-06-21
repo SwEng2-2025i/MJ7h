@@ -1,4 +1,4 @@
-````markdown
+
 # Cambios Realizados
 
 ## Front-End (`Front-End/main.py`)
@@ -16,7 +16,7 @@
 - **Nuevo endpoint**  
   ```http
   DELETE /tasks/<int:task_id>
-````
+
 
 * Elimina la tarea especificada y devuelve `{ "message": "Task with id X deleted successfully" }` o `404` si no existe.
 
