@@ -35,7 +35,7 @@ This activity demonstrates a complete microservices architecture implementation 
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
-## 📁 Project Structure
+## 📁 Activity Structure
 
 ```
 ├── Front-End/
@@ -49,7 +49,7 @@ This activity demonstrates a complete microservices architecture implementation 
 │   ├── BackEnd-Test.py                # Backend API tests
 │   ├── frontend_pdf_generator.py      # Frontend test report generator
 │   └── backend_pdf_generator.py       # Backend test report generator
-└── requirements.txt                   # Project dependencies
+└── requirements.txt                   # Activity dependencies
 ```
 
 ## 🔧 Code Sections Added
