@@ -1,1 +1,3 @@
 pip install flask flask_sqlalchemy requests
+
+pip install flask_cors selenium
