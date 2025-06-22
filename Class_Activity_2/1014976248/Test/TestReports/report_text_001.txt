@@ -1,0 +1,10 @@
+🧪 Resultado de Pruebas Automatizadas
+Fecha y hora de ejecución: 2025-06-21 19:51:36
+============================================================
+Resultado usuario: ✅ Usuario creado con ID 1
+Texto en task_result: ✅ Tarea creada con ID 1
+Tareas: 
+⚠️ Tarea ya fue eliminada automáticamente desde el frontend
+⚠️ Tarea  ya fue eliminada (por frontend)
+⚠️ Usuario 1 ya fue eliminado (por frontend)
+✅ Verificación de limpieza en el front completada
