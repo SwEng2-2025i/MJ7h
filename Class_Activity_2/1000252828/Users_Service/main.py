@@ -37,6 +37,17 @@ def list_users():
     users = User.query.all()
     return jsonify([{'id': user.id, 'name': user.name} for user in users])
 
+#Eliminar usuario
+@service_a.route('/users/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    #tomamos el id
+    user = User.query.get(user_id)
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({'message': 'User deleted successfully'}), 200
+    return jsonify({'error': 'User not found'}), 404
+
 if __name__ == '__main__':
     with service_a.app_context():
         db.create_all()
