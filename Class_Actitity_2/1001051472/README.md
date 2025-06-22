@@ -6,7 +6,7 @@
 
 - Se implementó la limpieza automática de datos (data cleanup) en los tests: todos los datos creados por los tests (usuarios y tareas) tanto en BackEnd como en el FrontEnd se eliminan al finalizar y se verifica que realmente fueron borrados.
 
-- Los tests de frontend y backend cuentan con dos tipos de test, el primero en el que se prueba el caso en el que si todo esta correcto, los test se muestran realizados de forma satisfactoria, tanto por consola como en los reportes de PDF.El segundo en el que se evidencia que si algo no esta bien, como en el caso realizado donde se intenta eliminar un usuario de forma erronea, los test mostraran en que parte se a fallado tanto por consola como en el reporte de PDF
+- Los tests de frontend y backend cuentan con dos tipos de test, el primero en el que se prueba el caso en el que si todo esta correcto, los test se muestran realizados de forma satisfactoria, tanto por consola como en los reportes de PDF.El segundo en el que se evidencia el caso de intentar eliminar un usuario de forma erronea, en donde se constat que los test mostraran en que parte se ha fallado tanto por consola como en el reporte de PDF.
 
 ---
 
@@ -16,8 +16,8 @@
 - Componentes y funciónes JS para listar usuarios, mensajes de "no hay datos", eliminar usuario y eliminar tarea en `Front-End/main.py`.
 - Lógica de verificación y cleanup en los tests de `Test/BackEnd-Test.py` y `Test/FrontEnd-Test.py`
 
-
-```js
+# Test/BackEnd-Test.py
+```py
 
 # Test/BackEnd-Test.py
 
@@ -32,7 +32,9 @@ def delete_user(user_id):
     return response
 ```
 
-```js
+# Test/FrontEnd-Test.py
+
+```py
 
 # Test/FrontEnd-Test.py
 
@@ -63,8 +65,10 @@ def eliminar_tarea(driver, wait, task_id):
 
 - Funciones de eliminar usuario y eliminar tarea en los archivos `User_Service` y `Task_Service`
 
-```js
+```py
+
 # Elimiar un usuario por ID
+
 @service_a.route('/users/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
     user= User.query.get(user_id)
@@ -79,8 +83,10 @@ def delete_user(user_id):
 
 ```
 
-```js
+```py
+
 # Elimiar una tarea por ID
+
 @service_b.route('/tasks/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
     task = Task.query.get(task_id)
