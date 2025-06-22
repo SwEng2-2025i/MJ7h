@@ -1,9 +1,14 @@
 import time
+import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+# Endpoints
+USERS_URL = "http://localhost:5001/users"
+TASKS_URL = "http://localhost:5002/tasks"
 
 def abrir_frontend(driver):
     # Opens the frontend application in the browser
@@ -49,6 +54,8 @@ def crear_tarea(driver, wait, user_id):
     task_result = driver.find_element(By.ID, "task-result")
     print("Texto en task_result:", task_result.text)
     assert "Tarea creada con ID" in task_result.text
+    task_id = ''.join(filter(str.isdigit, task_result.text))
+    return task_id
 
 def ver_tareas(driver):
     # Clicks the button to refresh the task list and verifies the new task appears
@@ -64,16 +71,43 @@ def main():
     options = Options()
     # options.add_argument('--headless')  # Uncomment for headless mode
     driver = webdriver.Chrome(options=options)
+    user_id = None
+    task_id = None
 
     try:
         wait = WebDriverWait(driver, 10)
         abrir_frontend(driver)
         user_id = crear_usuario(driver, wait)
-        crear_tarea(driver, wait, user_id)
+        task_id = crear_tarea(driver, wait, user_id)
         ver_tareas(driver)
-        time.sleep(3)  # Final delay to observe results if not running headless
+        print("\n✅ Frontend E2E test completed successfully.")
+        time.sleep(3)  
     finally:
+        print("\n🧹 Starting data cleanup...")
+        if task_id:
+            response = requests.delete(f"{TASKS_URL}/{task_id}")
+            if response.status_code == 200:
+                print(f"✅ Task {task_id} deleted.")
+                # Verify deletion
+                verify_response = requests.get(f"{TASKS_URL}/{task_id}")
+                assert verify_response.status_code == 404
+                print(f"✅ Task {task_id} verified as deleted.")
+            else:
+                print(f"❌ Error deleting task {task_id}: {response.text}")
+
+        if user_id:
+            response = requests.delete(f"{USERS_URL}/{user_id}")
+            if response.status_code == 200:
+                print(f"✅ User {user_id} deleted.")
+                # Verify deletion
+                verify_response = requests.get(f"{USERS_URL}/{user_id}")
+                assert verify_response.status_code == 404
+                print(f"✅ User {user_id} verified as deleted.")
+            else:
+                print(f"❌ Error deleting user {user_id}: {response.text}")
+
         driver.quit()  # Always close the browser at the end
+        print("\n✅ Cleanup finished. Test run complete.")
 
 if __name__ == "__main__":
     main()
