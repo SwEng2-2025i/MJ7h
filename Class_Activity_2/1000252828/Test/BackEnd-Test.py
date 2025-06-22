@@ -26,6 +26,26 @@ def get_tasks():
     response.raise_for_status()
     tasks = response.json()
     return tasks
+#funciones para eliminar y verificar
+def delete_user(user_id):
+    response = requests.delete(f"{USERS_URL}/{user_id}")
+    response.raise_for_status()
+    print(f"✅ User {user_id} deleted.")
+
+def delete_task(task_id):
+    response = requests.delete(f"{TASKS_URL}/{task_id}")
+    response.raise_for_status()
+    print(f"✅ Task {task_id} deleted.")
+#verificar
+def verify_user_deleted(user_id):
+    response = requests.get(f"{USERS_URL}/{user_id}")
+    assert response.status_code == 404, f"❌ User {user_id} was not deleted."
+    print(f"✅ User {user_id} verified as deleted.")
+
+def verify_task_deleted(task_id):
+    response = requests.get(f"{TASKS_URL}/{task_id}")
+    assert response.status_code == 404, f"❌ Task {task_id} was not deleted."
+    print(f"✅ Task {task_id} verified as deleted.")
 
 def integration_test():
     # Step 1: Create user
@@ -40,6 +60,17 @@ def integration_test():
 
     assert any(t["id"] == task_id for t in user_tasks), "❌ The task was not correctly registered"
     print("✅ Test completed: task was successfully registered and linked to the user.")
+
+    # Step 4: Cleanup data
+    print("\n🧹 Starting data cleanup...")
+    delete_task(task_id)
+    delete_user(user_id)
+
+    # Step 5: Verify cleanup
+    print("\n🔬 Verifying data cleanup...")
+    verify_task_deleted(task_id)
+    verify_user_deleted(user_id)
+    print("\n✅ Cleanup verified. Test finished.")
 
 
 if __name__ == "__main__":
