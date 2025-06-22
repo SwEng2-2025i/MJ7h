@@ -57,3 +57,4 @@ Si tienes problemas de puertos ocupados, asegúrate de cerrar instancias previas
 
 ## Autores
 - [David Andres Alarcon Vargas "daalarconv@unal.edu.co" 1003864575]
+Realmenten no pude hacerlo correr y verificar sus ejecuciones por tener desincronzadas mis extenciones en el computador de la casa pq viaje (lo siento)
