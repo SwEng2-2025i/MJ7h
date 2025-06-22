@@ -1,0 +1,4 @@
+pip install flask flask_sqlalchemy requests
+pip install reportlab
+pip install flask-cors
+pip install selenium
