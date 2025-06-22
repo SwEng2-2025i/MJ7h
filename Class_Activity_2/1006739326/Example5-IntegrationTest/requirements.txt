@@ -1,0 +1,11 @@
+flask
+flask_sqlalchemy
+requests
+selenium
+pytest
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+reportlab
+flask-cors
