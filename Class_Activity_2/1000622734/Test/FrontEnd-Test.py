@@ -1,9 +1,13 @@
 import time
+import io
+import sys
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from fpdf import FPDF
 
 def abrir_frontend(driver):
     # Opens the frontend application in the browser
@@ -90,6 +94,24 @@ def eliminar_usuario(driver, user_id):
     print(user_delete_result)
     assert f"Usuario con ID {user_id} eliminado" in user_delete_result
 
+def export_to_pdf(buffer, out_dir="./results/"):
+    name = "FrontEnd-Test"
+    os.makedirs(out_dir, exist_ok=True)
+
+    # Simple sequential name logic
+    i = 1
+    while os.path.exists(os.path.join(out_dir, f"{name}_{i}.pdf")):
+        i += 1
+    filepath = os.path.join(out_dir, f"{name}_{i}.pdf")
+
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.add_font("Segoe UI", "", r"C:\Windows\Fonts\segoeui.ttf", uni=True)
+    pdf.set_font("Segoe UI", size=12)
+    for line in buffer.getvalue().splitlines():
+        pdf.cell(0, 10, line, ln=True)
+    pdf.output(filepath)
+
 def main():
     # Main test runner that initializes the browser and runs the full E2E flow
     options = Options()
@@ -99,6 +121,10 @@ def main():
     # Test data
     test_user = "Camilo"
     test_task = "Terminar laboratorio"
+
+    # Buffer to capture print statements
+    buffer = io.StringIO()
+    sys.stdout = buffer
 
     try:
         wait = WebDriverWait(driver, 10)
@@ -112,6 +138,10 @@ def main():
         time.sleep(3)  # Final delay to observe results if not running headless
     finally:
         driver.quit()  # Always close the browser at the end
+
+    # Export captured print statements to PDF
+    sys.stdout = sys.__stdout__
+    export_to_pdf(buffer)
 
 if __name__ == "__main__":
     main()

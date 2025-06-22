@@ -1,4 +1,8 @@
+import io
+import sys
+import os
 import requests
+from fpdf import FPDF
 
 # Endpoints
 USERS_URL = "http://localhost:5001/users"
@@ -47,7 +51,29 @@ def delete_task(task_id):
     print("✅ Task deleted:", task_data)
     return task_data["id"]
 
+def export_to_pdf(buffer, out_dir="./results/"):
+    name = "BackEnd-Test"
+    os.makedirs(out_dir, exist_ok=True)
+
+    # Simple sequential name logic
+    i = 1
+    while os.path.exists(os.path.join(out_dir, f"{name}_{i}.pdf")):
+        i += 1
+    filepath = os.path.join(out_dir, f"{name}_{i}.pdf")
+
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.add_font("Segoe UI", "", r"C:\Windows\Fonts\segoeui.ttf", uni=True)
+    pdf.set_font("Segoe UI", size=12)
+    for line in buffer.getvalue().splitlines():
+        pdf.cell(0, 10, line, ln=True)
+    pdf.output(filepath)
+
 def integration_test():
+    # Buffer to capture print statements
+    buffer = io.StringIO()
+    sys.stdout = buffer
+
     # Step 1: Create user
     user_id = create_user("Camilo")
 
@@ -59,7 +85,7 @@ def integration_test():
     user_tasks = [t for t in tasks if t["user_id"] == user_id]
 
     assert any(t["id"] == task_id for t in user_tasks), "❌ The task was not correctly registered"
-    print("✅ Task was successfully registered and linked to the user.")
+    print("✓ Task was successfully registered and linked to the user.")
 
     # Step 4: Delete both user and task data
     delete_task(task_id)
@@ -73,6 +99,10 @@ def integration_test():
     assert not any(u["id"] == user_id for u in users), "❌ The test user was not correctly deleted afterwards"
     
     print("✅ Test complete: Test data deleted successfully.")
+
+    # Export captured print statements to PDF
+    sys.stdout = sys.__stdout__
+    export_to_pdf(buffer)
 
 if __name__ == "__main__":
     integration_test()
