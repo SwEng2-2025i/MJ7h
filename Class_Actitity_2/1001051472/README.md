@@ -10,13 +10,13 @@
 
 ---
 
-**Secciones de código agregadas:**
+# Secciones de código agregadas 
 
 - Función `generar_reporte_pdf` y lógica de reporte en `Test/BackEnd-Test.py` y `Test/FrontEnd-Test.py`.
 - Componentes y funciónes JS para listar usuarios, mensajes de "no hay datos", eliminar usuario y eliminar tarea en `Front-End/main.py`.
 - Lógica de verificación y cleanup en los tests de `Test/BackEnd-Test.py` y `Test/FrontEnd-Test.py`
 
-# Test/BackEnd-Test.py
+### Test/BackEnd-Test.py
 ```py
 
 # Test/BackEnd-Test.py
@@ -32,7 +32,7 @@ def delete_user(user_id):
     return response
 ```
 
-# Test/FrontEnd-Test.py
+### Test/FrontEnd-Test.py
 
 ```py
 
