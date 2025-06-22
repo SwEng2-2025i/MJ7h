@@ -3,3 +3,4 @@ flask_cors
 flask_sqlalchemy
 requests
 selenium
+fpdf2
