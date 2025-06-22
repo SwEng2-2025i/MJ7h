@@ -9,15 +9,15 @@
 - **Registro en PDF:** Los resultados y logs de las pruebas se generaron y almacenaron en archivos PDF para trazabilidad.
 
 **TEST 1**
-![](/MJ7h/Class_Activity_2/1118528726/imagenes/BK-T1.png)
+![](/Class_Activity_2/1118528726/imagenes/BK-T1.png)
 **TEST 2**
-![](/MJ7h/Class_Activity_2/1118528726/imagenes/BK-T2.png)
+![](/Class_Activity_2/1118528726/imagenes/BK-T2.png)
 
 **TEST 3**
-![](/MJ7h/Class_Activity_2/1118528726/imagenes/FE-T3.png)
+![](/Class_Activity_2/1118528726/imagenes/FE-T3.png)
 
 **TEST 4**
-![](/MJ7h/Class_Activity_2/1118528726/imagenes/FE-T4.png)
+![](/Class_Activity_2/1118528726/imagenes/FE-T4.png)
 
 ## Secciones de Código Agregadas
 
