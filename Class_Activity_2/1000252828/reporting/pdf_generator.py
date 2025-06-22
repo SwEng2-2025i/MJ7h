@@ -26,10 +26,14 @@ def generate_pdf_report(test_name, logs):
     pdf.cell(0, 10, f'Execution Date: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}', 0, 1, 'C')
     pdf.ln(10)
     
-    pdf.set_font("Courier", size=10)
-    for line in logs:
-        # Use multi_cell to handle long lines and line breaks
-        pdf.multi_cell(0, 5, line)
+    pdf.set_font("Arial", size=10)
     
+    for line in logs:
+        cleaned_line = line.replace('\n', ' ').replace('\r', '').strip()
+        cleaned_line = cleaned_line.encode('latin-1', 'ignore').decode('latin-1')
+        
+        if cleaned_line:
+            pdf.cell(0, 5, txt=cleaned_line, ln=1)
+
     pdf.output(filename)
     print(f"\n📄 PDF report generated: {filename}") 
