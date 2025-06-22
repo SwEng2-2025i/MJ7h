@@ -1,0 +1,8 @@
+flask
+flask_sqlalchemy
+flask_cors
+requests
+selenium
+reportlab
+fpdf2
+webdriver-manager
