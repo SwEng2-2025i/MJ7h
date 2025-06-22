@@ -1,10 +1,13 @@
 import time
 import requests
+import sys
+import io
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from reporting.pdf_generator import generate_pdf_report
 
 # Endpoints
 USERS_URL = "http://localhost:5001/users"
@@ -110,4 +113,14 @@ def main():
         print("\n✅ Cleanup finished. Test run complete.")
 
 if __name__ == "__main__":
-    main()
+    old_stdout = sys.stdout
+    log_stream = io.StringIO()
+    sys.stdout = log_stream
+
+    try:
+        main()
+    finally:
+        sys.stdout = old_stdout
+        log_contents = log_stream.getvalue()
+        print(log_contents)
+        generate_pdf_report("FrontEnd_Test", log_contents.splitlines())

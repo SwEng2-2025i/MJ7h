@@ -1,4 +1,7 @@
 import requests
+import sys
+import io
+from reporting.pdf_generator import generate_pdf_report
 
 # Endpoints
 USERS_URL = "http://localhost:5001/users"
@@ -74,4 +77,14 @@ def integration_test():
 
 
 if __name__ == "__main__":
-    integration_test()
+    old_stdout = sys.stdout
+    log_stream = io.StringIO()
+    sys.stdout = log_stream
+
+    try:
+        integration_test()
+    finally:
+        sys.stdout = old_stdout
+        log_contents = log_stream.getvalue()
+        print(log_contents)
+        generate_pdf_report("BackEnd_Test", log_contents.splitlines())
