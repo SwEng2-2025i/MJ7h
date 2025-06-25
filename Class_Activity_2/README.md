@@ -21,4 +21,4 @@ Each student is responsible for:
 
 ## Deadline
 
-**Saturday, June 21**
+**Saturday, June 27 11:59pm**
