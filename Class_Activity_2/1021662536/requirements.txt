@@ -1,0 +1,10 @@
+
+Flask
+Flask-Cors
+Flask-SQLAlchemy
+
+
+#TEST
+reportlab  # --> Generar PDF con los resultados de los test
+requests  # Realizar la petición HTTP
+selenium  # --> Realizar pruebas de integración y automatiza los navegadores 
